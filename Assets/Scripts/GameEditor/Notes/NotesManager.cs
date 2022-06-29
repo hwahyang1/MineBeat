@@ -1,14 +1,14 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using UnityEngine;
 
 /*
- * [Namespace] Minebeat.GameEditor
+ * [Namespace] Minebeat.GameEditor.Notes
  * Desciption
  */
-namespace MineBeat.GameEditor
+namespace MineBeat.GameEditor.Notes
 {
 	/*
 	 * [Enum] NoteType
@@ -25,10 +25,10 @@ namespace MineBeat.GameEditor
 	}
 
 	/*
-	 * [Struct] Note
+	 * [Class] Note
 	 * 노트의 정보를 정의합니다.
 	 */
-	public struct Note
+	public class Note
 	{
 		public float timeCode;
 		public NoteType type;
@@ -36,12 +36,24 @@ namespace MineBeat.GameEditor
 	}
 
 	/*
-	 * [Class] NoteListManager
-	 * 노트의 목록을 관리합니다.
+	 * [Class] NotesManager
+	 * 노트의 추가와 제거를 관리합니다.
 	 */
-	public class NoteListManager : MonoBehaviour
+	public class NotesManager : MonoBehaviour
 	{
 		private List<Note> notes = new List<Note>();
+
+		/*
+		 * [Method] Set(List<Note> item): void
+		 * 노트 목록을 덮어씌웁니다.
+		 * 
+		 * <List<Note> item>
+		 * 덮어씌울 노트의 정보를 담습니다.
+		 */
+		public void Set(List<Note> item)
+		{
+			notes = item;
+		}
 
 		/*
 		 * [Method] Add(Note item): void

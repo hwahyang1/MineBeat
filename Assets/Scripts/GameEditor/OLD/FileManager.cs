@@ -1,6 +1,7 @@
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
 
@@ -23,11 +24,16 @@ namespace MineBeat.GameEditor
 		[SerializeField]
 		private GameObject coverCanvas;
 
+		private GameManager gameManager;
+		//private NoteListManager noteManager;
+
 		private void Start()
 		{
+			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+			//noteManager = GameObject.Find("Notes").GetComponent<NoteListManager>();
 			coverCanvas.SetActive(false);
 
-			SavePatternFile("PatternName.mbt");
+			OpenMediaFile();
 		}
 
 		/*
@@ -36,11 +42,13 @@ namespace MineBeat.GameEditor
 		 */
 		public void OpenMediaFile()
 		{
+			Destroy(Camera.main.GetComponent<AudioSource>().clip); // WWW 모듈 한정: 메모리 누수 방지를 위해 해줘야함 ( https://blog.naver.com/indra1469/220963432353 )
+
 			FileBrowser.SetFilters(true, new FileBrowser.Filter("Audio Files", ".mp3", ".wav", ".ogg"));
 			FileBrowser.SetDefaultFilter(".mp3");
 			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
 
-			StartCoroutine(ShowLoadDialog("Select Music..."));
+			StartCoroutine(ShowLoadDialog("Select Music...", true));
 		}
 
 		/*
@@ -53,31 +61,42 @@ namespace MineBeat.GameEditor
 			FileBrowser.SetDefaultFilter(".mbt");
 			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
 
-			StartCoroutine(ShowLoadDialog("Select Pattern File..."));
+			StartCoroutine(ShowLoadDialog("Select Pattern File...", false));
 		}
 
-		private IEnumerator ShowLoadDialog(string title)
+		private IEnumerator ShowLoadDialog(string title, bool isAudioFile)
 		{
 			coverCanvas.SetActive(true);
 			yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, true, null, null, title, "Load");
-			coverCanvas.SetActive(false);
-
-			Debug.Log(FileBrowser.Success);
 
 			if (FileBrowser.Success)
 			{
-				// Print paths of the selected files (FileBrowser.Result) (null, if FileBrowser.Success is false)
-				for (int i = 0; i < FileBrowser.Result.Length; i++)
-					Debug.Log(FileBrowser.Result[i]);
+				string filePath = FileBrowser.Result[0];
+				if (isAudioFile)
+				{
+					WWW www = new WWW(filePath);
+					yield return www;
+					//gameManager.audioClip = www.GetAudioClip();
+					//Camera.main.GetComponent<AudioSource>().clip = gameManager.audioClip;
 
-				// Read the bytes of the first file via FileBrowserHelpers
-				// Contrary to File.ReadAllBytes, this function works on Android 10+, as well
-				byte[] bytes = FileBrowserHelpers.ReadBytesFromFile(FileBrowser.Result[0]);
+					//GameObject.Find("TimeLine").GetComponent<SongTimelineManager>().UpdateAudioClip();
+				}
+				else
+				{
+					if (File.Exists(filePath))
+					{
+						BinaryFormatter formatter = new BinaryFormatter();
+						FileStream stream = new FileStream(filePath, FileMode.Open);
 
-				// Or, copy the first file to persistentDataPath
-				string destinationPath = Path.Combine(Application.persistentDataPath, FileBrowserHelpers.GetFilename(FileBrowser.Result[0]));
-				FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);
+						//List<Note> data = formatter.Deserialize(stream) as List<Note>;
+
+						stream.Close();
+
+						//noteManager.Set(data);
+					}
+				}
 			}
+			coverCanvas.SetActive(false);
 		}
 
 		/*
@@ -102,21 +121,15 @@ namespace MineBeat.GameEditor
 			yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, "C:\\", fileName, title, "Save" );
 			coverCanvas.SetActive(false);
 
-			Debug.Log(FileBrowser.Success);
-
 			if (FileBrowser.Success)
 			{
-				// Print paths of the selected files (FileBrowser.Result) (null, if FileBrowser.Success is false)
-				for (int i = 0; i < FileBrowser.Result.Length; i++)
-					Debug.Log(FileBrowser.Result[i]);
+				string filePath = FileBrowser.Result[0];
 
-				// Read the bytes of the first file via FileBrowserHelpers
-				// Contrary to File.ReadAllBytes, this function works on Android 10+, as well
-				byte[] bytes = FileBrowserHelpers.ReadBytesFromFile(FileBrowser.Result[0]);
+				BinaryFormatter formatter = new BinaryFormatter();
+				FileStream stream = new FileStream(filePath, FileMode.Create);
 
-				// Or, copy the first file to persistentDataPath
-				string destinationPath = Path.Combine(Application.persistentDataPath, FileBrowserHelpers.GetFilename(FileBrowser.Result[0]));
-				FileBrowserHelpers.CopyFile(FileBrowser.Result[0], destinationPath);
+				//formatter.Serialize(stream, noteManager.GetList());
+				stream.Close();
 			}
 		}
 	}

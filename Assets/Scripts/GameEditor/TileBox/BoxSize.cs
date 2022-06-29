@@ -6,22 +6,22 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 /*
- * [Namespace] Minebeat.GameEditor
+ * [Namespace] Minebeat.GameEditor.TileBox
  * Desciption
  */
-namespace MineBeat.GameEditor
+namespace MineBeat.GameEditor.TileBox
 {
 	/*
-	 * [Class] BoxSizeManager
-	 * 박스 크기의 조절을 관리합니다.
+	 * [Class] BoxSize
+	 * 박스의 크기를 조정합니다.
 	 */
-	public class BoxSizeManager : MonoBehaviour
+	public class BoxSize : MonoBehaviour
 	{
 		[Header("박스 최대/최소 크기"), SerializeField]
 		public int maxSize = 9;
 		[SerializeField]
 		public int minSize = 3;
-		private int boxSize = 7;
+		private int currentSize = 7;
 
 		[Header("박스 크기 조정 시 사용되는 TileBase"), SerializeField]
 		private TileBase boxTile;
@@ -43,22 +43,19 @@ namespace MineBeat.GameEditor
 			boxMap = transform.Find("Box").GetComponent<Tilemap>();
 			gridMap = transform.Find("Box Grid").GetComponent<Tilemap>();
 
-			DrawBox(true);
+			DrawBox();
 		}
 
 		/*
-		 * [Method] DrawBox(bool changeCameraPosition): void
+		 * [Method] DrawBox(): void
 		 * 상자를 다시 그립니다.
-		 * 
-		 * <bool changeCameraPosition>
-		 * 상자를 다시 그린 이후 카메라를 중앙에 위치할지 여부를 결정합니다.
 		 */
-		public void DrawBox(bool changeCameraPosition)
+		public void DrawBox()
 		{
 			boxMap.ClearAllTiles();
 			gridMap.ClearAllTiles();
 
-			int drawSize = boxSize + 2;// boxSize 사이즈 기준이 안에 빈 공간이라 2 더해야함
+			int drawSize = currentSize + 2;// boxSize 사이즈 기준이 안에 빈 공간이라 2 더해야함
 
 			for (int i = 0; i < drawSize; i++)
 			{
@@ -82,41 +79,32 @@ namespace MineBeat.GameEditor
 				}
 			}
 
-			if (changeCameraPosition)
-			{
-				float boxCenter = drawSize / 2f;
-				mainCamara.transform.position = new Vector3(boxCenter, boxCenter, -10f);
-			}
+			float boxCenter = drawSize / 2f;
+			mainCamara.transform.position = new Vector3(boxCenter, boxCenter, -10f);
 
-			text.text = boxSize.ToString();
+			text.text = currentSize.ToString();
 		}
 
 		/*
 		 * [Method] ChangeBoxSizeUp(): void
 		 * 상자의 크기를 키웁니다.
-		 * 
-		 * <bool changeCameraPosition>
-		 * 상자의 크기를 줄인 이후 카메라를 중앙에 위치할지 여부를 결정합니다.
 		 */
-		public void ChangeBoxSizeUp(bool changeCameraPosition)
+		public void ChangeBoxSizeUp()
 		{
-			if (boxSize == maxSize) return;
-			boxSize++;
-			DrawBox(changeCameraPosition);
+			if (currentSize == maxSize) return;
+			currentSize++;
+			DrawBox();
 		}
 
 		/*
 		 * [Method] ChangeBoxSizeDown(): void
 		 * 상자의 크기를 줄입니다.
-		 * 
-		 * <bool changeCameraPosition>
-		 * 상자의 크기를 줄인 이후 카메라를 중앙에 위치할지 여부를 결정합니다.
 		 */
-		public void ChangeBoxSizeDown(bool changeCameraPosition)
+		public void ChangeBoxSizeDown()
 		{
-			if (boxSize == minSize) return;
-			boxSize--;
-			DrawBox(changeCameraPosition);
+			if (currentSize == minSize) return;
+			currentSize--;
+			DrawBox();
 		}
 	}
 }
