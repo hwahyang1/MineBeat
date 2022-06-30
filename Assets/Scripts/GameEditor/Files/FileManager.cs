@@ -7,11 +7,14 @@ using UnityEngine;
 
 using SimpleFileBrowser;
 
+using MineBeat.GameEditor.UI;
+using MineBeat.GameEditor.Song;
+
 /*
- * [Namespace] Minebeat.GameEditor
+ * [Namespace] Minebeat.GameEditor.Files
  * Desciption
  */
-namespace MineBeat.GameEditor
+namespace MineBeat.GameEditor.Files
 {
 	/*
 	 * [Class] FileManager
@@ -24,13 +27,13 @@ namespace MineBeat.GameEditor
 		[SerializeField]
 		private GameObject coverCanvas;
 
+		private SongManager songManager;
 		private GameManager gameManager;
-		//private NoteListManager noteManager;
 
 		private void Start()
 		{
+			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-			//noteManager = GameObject.Find("Notes").GetComponent<NoteListManager>();
 			coverCanvas.SetActive(false);
 
 			OpenMediaFile();
@@ -42,7 +45,7 @@ namespace MineBeat.GameEditor
 		 */
 		public void OpenMediaFile()
 		{
-			Destroy(Camera.main.GetComponent<AudioSource>().clip); // WWW 모듈 한정: 메모리 누수 방지를 위해 해줘야함 ( https://blog.naver.com/indra1469/220963432353 )
+			Destroy(songManager.GetComponent<AudioSource>().clip); // WWW 모듈 한정: 메모리 누수 방지를 위해 해줘야함 ( https://blog.naver.com/indra1469/220963432353 )
 
 			FileBrowser.SetFilters(true, new FileBrowser.Filter("Audio Files", ".mp3", ".wav", ".ogg"));
 			FileBrowser.SetDefaultFilter(".mp3");
@@ -76,10 +79,10 @@ namespace MineBeat.GameEditor
 				{
 					WWW www = new WWW(filePath);
 					yield return www;
-					//gameManager.audioClip = www.GetAudioClip();
-					//Camera.main.GetComponent<AudioSource>().clip = gameManager.audioClip;
+					songManager.audioClip = www.GetAudioClip();
+					songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
 
-					//GameObject.Find("TimeLine").GetComponent<SongTimelineManager>().UpdateAudioClip();
+					GameObject.Find("TimeLine").GetComponent<TimelineManager>().UpdateAudioClip();
 				}
 				else
 				{
@@ -88,15 +91,20 @@ namespace MineBeat.GameEditor
 						BinaryFormatter formatter = new BinaryFormatter();
 						FileStream stream = new FileStream(filePath, FileMode.Open);
 
-						//List<Note> data = formatter.Deserialize(stream) as List<Note>;
+						SongInfo data = formatter.Deserialize(stream) as SongInfo;
 
 						stream.Close();
 
-						//noteManager.Set(data);
+						gameManager.SetSongInfo(data);
 					}
 				}
+				coverCanvas.SetActive(false);
 			}
-			coverCanvas.SetActive(false);
+			else
+			{
+				if (isAudioFile) OpenMediaFile();
+				else OpenPatternFile();
+			}
 		}
 
 		/*
@@ -118,7 +126,7 @@ namespace MineBeat.GameEditor
 		IEnumerator ShowSaveDialog(string title, string fileName)
 		{
 			coverCanvas.SetActive(true);
-			yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, "C:\\", fileName, title, "Save" );
+			yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, "C:\\", fileName, title, "Save");
 			coverCanvas.SetActive(false);
 
 			if (FileBrowser.Success)
@@ -128,7 +136,7 @@ namespace MineBeat.GameEditor
 				BinaryFormatter formatter = new BinaryFormatter();
 				FileStream stream = new FileStream(filePath, FileMode.Create);
 
-				//formatter.Serialize(stream, noteManager.GetList());
+				formatter.Serialize(stream, gameManager.GetSongInfo());
 				stream.Close();
 			}
 		}

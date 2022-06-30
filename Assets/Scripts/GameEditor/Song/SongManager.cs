@@ -29,7 +29,7 @@ namespace MineBeat.GameEditor.Song
 	{
 		[HideInInspector]
 		public AudioClip audioClip;
-
+		[HideInInspector]
 		public PlayStatus playStatus = PlayStatus.Stopped;
 
 		private AudioSource audioSource;

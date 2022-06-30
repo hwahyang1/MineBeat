@@ -33,40 +33,33 @@ namespace MineBeat.GameEditor.UI
 
 		private GameObject[] hideOnPlayObjects;
 
-		private SongManager songManager;
+		private Song.SongManager songManager;
 
 		private void Start()
 		{
 			hideOnPlayObjects = GameObject.FindGameObjectsWithTag("HideOnPlay");
-			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
+			songManager = GameObject.Find("SongManager").GetComponent<Song.SongManager>();
 		}
 
 		private void Update()
 		{
-			// 이부분 코드 다시 짜야함
-
 			for (int i = 0; i < 3; i++)
 			{
-				buttons[i].interactable = true;
+				buttons[i].interactable = i != (int)songManager.playStatus;
 			}
-
-			buttons[(int)songManager.playStatus].interactable = false;
 
 			for (int i = 0; i < hideOnPlayObjects.Length; i++)
 			{
 				hideOnPlayObjects[i].SetActive(songManager.playStatus == PlayStatus.Stopped);
 			}
 
-			switch (songManager.playStatus)
+			if (songManager.playStatus == PlayStatus.Playing)
 			{
-				case PlayStatus.Playing:
-					timeline.value = songManager.GetCurrentTime() / ConvertTimeCode(endTimeCode.text);
-					break;
-				case PlayStatus.Paused:
-					break;
-				case PlayStatus.Stopped:
-					buttons[(int)PlayStatus.Paused].interactable = false;
-					break;
+				timeline.value = songManager.GetCurrentTime() / ConvertTimeCode(endTimeCode.text);
+			}
+			else if (songManager.playStatus == PlayStatus.Stopped)
+			{
+				buttons[(int)PlayStatus.Paused].interactable = false;
 			}
 		}
 
@@ -113,9 +106,9 @@ namespace MineBeat.GameEditor.UI
 
 				return min * 60f + sec + milisec / 1000f;
 			}
-			catch (System.IndexOutOfRangeException) // 그냥 숫자만 때려넣은 경우
+			catch (System.IndexOutOfRangeException) // 그냥 숫자만 때려넣은 경우 당연히 Split이 안됨
 			{
-				return float.Parse(code);
+				return float.Parse(code); // 시도해보고 안되면 말고
 			}
 		}
 

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using MineBeat.GameEditor.UI;
+
 /*
  * [Namespace] Minebeat.GameEditor.Notes
  * Desciption
@@ -28,11 +30,19 @@ namespace MineBeat.GameEditor.Notes
 	 * [Class] Note
 	 * 노트의 정보를 정의합니다.
 	 */
+	[System.Serializable]
 	public class Note
 	{
 		public float timeCode;
 		public NoteType type;
 		public Vector2Int position;
+
+		public Note(float timeCode, NoteType type, Vector2Int position)
+		{
+			this.timeCode = timeCode;
+			this.type = type;
+			this.position = position;
+		}
 	}
 
 	/*
@@ -41,6 +51,9 @@ namespace MineBeat.GameEditor.Notes
 	 */
 	public class NotesManager : MonoBehaviour
 	{
+		[SerializeField]
+		private NoteListManager noteListManager;
+
 		private List<Note> notes = new List<Note>();
 
 		/*
@@ -53,6 +66,7 @@ namespace MineBeat.GameEditor.Notes
 		public void Set(List<Note> item)
 		{
 			notes = item;
+			SortList();
 		}
 
 		/*
@@ -64,6 +78,7 @@ namespace MineBeat.GameEditor.Notes
 		 */
 		public void Add(Note item)
 		{
+			if (notes.Contains(item)) return;
 			notes.Add(item);
 			SortList();
 		}
@@ -77,6 +92,8 @@ namespace MineBeat.GameEditor.Notes
 		 */
 		public void Remove(Note item)
 		{
+			if (!notes.Contains(item)) return;
+
 			for (int i = 0; i < notes.Count; i++)
 			{
 				if (notes[i].Equals(item))
@@ -85,6 +102,7 @@ namespace MineBeat.GameEditor.Notes
 					break;
 				}
 			}
+			noteListManager.UpdateList(notes);
 		}
 
 		/*
@@ -94,6 +112,7 @@ namespace MineBeat.GameEditor.Notes
 		public void RemoveAll()
 		{
 			notes.Clear();
+			noteListManager.UpdateList(notes);
 		}
 
 		/*
@@ -102,7 +121,8 @@ namespace MineBeat.GameEditor.Notes
 		 */
 		public void SortList()
 		{
-			notes = notes.OrderBy(n => n.timeCode).ThenBy(n => n.type).ThenBy(n => n.position).ToList();
+			notes = notes.OrderBy(n => n.timeCode).ThenBy(n => n.type).ThenBy(n => n.position.x).ThenBy(n => n.position.y).ToList();
+			noteListManager.UpdateList(notes);
 		}
 
 		/*
