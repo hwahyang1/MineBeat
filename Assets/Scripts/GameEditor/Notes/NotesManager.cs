@@ -16,6 +16,7 @@ namespace MineBeat.GameEditor.Notes
 	 * [Enum] NoteType
 	 * 노트의 종류를 정의합니다.
 	 */
+	[System.Serializable]
 	public enum NoteType
 	{
 		Normal,
@@ -27,6 +28,32 @@ namespace MineBeat.GameEditor.Notes
 	}
 
 	/*
+	 * [Class] NotePosition
+	 * 노트의 위치를 정의합니다.
+	 */
+	[System.Serializable]
+	public class NotePosition
+	{
+		public ushort x;
+		public ushort y;
+		public NotePosition()
+		{
+			x = 0;
+			y = 0;
+		}
+		public NotePosition(ushort x, ushort y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+		public NotePosition(int x, int y)
+		{
+			this.x = (ushort)x;
+			this.y = (ushort)y;
+		}
+	}
+
+	/*
 	 * [Class] Note
 	 * 노트의 정보를 정의합니다.
 	 */
@@ -35,9 +62,9 @@ namespace MineBeat.GameEditor.Notes
 	{
 		public float timeCode;
 		public NoteType type;
-		public Vector2Int position;
+		public NotePosition position;
 
-		public Note(float timeCode, NoteType type, Vector2Int position)
+		public Note(float timeCode, NoteType type, NotePosition position)
 		{
 			this.timeCode = timeCode;
 			this.type = type;

@@ -33,10 +33,9 @@ namespace MineBeat.GameEditor.UI
 		[Header("Object Tab")]
 		[SerializeField, Tooltip("버튼 GameObject를 ObjectType에 맞게 배치합니다.")]
 		private Button[] objectButtons = new Button[3];
-		[SerializeField, Tooltip("커서 Texture2D를 ObjectType에 맞게 배치합니다.")]
-		private Texture2D[] cursors = new Texture2D[3];
 
-		private ObjectType currentObject = ObjectType.None;
+		[HideInInspector]
+		public ObjectType currentObject = ObjectType.None;
 
 		private NotesManager notesManager;
 		private SongManager songManager;
@@ -53,7 +52,6 @@ namespace MineBeat.GameEditor.UI
 			{
 				objectButtons[i].interactable = i != (int)currentObject;
 			}
-			Cursor.SetCursor(cursors[(int)currentObject], Vector2.zero, CursorMode.ForceSoftware);
 		}
 
 		/*
@@ -89,7 +87,7 @@ namespace MineBeat.GameEditor.UI
 		 */
 		public void OnBlankAreaStartButtonClicked()
 		{
-
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.BlankS, new NotePosition()));
 		}
 
 		/*
@@ -98,7 +96,7 @@ namespace MineBeat.GameEditor.UI
 		 */
 		public void OnBlankAreaEndButtonClicked()
 		{
-
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.BlankE, new NotePosition()));
 		}
 
 		/*
@@ -116,7 +114,7 @@ namespace MineBeat.GameEditor.UI
 		 */
 		public void OnImpactLineStartButtonClicked()
 		{
-			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.ImpactLine, Vector2Int.zero));
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.ImpactLine, new NotePosition()));
 		}
 	}
 }

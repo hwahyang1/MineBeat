@@ -35,6 +35,11 @@ namespace MineBeat.GameEditor.UI
 		private void Update()
 		{
 			deleteNoteButton.interactable = toggleGroup.AnyTogglesOn();
+
+			if (toggleGroup.AnyTogglesOn() && Input.GetKeyDown(KeyCode.Delete))
+			{
+				DeleteSelectedNote();
+			}
 		}
 
 		/*
@@ -43,9 +48,14 @@ namespace MineBeat.GameEditor.UI
 		 */
 		public void UpdateList(List<Note> notes)
 		{
+			for (int i = 0; i < gameObject.transform.childCount; i++)
+			{
+				Destroy(gameObject.transform.GetChild(i).gameObject);
+			}
 			foreach (Note note in notes)
 			{
 				GameObject content = Instantiate(contentGroupPrefab, transform);
+				content.transform.GetChild(0).GetComponent<Toggle>().group = toggleGroup;
 				content.GetComponent<NoteListContent>().Perform(note);
 			}
 		}

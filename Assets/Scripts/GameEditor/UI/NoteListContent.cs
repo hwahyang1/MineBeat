@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 using MineBeat.GameEditor.Notes;
@@ -22,6 +23,25 @@ namespace MineBeat.GameEditor.UI
 		public Note note
 		{
 			get { return _note; }
+			private set { _note = value; }
+		}
+
+		/*
+		 * [Method] TimeCodeSelected(): void
+		 * TimeCode가 클릭되었을 때 해당 위치로 Timeline을 이동시켜주는 역할을 합니다.`
+		 */
+		public void TimeCodeSelected()
+		{
+			GameObject.Find("TimeLine").GetComponent<TimelineManager>().ChangeTimeCode(note.timeCode);
+		}
+
+		/*
+		 * [Method] Selected(): void
+		 * Toggle Button이 아닌 텍스트가 클릭되었을 때 Toggle Button을 제어해주는 역할을 합니다.
+		 */
+		public void Selected()
+		{
+			gameObject.transform.GetChild(0).gameObject.GetComponent<Toggle>().isOn = !gameObject.transform.GetChild(0).gameObject.GetComponent<Toggle>().isOn;
 		}
 
 		/*
@@ -72,7 +92,7 @@ namespace MineBeat.GameEditor.UI
 			gameObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = noteTypeText;
 			gameObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = notePositionText;
 
-			this._note = note;
+			this.note = note;
 
 			//Destroy(gameObject);
 		}

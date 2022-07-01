@@ -33,12 +33,12 @@ namespace MineBeat.GameEditor.UI
 
 		private GameObject[] hideOnPlayObjects;
 
-		private Song.SongManager songManager;
+		private SongManager songManager;
 
 		private void Start()
 		{
 			hideOnPlayObjects = GameObject.FindGameObjectsWithTag("HideOnPlay");
-			songManager = GameObject.Find("SongManager").GetComponent<Song.SongManager>();
+			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 		}
 
 		private void Update()
@@ -151,6 +151,26 @@ namespace MineBeat.GameEditor.UI
 
 			currentTimeCode.text = ConvertTimeCode(currentValue);
 			songManager.ChangeCurrentTime(currentValue);
+		}
+
+		/*
+		 * [Method] ChangeTimeCode(float timeCode): void
+		 * 현재 TimeCode를 지정한 값으로 바꿉니다.
+		 * 
+		 * <float timeCode>
+		 * 바꾸길 원하는 시간 값을 초 단위로 입력합니다.
+		 */
+		public void ChangeTimeCode(float timeCode)
+		{
+			float maxTimeCode = ConvertTimeCode(endTimeCode.text);
+
+			if (timeCode > maxTimeCode)
+			{
+				timeCode = maxTimeCode;
+			}
+
+			currentTimeCode.text = ConvertTimeCode(timeCode);
+			timeline.value = timeCode / maxTimeCode;
 		}
 	}
 }

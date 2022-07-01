@@ -17,6 +17,8 @@ namespace MineBeat.GameEditor.Notes
 	public class NotesVerifier : MonoBehaviour
 	{
 		[SerializeField]
+		private TextMeshProUGUI textArea;
+		[SerializeField]
 		private Color colorSuccess;
 		[SerializeField]
 		private Color colorError;

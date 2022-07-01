@@ -5,6 +5,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+using MineBeat.GameEditor.Song;
+using MineBeat.GameEditor.Notes;
+
 /*
  * [Namespace] Minebeat.GameEditor.TileBox
  * Desciption
@@ -35,13 +38,17 @@ namespace MineBeat.GameEditor.TileBox
 		private TextMeshProUGUI text;
 
 		private Camera mainCamara;
+		private SongManager songManager;
+		private NotesManager notesManager;
 
 		private void Start()
 		{
-			mainCamara = Camera.main;
-
 			boxMap = transform.Find("Box").GetComponent<Tilemap>();
 			gridMap = transform.Find("Box Grid").GetComponent<Tilemap>();
+
+			mainCamara = Camera.main;
+			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
+			notesManager = GameObject.Find("Notes").GetComponent<NotesManager>();
 
 			DrawBox();
 		}
@@ -92,7 +99,7 @@ namespace MineBeat.GameEditor.TileBox
 		public void ChangeBoxSizeUp()
 		{
 			if (currentSize == maxSize) return;
-			currentSize++;
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.SizeChange, new NotePosition(currentSize++, currentSize)));
 			DrawBox();
 		}
 
@@ -103,7 +110,7 @@ namespace MineBeat.GameEditor.TileBox
 		public void ChangeBoxSizeDown()
 		{
 			if (currentSize == minSize) return;
-			currentSize--;
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.SizeChange, new NotePosition(currentSize--, currentSize)));
 			DrawBox();
 		}
 	}

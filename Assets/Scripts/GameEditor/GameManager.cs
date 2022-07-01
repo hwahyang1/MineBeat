@@ -34,7 +34,7 @@ namespace MineBeat.GameEditor
 	}
 
 	/*
-	 * [Class] SongManager
+	 * [Class] GameManager
 	 * 게임의 전반적인 실행을 관리합니다.
 	 */
 	public class GameManager : MonoBehaviour
@@ -57,10 +57,14 @@ namespace MineBeat.GameEditor
 		 */
 		public SongInfo GetSongInfo()
 		{
+			string songName = SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text;
+			string songAuthor = SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text;
+			string songLevel = SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text;
+
 			return new SongInfo(
-				SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text,
-				SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text,
-				ushort.Parse(SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text),
+				songName == "" ? "SongName" : songName,
+				songAuthor == "" ? "Author" : songAuthor,
+				songLevel == "" ? (ushort)0 : ushort.Parse(songLevel),
 				notesManager.GetList()
 			);
 		}
@@ -74,9 +78,9 @@ namespace MineBeat.GameEditor
 		 */
 		public void SetSongInfo(SongInfo info)
 		{
-			SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = info.songName;
-			SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text = info.songAuthor;
-			SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = info.songLevel+"";
+			SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = info.songName == "SongName" ? "" : info.songName;
+			SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text = info.songAuthor == "Author" ? "" : info.songAuthor;
+			SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = info.songLevel == 0 ? "" : info.songLevel+"";
 			notesManager.Set(info.notes);
 		} 
 	}

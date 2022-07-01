@@ -83,6 +83,8 @@ namespace MineBeat.GameEditor.Files
 					songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
 
 					GameObject.Find("TimeLine").GetComponent<TimelineManager>().UpdateAudioClip();
+
+					songManager.OnPlayButtonClicked();
 				}
 				else
 				{

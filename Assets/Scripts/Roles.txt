@@ -7,6 +7,7 @@
  V NotesManager: 노트 추가/제거 관리
  ~ PlayNotes: 타임라인에 따른 노트 위치(배치) 관리
  ~ NotesVerifier: 노트 배치의 논리적 오류 확인
+ ~ PlaceNote: 노트 배치 미리보기 & 노트 배치
 
 : Files (Save/Load)
  ~ FileManager: 파일 입출력만 담당 (시간 남을때 수정 필요)
@@ -18,7 +19,7 @@
  V NoteListManager: UI 우측 노트 목록 관리
  V NoteListContent: 노트 목록 항목 초기 설정
  V TimelineManager: 타임라인 Interaction 관리
- ~ ToolBarInteract: 툴바 Interaction 관리 (노트 배치 요청같은거 다 여기서 날릴 예정)
+ ~ ToolBarInteract: 툴바 Interaction 관리
 
 : GameManager
  V GameManager: 곡 전체 정보 관리
