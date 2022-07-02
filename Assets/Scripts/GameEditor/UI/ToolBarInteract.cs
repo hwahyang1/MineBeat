@@ -48,6 +48,11 @@ namespace MineBeat.GameEditor.UI
 
 		private void Update()
 		{
+			if (songManager.playStatus != PlayStatus.Stopped)
+			{
+				currentObject = ObjectType.None;
+			}
+
 			for (int i = 0; i < objectButtons.Length; i++)
 			{
 				objectButtons[i].interactable = i != (int)currentObject;

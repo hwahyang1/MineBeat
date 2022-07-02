@@ -31,6 +31,8 @@ namespace MineBeat.GameEditor.UI
 		[SerializeField, Tooltip("버튼 GameObject를 PlayStatus에 맞게 배치합니다.")]
 		private Button[] buttons = new Button[3];
 
+		private bool hideUIOnPlay = false;
+
 		private GameObject[] hideOnPlayObjects;
 
 		private SongManager songManager;
@@ -48,9 +50,12 @@ namespace MineBeat.GameEditor.UI
 				buttons[i].interactable = i != (int)songManager.playStatus;
 			}
 
-			for (int i = 0; i < hideOnPlayObjects.Length; i++)
+			if (hideUIOnPlay)
 			{
-				hideOnPlayObjects[i].SetActive(songManager.playStatus == PlayStatus.Stopped);
+				for (int i = 0; i < hideOnPlayObjects.Length; i++)
+				{
+					hideOnPlayObjects[i].SetActive(songManager.playStatus == PlayStatus.Stopped);
+				}
 			}
 
 			if (songManager.playStatus == PlayStatus.Playing)
@@ -61,6 +66,15 @@ namespace MineBeat.GameEditor.UI
 			{
 				buttons[(int)PlayStatus.Paused].interactable = false;
 			}
+		}
+
+		/*
+		 * [Method] OnHideUIWhenPlayToggleChanged(): void
+		 * Hide UI while playing 토글이 변경되었을 때 이벤트를 처리합니다.
+		 */
+		public void OnHideUIWhenPlayToggleChanged()
+		{
+			hideUIOnPlay = !hideUIOnPlay;
 		}
 
 		/*

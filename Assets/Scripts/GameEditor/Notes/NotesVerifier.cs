@@ -22,5 +22,59 @@ namespace MineBeat.GameEditor.Notes
 		private Color colorSuccess;
 		[SerializeField]
 		private Color colorError;
+
+		private bool _isError = false;
+		public bool isError
+		{
+			get { return _isError; }
+			private set { _isError = value; }
+		}
+
+		private string returnMessage = "";
+
+		private NotesManager notesManager;
+
+		private void Start()
+		{
+			notesManager = gameObject.GetComponent<NotesManager>();
+		}
+
+		/*
+		 * [Method] Verify()
+		 * 노트의 배치에 대한 논리적 오류를 찾고, 결과를 UI에 띄웁니다.
+		 */
+		public void Verify()
+		{
+			if (notesManager.Find(NoteType.ImpactLine).Count > 1)
+			{
+				isError = true;
+				returnMessage = "There cannot be more than one 'Impact Line'.";
+				ChangeMessage();
+				return;
+			}
+
+			if (notesManager.Find(NoteType.BlankS).Count != notesManager.Find(NoteType.BlankE).Count)
+			{
+				isError = true;
+				returnMessage = "There is not enough 'Blank Area E' corresponding to 'Blank Area S'. (or maybe vice versa)";
+				ChangeMessage();
+				return;
+			}
+
+			isError = false;
+			returnMessage = "No error detected.";
+			ChangeMessage();
+		}
+
+
+		/*
+		 * [Method] Verify()
+		 * UI의 텍스트와 색상을 바꿉니다.
+		 */
+		private void ChangeMessage()
+		{
+			textArea.color = isError ? colorError : colorSuccess;
+			textArea.text = "※ " + (isError ? "[ERROR] " : "[SUCCESS] " ) + returnMessage;
+		}
 	}
 }

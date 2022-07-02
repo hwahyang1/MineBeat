@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 using MineBeat.GameEditor.UI;
+using MineBeat.GameEditor.Song;
 
 /*
  * [Namespace] Minebeat.GameEditor.Notes
@@ -52,18 +53,26 @@ namespace MineBeat.GameEditor.Notes
 
 		private NoteDirection noteDirection = NoteDirection.None;
 
+		private NotesManager notesManager;
+		private SongManager songManager;
+
+		private void Start()
+		{
+			notesManager = gameObject.GetComponent<NotesManager>();
+			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
+		}
+
 		private void Update()
 		{
 			previewTilemap.ClearAllTiles();
 
 			if (toolBarInteract.currentObject == ObjectType.None) return;
 
-			TileBase selectedSprite = toolBarInteract.currentObject == ObjectType.Normal ? normalNote : verticalNote[(int)noteDirection];
-
 			Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			int posX = Mathf.FloorToInt(worldPosition.x);
 			int posY = Mathf.FloorToInt(worldPosition.y);
 			
+			// 노트가 박스 기준으로 어디에 위치 할 것인지
 			if (boxGridTilemap.GetSprite(new Vector3Int(posX, posY, 0)) != boxGrid && boxTilemap.GetSprite(new Vector3Int(posX, posY, 0)) != whiteBox)
 			{
 				if (boxTilemap.GetSprite(new Vector3Int(posX, posY - 1, 0)) == whiteBox)
@@ -94,7 +103,33 @@ namespace MineBeat.GameEditor.Notes
 				return;
 			}
 
+			TileBase selectedSprite = toolBarInteract.currentObject == ObjectType.Normal ? normalNote : verticalNote[(int)noteDirection];
+
 			previewTilemap.SetTile(new Vector3Int(posX, posY, 0), selectedSprite);
+
+			if (Input.GetMouseButtonDown(0))
+			{
+				NotePosition position = new NotePosition(posX, posY);
+
+				switch (noteDirection)
+				{
+					case NoteDirection.Up:
+						position.y -= 1;
+						break;
+					case NoteDirection.Down:
+						position.y += 1;
+						break;
+					case NoteDirection.Left:
+						position.x += 1;
+						break;
+					case NoteDirection.Right:
+						position.x -= 1;
+						break;
+				}
+
+				notesManager.Add(new Note(songManager.GetCurrentTime(), (NoteType)toolBarInteract.currentObject, position));
+				notesManager.SortList();
+			}
 		}
 	}
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using MineBeat.GameEditor.Notes;
+
 /*
  * [Namespace] Minebeat.GameEditor.Song
  * Desciption
@@ -32,11 +34,32 @@ namespace MineBeat.GameEditor.Song
 		[HideInInspector]
 		public PlayStatus playStatus = PlayStatus.Stopped;
 
+		private bool doNotPlayWhenError = true;
+
+		private NotesVerifier notesVerifier;
 		private AudioSource audioSource;
 
 		private void Start()
 		{
+			notesVerifier = GameObject.Find("Notes").GetComponent<NotesVerifier>();
 			audioSource = GetComponent<AudioSource>();
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.Space))
+			{
+				switch (playStatus)
+				{
+					case PlayStatus.Playing:
+						OnPauseButtonClicked();
+						break;
+					case PlayStatus.Paused:
+					case PlayStatus.Stopped:
+						OnPlayButtonClicked();
+						break;
+				}
+			}
 		}
 
 		/*
@@ -69,6 +92,8 @@ namespace MineBeat.GameEditor.Song
 		 */
 		public void OnPlayButtonClicked()
 		{
+			if (notesVerifier.isError && doNotPlayWhenError) return;
+
 			audioSource.Play();
 
 			playStatus = PlayStatus.Playing;
@@ -80,6 +105,8 @@ namespace MineBeat.GameEditor.Song
 		 */
 		public void OnPauseButtonClicked()
 		{
+			if (notesVerifier.isError && doNotPlayWhenError) return;
+
 			audioSource.Pause();
 
 			playStatus = PlayStatus.Paused;
@@ -94,6 +121,15 @@ namespace MineBeat.GameEditor.Song
 			audioSource.Pause();
 
 			playStatus = PlayStatus.Stopped;
+		}
+
+		/*
+		 * [Method] DoNotPlayWhenErrorToggleChanged(): void
+		 * Do not play when there is an error 토글이 변경되었을 때 이벤트를 처리합니다.
+		 */
+		public void DoNotPlayWhenErrorToggleChanged()
+		{
+			doNotPlayWhenError = !doNotPlayWhenError;
 		}
 	}
 }
