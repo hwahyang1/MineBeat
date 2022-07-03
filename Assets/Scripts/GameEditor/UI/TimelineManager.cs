@@ -31,6 +31,10 @@ namespace MineBeat.GameEditor.UI
 		[SerializeField, Tooltip("버튼 GameObject를 PlayStatus에 맞게 배치합니다.")]
 		private Button[] buttons = new Button[3];
 
+		[Header("Control")]
+		[SerializeField]
+		private float timelineMouseScrollSpeed;
+
 		private bool hideUIOnPlay = false;
 
 		private GameObject[] hideOnPlayObjects;
@@ -66,6 +70,11 @@ namespace MineBeat.GameEditor.UI
 			{
 				buttons[(int)PlayStatus.Paused].interactable = false;
 			}
+
+			/*if (songManager.audioClip != null && Input.mouseScrollDelta.y != 0)
+			{
+				timeline.value = timeline.value * timelineMouseScrollSpeed * -Input.mouseScrollDelta.y;
+			}*/
 		}
 
 		/*
@@ -181,6 +190,10 @@ namespace MineBeat.GameEditor.UI
 			if (timeCode > maxTimeCode)
 			{
 				timeCode = maxTimeCode;
+			}
+			else if (timeCode < 0)
+			{
+				timeCode = 0;
 			}
 
 			currentTimeCode.text = ConvertTimeCode(timeCode);

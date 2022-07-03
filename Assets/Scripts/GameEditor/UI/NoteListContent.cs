@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+using MineBeat.GameEditor.Song;
 using MineBeat.GameEditor.Notes;
 
 /*
@@ -26,13 +27,46 @@ namespace MineBeat.GameEditor.UI
 			private set { _note = value; }
 		}
 
+		private SongManager songManager;
+
+		private void Start()
+		{
+			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
+		}
+
+		private void Update()
+		{
+			float currentTime = songManager.GetCurrentTime();
+			Color setColor = new Color(0.9019608f, 0.9019608f, 0.9294118f);
+
+			if (note.type == NoteType.Normal || note.type == NoteType.Vertical)
+			{
+				if (note.timeCode - 0.35f <= currentTime && currentTime <= note.timeCode + 0.2f)
+				{
+					setColor = new Color(0f, 0.9686275f, 0.227451f); // G
+					//setColor = new Color(0.8823529f, 0.9490196f, 0f); // Y
+				}
+			}
+			else
+			{
+
+				if (note.timeCode <= currentTime && currentTime <= note.timeCode + 0.2f)
+				{
+					setColor = new Color(0f, 0.9686275f, 0.227451f); // G
+					//setColor = new Color(0.8823529f, 0.9490196f, 0f); // Y
+				}
+			}
+
+			gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = setColor;
+		}
+
 		/*
 		 * [Method] TimeCodeSelected(): void
-		 * TimeCode가 클릭되었을 때 해당 위치로 Timeline을 이동시켜주는 역할을 합니다.`
+		 * TimeCode가 클릭되었을 때 해당 위치로 Timeline을 이동시켜주는 역할을 합니다.
 		 */
 		public void TimeCodeSelected()
 		{
-			GameObject.Find("TimeLine").GetComponent<TimelineManager>().ChangeTimeCode(note.timeCode);
+			GameObject.Find("UIManagers").GetComponent<TimelineManager>().ChangeTimeCode(note.timeCode);
 		}
 
 		/*
@@ -54,7 +88,7 @@ namespace MineBeat.GameEditor.UI
 		public void Perform(Note note)
 		{
 			string noteTimeCodeText;
-			string noteTypeText = NoteType.Normal.ToString();
+			string noteTypeText = note.type.ToString();
 			string notePositionText = "-";
 
 			int front = Mathf.FloorToInt(note.timeCode);
@@ -71,7 +105,14 @@ namespace MineBeat.GameEditor.UI
 					notePositionText = string.Format("{0}, {1}", note.position.x, note.position.y);
 					break;
 				case NoteType.Vertical:
-					notePositionText = string.Format("{0}", note.position.x);
+					if (note.direction == NoteDirection.Up || note.direction == NoteDirection.Down)
+					{
+						notePositionText = string.Format("{0}", note.position.x);
+					}
+					else
+					{
+						notePositionText = string.Format("{0}", note.position.y);
+					}
 					break;
 				case NoteType.SizeChange:
 					noteTypeText = "Size Change";

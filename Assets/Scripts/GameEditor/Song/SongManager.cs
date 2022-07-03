@@ -41,7 +41,7 @@ namespace MineBeat.GameEditor.Song
 
 		private void Start()
 		{
-			notesVerifier = GameObject.Find("Notes").GetComponent<NotesVerifier>();
+			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
 			audioSource = GetComponent<AudioSource>();
 		}
 
@@ -59,6 +59,10 @@ namespace MineBeat.GameEditor.Song
 						OnPlayButtonClicked();
 						break;
 				}
+			}
+			else if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				OnStopButtonClicked();
 			}
 		}
 

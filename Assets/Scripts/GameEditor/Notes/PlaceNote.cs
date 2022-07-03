@@ -19,19 +19,6 @@ namespace MineBeat.GameEditor.Notes
 	 */
 	public class PlaceNote : MonoBehaviour
 	{
-		/*
-		 * [Enum] NoteDirection
-		 * 박스를 기준으로 노트에 어느 방향에 존재하는지 표현합니다.
-		 */
-		enum NoteDirection
-		{
-			Up,
-			Down,
-			Left,
-			Right,
-			None
-		}
-
 		[SerializeField]
 		private ToolBarInteract toolBarInteract;
 
@@ -127,7 +114,7 @@ namespace MineBeat.GameEditor.Notes
 						break;
 				}
 
-				notesManager.Add(new Note(songManager.GetCurrentTime(), (NoteType)toolBarInteract.currentObject, position));
+				notesManager.Add(new Note(songManager.GetCurrentTime(), (NoteType)toolBarInteract.currentObject, position, noteDirection));
 				notesManager.SortList();
 			}
 		}

@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 18
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 257972546}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 694106507}
@@ -643,6 +643,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a618165537a7fc442842f496da7ab129, type: 2}
   whiteBox: {fileID: 609181979932357721, guid: c2bad501c8733f24fa097a0dedfe2461, type: 3}
   noteParent: {fileID: 1809635241}
+  aroundTime: 0.35
+  verticalTime: 0.2
+  normalNoteSpeed: 17
 --- !u!1 &170157000
 GameObject:
   m_ObjectHideFlags: 0
@@ -4130,11 +4133,11 @@ RectTransform:
   m_Father: {fileID: 257972546}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 9, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &674663872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5073,7 +5076,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &911464115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5095,7 +5098,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911464114}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1620.1106, y: 586.11365, z: 9.392346}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6197,6 +6200,7 @@ MonoBehaviour:
   - {fileID: 660383881}
   - {fileID: 1653239809}
   - {fileID: 544504756}
+  timelineMouseScrollSpeed: 0.5
 --- !u!4 &1103653348
 Transform:
   m_ObjectHideFlags: 0

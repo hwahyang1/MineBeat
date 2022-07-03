@@ -24,7 +24,12 @@ namespace MineBeat.GameEditor.TileBox
 		public int maxSize = 9;
 		[SerializeField]
 		public int minSize = 3;
-		private int currentSize = 7;
+		private int _currentSize = 7;
+		public int currentSize
+		{
+			get { return _currentSize; }
+			private set { _currentSize = value; }
+		}
 
 		[Header("박스 크기 조정 시 사용되는 TileBase"), SerializeField]
 		private TileBase boxTile;
@@ -48,7 +53,7 @@ namespace MineBeat.GameEditor.TileBox
 
 			mainCamara = Camera.main;
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
-			notesManager = GameObject.Find("Notes").GetComponent<NotesManager>();
+			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
 
 			DrawBox();
 		}
@@ -111,6 +116,21 @@ namespace MineBeat.GameEditor.TileBox
 		{
 			if (currentSize == minSize) return;
 			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.SizeChange, new NotePosition(currentSize--, currentSize)));
+			DrawBox();
+		}
+
+		/*
+		 * [Method] SetBoxSize(int size): void
+		 * 상자의 크기를 지정합니다.
+		 * 
+		 * <int size>
+		 * 원하는 박스의 크기를 지정합니다.
+		 */
+		public void SetBoxSize(int size)
+		{
+			if (size < minSize) size = minSize;
+			if (maxSize < size) size = maxSize;
+			currentSize = size;
 			DrawBox();
 		}
 	}

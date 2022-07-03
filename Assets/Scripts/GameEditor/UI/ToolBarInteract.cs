@@ -42,13 +42,13 @@ namespace MineBeat.GameEditor.UI
 
 		private void Start()
 		{
-			notesManager = GameObject.Find("Notes").GetComponent<NotesManager>();
+			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 		}
 
 		private void Update()
 		{
-			if (songManager.playStatus != PlayStatus.Stopped)
+			if (/*songManager.playStatus != PlayStatus.Stopped ||*/ Input.GetKeyDown(KeyCode.Escape))
 			{
 				currentObject = ObjectType.None;
 			}
@@ -92,7 +92,7 @@ namespace MineBeat.GameEditor.UI
 		 */
 		public void OnBlankAreaStartButtonClicked()
 		{
-			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.BlankS, new NotePosition()));
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.BlankS));
 		}
 
 		/*
@@ -101,7 +101,7 @@ namespace MineBeat.GameEditor.UI
 		 */
 		public void OnBlankAreaEndButtonClicked()
 		{
-			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.BlankE, new NotePosition()));
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.BlankE));
 		}
 
 		/*
@@ -119,7 +119,7 @@ namespace MineBeat.GameEditor.UI
 		 */
 		public void OnImpactLineStartButtonClicked()
 		{
-			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.ImpactLine, new NotePosition()));
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.ImpactLine));
 		}
 	}
 }

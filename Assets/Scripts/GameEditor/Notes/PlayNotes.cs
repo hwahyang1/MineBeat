@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 using MineBeat.GameEditor.Song;
+using MineBeat.GameEditor.TileBox;
 
 /*
  * [Namespace] Minebeat.GameEditor.Notes
@@ -35,11 +36,21 @@ namespace MineBeat.GameEditor.Notes
 		[SerializeField]
 		private Transform noteParent;
 
+		[Header("Timing")]
+		[SerializeField]
+		private float aroundTime; // 몇초 전부터 Warining 띄울지
+		[SerializeField]
+		private float verticalTime; // 몇초간 유지할지
+		[SerializeField]
+		private float normalNoteSpeed;
+
+		private BoxSize boxSize;
 		private NotesManager notesManager;
 		private SongManager songManager;
 
 		private void Start()
 		{
+			boxSize = GameObject.Find("Tilemaps").GetComponent<BoxSize>();
 			notesManager = gameObject.GetComponent<NotesManager>();
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 		}
@@ -48,17 +59,106 @@ namespace MineBeat.GameEditor.Notes
 		{
 			for (int i = 0; i < noteParent.childCount; i++)
 			{
-				Destroy(noteParent.GetChild(i));
+				Destroy(noteParent.GetChild(i).gameObject);
+			}
+			noteWarningTilemap.ClearAllTiles();
+
+			float currentTime = songManager.GetCurrentTime();
+			List<Note> notes = notesManager.GetList();
+
+			List<Note> earlyNotes = notes.FindAll(target => (currentTime - 1f <= target.timeCode && target.timeCode <= currentTime));
+			foreach (Note current in earlyNotes)
+			{
+				switch (current.type)
+				{
+					case NoteType.Normal:
+						int directionX = 0;
+						int directionY = 0;
+
+						switch (current.direction)
+						{
+							case NoteDirection.Up:
+								directionY--;
+								break;
+							case NoteDirection.Down:
+								directionY++;
+								break;
+							case NoteDirection.Left:
+								directionX++;
+								break;
+							case NoteDirection.Right:
+								directionX--;
+								break;
+						}
+
+						float posX = current.position.x + (directionX * normalNoteSpeed * (currentTime - current.timeCode)) + 0.5f;
+						float posY = current.position.y + (directionY * normalNoteSpeed * (currentTime - current.timeCode)) + 0.5f;
+
+						if (posX >= boxSize.currentSize + 1.5 || posX <= 0.5 || posY >= boxSize.currentSize + 1.5 || posY <= 0.5) continue;
+
+						Instantiate(whiteBox, new Vector3(posX, posY, 0f), Quaternion.identity, noteParent);
+
+						break;
+					case NoteType.Vertical:
+						if (currentTime - current.timeCode > verticalTime) continue;
+
+						if (current.direction == NoteDirection.Up || current.direction == NoteDirection.Down)
+						{
+							for (int i = 0; i < boxSize.currentSize; i++)
+							{
+								Instantiate(whiteBox, new Vector3(current.position.x + 0.5f, i + 1.5f, 0), Quaternion.identity, noteParent);
+							}
+						}
+						else
+						{
+							for (int i = 0; i < boxSize.currentSize; i++)
+							{
+								Instantiate(whiteBox, new Vector3(i + 1.5f, current.position.y + 0.5f, 0), Quaternion.identity, noteParent);
+							}
+						}
+
+						break;
+					case NoteType.SizeChange:
+						boxSize.SetBoxSize(current.position.y); // x가 이전 크기
+						break;
+					case NoteType.BlankS:
+						boxSize.gameObject.SetActive(false);
+						break;
+					case NoteType.BlankE:
+						boxSize.gameObject.SetActive(true);
+						break;
+					case NoteType.ImpactLine:
+						break;
+				}
 			}
 
-			List<Note> currentNotes = notesManager.GetList();
+			List<Note> lateNotes = notes.FindAll(target => (currentTime <= target.timeCode && target.timeCode <= currentTime + aroundTime));
+			foreach (Note current in lateNotes)
+			{
+				if (!(current.type == NoteType.Normal || current.type == NoteType.Vertical)) continue;
 
-			/* 
-			 * 현재 Time을 0초라 했을 때
-			 * ~0초: 노트를 해당되는 위치에 배치
-			 * 0~0.5초: Warning을 해당되는 위치에 배치
-			 */
-			
+				TileBase noteTile = current.type == NoteType.Normal ? normalWarning : verticalWarning[(int)current.direction];
+				int addX = 0;
+				int addY = 0;
+
+				switch (current.direction)
+				{
+					case NoteDirection.Up:
+						addY++;
+						break;
+					case NoteDirection.Down:
+						addY--;
+						break;
+					case NoteDirection.Left:
+						addX--;
+						break;
+					case NoteDirection.Right:
+						addX++;
+						break;
+				}
+
+				noteWarningTilemap.SetTile(new Vector3Int(current.position.x + addX, current.position.y + addY, 0), noteTile);
+			}
 		}
 	}
 }

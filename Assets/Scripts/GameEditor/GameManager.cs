@@ -45,7 +45,7 @@ namespace MineBeat.GameEditor
 
 		private void Start()
 		{
-			notesManager = GameObject.Find("Notes").GetComponent<NotesManager>();
+			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
 		}
 
 		/*

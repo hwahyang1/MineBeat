@@ -23,3 +23,6 @@
 
 : GameManager
  V GameManager: 곡 전체 정보 관리
+
+ BoxSize -> 숫자 직접 입력할 수 있게
+ PlayNotes -> 일반 노트들 이외에는 실행 전 상태를 못돌아감
