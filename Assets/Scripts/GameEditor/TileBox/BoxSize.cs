@@ -40,7 +40,7 @@ namespace MineBeat.GameEditor.TileBox
 		private Tilemap gridMap;
 
 		[Header("UI"), SerializeField]
-		private TextMeshProUGUI text;
+		private TMP_InputField textInput;
 
 		private Camera mainCamara;
 		private SongManager songManager;
@@ -67,7 +67,7 @@ namespace MineBeat.GameEditor.TileBox
 			boxMap.ClearAllTiles();
 			gridMap.ClearAllTiles();
 
-			int drawSize = currentSize + 2;// boxSize 사이즈 기준이 안에 빈 공간이라 2 더해야함
+			int drawSize = currentSize + 2;// boxSize 기준이 안에 빈 공간이라 2 더해야함
 
 			for (int i = 0; i < drawSize; i++)
 			{
@@ -94,7 +94,7 @@ namespace MineBeat.GameEditor.TileBox
 			float boxCenter = drawSize / 2f;
 			mainCamara.transform.position = new Vector3(boxCenter, boxCenter, -10f);
 
-			text.text = currentSize.ToString();
+			textInput.text = currentSize.ToString();
 		}
 
 		/*
@@ -104,8 +104,7 @@ namespace MineBeat.GameEditor.TileBox
 		public void ChangeBoxSizeUp()
 		{
 			if (currentSize == maxSize) return;
-			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.SizeChange, new NotePosition(currentSize++, currentSize)));
-			DrawBox();
+			AddNote(songManager.GetCurrentTime(), currentSize++, currentSize);
 		}
 
 		/*
@@ -115,8 +114,18 @@ namespace MineBeat.GameEditor.TileBox
 		public void ChangeBoxSizeDown()
 		{
 			if (currentSize == minSize) return;
-			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.SizeChange, new NotePosition(currentSize--, currentSize)));
-			DrawBox();
+			AddNote(songManager.GetCurrentTime(), currentSize--, currentSize);
+		}
+
+		/*
+		 * [Method] ChangeBoxSize(): void
+		 * Input Field에 입력된 값으로 박스의 크기를 수정합니다.
+		 */
+		public void ChangeBoxSize()
+		{
+			int afterSize = textInput.text == "" ? 7 : int.Parse(textInput.text);
+			if (currentSize == afterSize) return;
+			AddNote(songManager.GetCurrentTime(), currentSize, afterSize);
 		}
 
 		/*
@@ -132,6 +141,57 @@ namespace MineBeat.GameEditor.TileBox
 			if (maxSize < size) size = maxSize;
 			currentSize = size;
 			DrawBox();
+		}
+
+		/*
+		 * [Method] AddNote(float timeCode, int beforeSize, int afterSize): void
+		 * NotesManager에 SizeChange 노트를 추가합니다.
+		 * 
+		 * <float timeCode>
+		 * SizeChange 노트를 추가할 위치를 입력합니다.
+		 * 
+		 * <int beforeSize>
+		 * 변경 전 크기를 입력합니다.
+		 * 
+		 * <int afterSize>
+		 * 변경 후 크기를 입력합니다.
+		 */
+		private void AddNote(float timeCode, int beforeSize, int afterSize)
+		{
+			List<Note> duplicate = notesManager.Find(NoteType.SizeChange, timeCode);
+			if (duplicate.Count == 0)
+			{
+				notesManager.Add(new Note(timeCode, NoteType.SizeChange, new NotePosition(beforeSize, afterSize)));
+			}
+			else
+			{
+				if (duplicate[0].position.y == afterSize) return; // 바꾼 이유가 없을 때
+
+				notesManager.Remove(duplicate[0]);
+
+				if (duplicate[0].position.x == afterSize) // 바꾸기 이전 크기로 돌아가려 할 경우
+				{
+					afterSize = duplicate[0].position.x;
+				}
+				else
+				{
+					notesManager.Add(new Note(timeCode, NoteType.SizeChange, new NotePosition(duplicate[0].position.x, afterSize)));
+				}
+			}
+
+			//뒤에 노트 있는지 읽어야함
+			List<Note> afterNotes = notesManager.GetList().FindAll(target => target.timeCode > timeCode && target.type == NoteType.SizeChange);
+
+			for (int i = 0; i < afterNotes.Count; i++)
+			{
+				/*
+				 * 이번 노트 Y하고 다음 노트 X 비교 (같으면 return) -> 다르면 다음 노트 X를 이번 노트 Y로 대입 -> 다음 노트 X하고 Y하고 서로 비교 (다르면 return) -> 서로 같으면 없애고 그 다음 노트를 대상으로 다시 검증
+				 */
+				if (afterSize == afterNotes[0].position.x) return;
+				afterNotes[0].position.x = (ushort)afterSize;
+				if (afterNotes[0].position.x != afterNotes[0].position.y) return;
+				notesManager.Remove(afterNotes[0]);
+			}
 		}
 	}
 }

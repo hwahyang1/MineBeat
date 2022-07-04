@@ -44,6 +44,9 @@ namespace MineBeat.GameEditor.Notes
 		[SerializeField]
 		private float normalNoteSpeed;
 
+		private float prevTime;
+		private List<Note> prevNotes;
+
 		private BoxSize boxSize;
 		private NotesManager notesManager;
 		private SongManager songManager;
@@ -57,14 +60,48 @@ namespace MineBeat.GameEditor.Notes
 
 		private void Update()
 		{
+			float currentTime = songManager.GetCurrentTime();
+			List<Note> notes = notesManager.GetList();
+
+			if (prevTime != currentTime || prevNotes != notes)
+			{
+				prevTime = currentTime;
+				prevNotes = notes;
+				Draw(notes, currentTime);
+			}
+		}
+
+		/*
+		 * [Method] Draw(): void
+		 * 화면상에 표기되는 노트를 다시 그립니다.
+		 */
+		public void Draw(List<Note> notes, float currentTime)
+		{
 			for (int i = 0; i < noteParent.childCount; i++)
 			{
 				Destroy(noteParent.GetChild(i).gameObject);
 			}
 			noteWarningTilemap.ClearAllTiles();
 
-			float currentTime = songManager.GetCurrentTime();
-			List<Note> notes = notesManager.GetList();
+			List<Note> prevSizeChange = notes.FindAll(target => target.timeCode < currentTime && target.type == NoteType.SizeChange);
+			if (prevSizeChange.Count == 0)
+			{
+				boxSize.SetBoxSize(7);
+			}
+			else
+			{
+				boxSize.SetBoxSize(prevSizeChange[prevSizeChange.Count - 1].position.y);
+			}
+
+			List<Note> prevBlank = notes.FindAll(target => target.timeCode < currentTime && (target.type == NoteType.BlankS || target.type == NoteType.BlankE));
+			if (prevBlank.Count == 0)
+			{
+				boxSize.gameObject.SetActive(true);
+			}
+			else
+			{
+				boxSize.gameObject.SetActive(prevBlank[prevBlank.Count - 1].type == NoteType.BlankE);
+			}
 
 			List<Note> earlyNotes = notes.FindAll(target => (currentTime - 1f <= target.timeCode && target.timeCode <= currentTime));
 			foreach (Note current in earlyNotes)
@@ -119,12 +156,15 @@ namespace MineBeat.GameEditor.Notes
 
 						break;
 					case NoteType.SizeChange:
-						boxSize.SetBoxSize(current.position.y); // x가 이전 크기
+						if (current.timeCode != currentTime) break; // 이전꺼는 이미 작업됨
+						boxSize.SetBoxSize(current.position.y);
 						break;
 					case NoteType.BlankS:
+						if (current.timeCode != currentTime) break;
 						boxSize.gameObject.SetActive(false);
 						break;
 					case NoteType.BlankE:
+						if (current.timeCode != currentTime) break;
 						boxSize.gameObject.SetActive(true);
 						break;
 					case NoteType.ImpactLine:

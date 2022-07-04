@@ -241,12 +241,48 @@ namespace MineBeat.GameEditor.Notes
 		}
 
 		/*
+		 * [Method] Find(NoteType noteType, float timecode, bool allowUpToSec = false)
+		 * 입력된 값에 부합하는 노트를 찾습니다.
+		 * 
+		 * <NoteType noteType>
+		 * 검색을 원하는 값을 입력합니다.
+		 * 
+		 * <float timecode>
+		 * 검색을 원하는 값을 입력합니다.
+		 * 
+		 * <bool allowUpToSec = false>
+		 * 초단위로 일치하는 값까지 반환할 지 여부를 결정합니다.
+		 * false일 경우, ms단위까지 정확히 일치해야 반환합니다.
+		 * 
+		 * <RETURN: List<Note>>
+		 * 검색 기준에 모두 부합하는(AND) 결과값을 반환합니다.
+		 * 결과값이 없을 경우, 빈 List가 반환됩니다.
+		 */
+		public List<Note> Find(NoteType noteType, float timecode, bool allowUpToSec = false)
+		{
+			List<Note> result = new List<Note>();
+
+			if (allowUpToSec)
+			{
+				result = notes.FindAll(target => Mathf.FloorToInt(target.timeCode) == Mathf.FloorToInt(timecode));
+			}
+			else
+			{
+				result = notes.FindAll(target => target.timeCode == timecode);
+			}
+
+			result = result.FindAll(target => target.type == noteType);
+
+			return result;
+		}
+
+		/*
 		 * [Mehtod] SortList(): void
 		 * 노트 목록을 시간순으로 내림차순 정렬합니다.
 		 */
 		public void SortList()
 		{
-			notes = notes.OrderBy(n => n.timeCode).ThenBy(n => n.type).ThenBy(n => n.position.x).ThenBy(n => n.position.y).ToList();
+			notes = notes.OrderBy(n => n.timeCode).ThenBy(n => n.type)/*.ThenBy(n => n.position.x).ThenBy(n => n.position.y)*/.ToList();
 			noteListManager.UpdateList(notes);
 		}
 
