@@ -34,6 +34,7 @@ namespace MineBeat.GameEditor.Files
 
 		BinaryFormatter formatter = new BinaryFormatter();
 
+		private string packageFilePath = @"C:\";
 		private string packageFileName = "MineBeat.mbt";
 
 		private readonly string tempFileRootFolderPath = @"C:\Temp\MineBeat_DoNotDelete\";
@@ -47,6 +48,49 @@ namespace MineBeat.GameEditor.Files
 		private AlertManager alertManager;
 		private SongManager songManager;
 		private GameManager gameManager;
+
+		/*
+		 * [Method] OpenAllFileStream(FileMode mode=FileMode.Open, FileAccess access=FileAccess.ReadWrite, string packageFilePath=""): void
+		 * 모든 핸들을 엽니다.
+		 * 
+		 * <FileMode mode=FileMode.Open>
+		 * 핸들의 오픈 형식을 지정합니다.
+		 * 
+		 * <FileAccess access=FileAccess.ReadWrite>
+		 * 핸들의 접근 형식을 지정합니다.
+		 * 
+		 * <string packageFilePath="">
+		 * packageFileStream의 핸들을 열 경우 파일의 경로를 입력합니다.
+		 */
+		private void OpenAllFileStream(FileMode mode=FileMode.Open, FileAccess access=FileAccess.ReadWrite, string packageFilePath = "")
+		{
+			if (packageFilePath != "") packageFileStream = new FileStream(packageFilePath, mode);
+			tempPatternFileStream = new FileStream(tempPatternFilePath, mode, access);
+			tempAudioFileStream = new FileStream(tempAudioFilePath, mode, access);
+		}
+
+		/*
+		 * [Method] CloaseAllFileSteam(): void
+		 * 열려있는 모든 핸들을 닫습니다.
+		 */
+		private void CloseAllFileStream()
+		{
+			if (packageFileStream != null)
+			{
+				packageFileStream.Close();
+				packageFileStream = null;
+			}
+			if (tempPatternFileStream != null)
+			{
+				tempPatternFileStream.Close();
+				tempPatternFileStream = null;
+			}
+			if (tempAudioFileStream != null)
+			{
+				tempAudioFileStream.Close();
+				tempAudioFileStream = null;
+			}
+		}
 
 		/*
 		 * [Coroutine] DelayedStart()
@@ -70,8 +114,7 @@ namespace MineBeat.GameEditor.Files
 
 			if (!Directory.Exists(tempFileRootFolderPath)) Directory.CreateDirectory(tempFileRootFolderPath);
 
-			tempPatternFileStream = new FileStream(tempPatternFilePath, FileMode.Create);
-			tempAudioFileStream = new FileStream(tempAudioFilePath, FileMode.Create);
+			OpenAllFileStream(FileMode.OpenOrCreate);
 
 			StartCoroutine(DelayedStart());
 		}
@@ -95,14 +138,13 @@ namespace MineBeat.GameEditor.Files
 			{
 				while (true)
 				{
-					int res = alertManager.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes", "No" }, OpenSongFileButtonClicked, () => { });
+					int res = alertManager.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes", "No" }, OpenSongFileWorker, () => { });
 					if (res == 0) return;
 				}
 			}
-			OpenSongFileButtonClicked();
+			OpenSongFileWorker();
 		}
-
-		public void OpenSongFileButtonClicked()
+		public void OpenSongFileWorker() // 함수명 이상하게 지어놨네 이거 유니티에서 쓰는 게 아님
 		{
 			if (!isFirst)
 			{
@@ -110,13 +152,31 @@ namespace MineBeat.GameEditor.Files
 			}
 			StartCoroutine("OpenSongFileCoroutine");
 		}
+
 		public void OpenPackageFileButtonClicked()
 		{
-			songManager.OnStopButtonClicked();
+			if (!isFirst)
+			{
+				while (true)
+				{
+					int res = alertManager.Show("Warning!", "This action initializes all progress.\nDid you save the file you were working on?", AlertManager.AlertButtonType.Double, new string[] { "Yes (Load)", "No (Close)" }, OpenPackageFileWorker, () => { });
+					if (res == 0) return;
+				}
+			}
+			OpenPackageFileWorker();
+		}
+		public void OpenPackageFileWorker()
+		{
+			if (!isFirst)
+			{
+				songManager.OnStopButtonClicked();
+			}
 			StartCoroutine("OpenPackageFileCoroutine");
 		}
+
 		public void SavePackageFileButtonClicked()
 		{
+			songManager.OnStopButtonClicked();
 			StartCoroutine("SavePackageFileCoroutine");
 		}
 
@@ -131,7 +191,7 @@ namespace MineBeat.GameEditor.Files
 			maintainCanvas = true;
 			while (true)
 			{
-				yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, @"C:\", null, "Select Pattern File...", "Load");
+				yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, @"C:\", null, "Select Song File...", "Load");
 
 				if (FileBrowser.Success)
 				{
@@ -139,7 +199,7 @@ namespace MineBeat.GameEditor.Files
 
 					tempAudioFileStream.Close();
 					File.Copy(filePath, tempAudioFilePath, true);
-					tempAudioFileStream = new FileStream(tempAudioFilePath, FileMode.Open);
+					tempAudioFileStream = new FileStream(tempAudioFilePath, FileMode.Open, FileAccess.ReadWrite);
 
 					using (UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
 					{
@@ -169,7 +229,50 @@ namespace MineBeat.GameEditor.Files
 
 		public IEnumerator OpenPackageFileCoroutine()
 		{
-			yield return null;
+			isFirst = false;
+
+			FileBrowser.SetFilters(true, new FileBrowser.Filter("Package Files", ".mbt"));
+			FileBrowser.SetDefaultFilter(".mbt");
+			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
+
+			maintainCanvas = true;
+			while (true)
+			{
+				/* 이 아래 코드 아직 작업 안했음 */
+				yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, packageFilePath, packageFileName, "Select Pattern File...", "Load");
+
+				if (FileBrowser.Success)
+				{
+					string filePath = FileBrowser.Result[0];
+
+					tempAudioFileStream.Close();
+					File.Copy(filePath, tempAudioFilePath, true);
+					tempAudioFileStream = new FileStream(tempAudioFilePath, FileMode.Open, FileAccess.ReadWrite);
+
+					using (UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
+					{
+						yield return webRequest.SendWebRequest();
+						if (webRequest.result == UnityWebRequest.Result.ConnectionError)
+						{
+							continue;
+						}
+						else
+						{
+							songManager.audioClip = DownloadHandlerAudioClip.GetContent(webRequest);
+							songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
+
+							alertManager.GetComponent<TimelineManager>().UpdateAudioClip();
+
+							maintainCanvas = false;
+							canvas.SetActive(false);
+
+							songManager.OnPlayButtonClicked();
+
+							break;
+						}
+					}
+				}
+			}
 		}
 
 		public IEnumerator SavePackageFileCoroutine()
@@ -179,24 +282,24 @@ namespace MineBeat.GameEditor.Files
 			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
 
 			maintainCanvas = true;
-			yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, @"C:\", packageFileName, "Save Pattern File to...", "Save");
+			yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, packageFilePath, packageFileName, "Save Pattern File to...", "Save");
 
 			if (FileBrowser.Success)
 			{
-				string filePath = FileBrowser.Result[0]; // 여기서 파일명 빼다가 packageFileName 넣어놔야 함
+				string filePath = FileBrowser.Result[0];
+
+				packageFilePath = Path.GetDirectoryName(filePath);
+				packageFileName = Path.GetFileName(filePath);
 
 				formatter.Serialize(tempPatternFileStream, gameManager.GetSongInfo());
 
-				if (packageFileStream != null)
-				{
-					packageFileStream.Close();
-					packageFileStream = null;
-				}
-
 				if (File.Exists(filePath)) File.Delete(filePath);
 
-				ZipFile.CreateFromDirectory(tempFileRootFolderPath, filePath); // 개인 Discord To-Do 참고. 아무래도 핸들 다 닫았다가 다시 열어야 할 수도 있을듯. 그럴거면 메소드로 빼고.
-				packageFileStream = new FileStream(filePath, FileMode.Open);
+				CloseAllFileStream();
+
+				ZipFile.CreateFromDirectory(tempFileRootFolderPath, filePath);
+
+				OpenAllFileStream(FileMode.Open, FileAccess.ReadWrite, filePath);
 			}
 
 			maintainCanvas = false;
@@ -204,25 +307,6 @@ namespace MineBeat.GameEditor.Files
 		}
 
 		/* 삭제 예정 */
-		public static bool ZipDirectory(string directoryPath, string outputZipPath)
-		{
-			try
-			{
-				if (File.Exists(outputZipPath))
-				{
-					File.Delete(outputZipPath);
-				}
-
-				ZipFile.CreateFromDirectory(directoryPath, outputZipPath);
-
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
-
 		public static bool UnzipFile(string zipPath, string unzipPath)
 		{
 			try
@@ -242,29 +326,6 @@ namespace MineBeat.GameEditor.Files
 			}
 		}
 		/* 삭제 예정 */
-
-		/*
-		 * [Method] CloaseAllFileSteam(): void
-		 * 열려있는 모든 핸들을 닫습니다.
-		 */
-		private void CloseAllFileStream()
-		{
-			if (packageFileStream != null)
-			{
-				packageFileStream.Close();
-				packageFileStream = null;
-			}
-			if (tempPatternFileStream != null)
-			{
-				tempPatternFileStream.Close();
-				tempPatternFileStream = null;
-			}
-			if (tempAudioFileStream != null)
-			{
-				tempAudioFileStream.Close();
-				tempAudioFileStream = null;
-			}
-		}
 
 		private void OnDestroy()
 		{
