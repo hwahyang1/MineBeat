@@ -10,7 +10,7 @@
  V PlaceNote: 노트 배치 미리보기 & 노트 배치
 
 : Files (Save/Load)
- ~ FileManager: 파일 입출력만 담당
+ V FileManager: 파일 입출력만 담당
 
 : Song (Timeline)
  V SongManager: 곡 재생/변경 관리

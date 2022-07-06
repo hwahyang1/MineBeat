@@ -101,7 +101,7 @@ namespace MineBeat.GameEditor.Files
 			yield return new WaitForSeconds(0.1f);
 			while (true)
 			{
-				int res = alertManager.Show("Choose one", "Do you want to create the new pattern file?\nOr do you want to load the existing pattern file?", AlertManager.AlertButtonType.Double, new string[] { "Create new", "Load exist" }, OnNewButtonClicked, () => { });
+				int res = alertManager.Show("Choose one", "Do you want to create the new pattern file?\nOr do you want to load the existing pattern file?", AlertManager.AlertButtonType.Double, new string[] { "Create new", "Load exist" }, OnNewButtonClicked, OpenPackageFileWorker);
 				if (res == 0) break;
 			}
 		}
@@ -112,7 +112,8 @@ namespace MineBeat.GameEditor.Files
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-			if (!Directory.Exists(tempFileRootFolderPath)) Directory.CreateDirectory(tempFileRootFolderPath);
+			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
+			Directory.CreateDirectory(tempFileRootFolderPath);
 
 			OpenAllFileStream(FileMode.OpenOrCreate);
 
@@ -238,16 +239,23 @@ namespace MineBeat.GameEditor.Files
 			maintainCanvas = true;
 			while (true)
 			{
-				/* 이 아래 코드 아직 작업 안했음 */
-				yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, packageFilePath, packageFileName, "Select Pattern File...", "Load");
+				yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, packageFilePath, "", "Select Pattern File...", "Load");
 
 				if (FileBrowser.Success)
 				{
 					string filePath = FileBrowser.Result[0];
 
-					tempAudioFileStream.Close();
-					File.Copy(filePath, tempAudioFilePath, true);
-					tempAudioFileStream = new FileStream(tempAudioFilePath, FileMode.Open, FileAccess.ReadWrite);
+					packageFilePath = Path.GetDirectoryName(filePath);
+					packageFileName = Path.GetFileName(filePath);
+
+					CloseAllFileStream();
+
+					ZipFile.ExtractToDirectory(filePath, tempFileRootFolderPath, true);
+
+					OpenAllFileStream(FileMode.Open, FileAccess.ReadWrite, filePath);
+
+					SongInfo data = formatter.Deserialize(tempPatternFileStream) as SongInfo;
+					gameManager.SetSongInfo(data);
 
 					using (UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
 					{
@@ -306,35 +314,15 @@ namespace MineBeat.GameEditor.Files
 			canvas.SetActive(false);
 		}
 
-		/* 삭제 예정 */
-		public static bool UnzipFile(string zipPath, string unzipPath)
-		{
-			try
-			{
-				if (Directory.Exists(unzipPath))
-				{
-					Directory.Delete(unzipPath);
-				}
-
-				ZipFile.ExtractToDirectory(zipPath, unzipPath);
-
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
-		/* 삭제 예정 */
-
 		private void OnDestroy()
 		{
 			CloseAllFileStream();
 
-			File.Delete(tempPatternFilePath);
-			File.Delete(tempAudioFilePath);
+			// 생각해보니까 폴더 전체를 지울거면 이걸 쓸 이유가 없음
+			/*File.Delete(tempPatternFilePath);
+			File.Delete(tempAudioFilePath);*/
 
-			Directory.Delete(tempFileRootFolderPath);
+			Directory.Delete(tempFileRootFolderPath, true);
 		}
 	}
 }

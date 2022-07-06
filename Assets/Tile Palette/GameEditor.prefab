@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 4200565264041846488}
   - component: {fileID: 5833699549170824359}
   m_Layer: 0
-  m_Name: InGame
+  m_Name: GameEditor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
