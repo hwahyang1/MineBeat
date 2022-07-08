@@ -41,20 +41,17 @@ namespace MineBeat.GameEditor.UI
 
 			if (note.type == NoteType.Normal || note.type == NoteType.Vertical)
 			{
-				if (note.timeCode - 0.35f <= currentTime && currentTime <= note.timeCode + 0.2f)
+				if (note.timeCode - 0.35f <= currentTime && currentTime < note.timeCode)
 				{
-					setColor = new Color(0f, 0.9686275f, 0.227451f); // G
-					//setColor = new Color(0.8823529f, 0.9490196f, 0f); // Y
+					//setColor = new Color(0f, 0.9686275f, 0.227451f); // G
+					setColor = new Color(0.8823529f, 0.9490196f, 0f); // Y
 				}
 			}
-			else
+			
+			if (note.timeCode <= currentTime && currentTime <= note.timeCode + 0.2f)
 			{
-
-				if (note.timeCode <= currentTime && currentTime <= note.timeCode + 0.2f)
-				{
-					setColor = new Color(0f, 0.9686275f, 0.227451f); // G
-					//setColor = new Color(0.8823529f, 0.9490196f, 0f); // Y
-				}
+				setColor = new Color(0f, 0.9686275f, 0.227451f); // G
+				//setColor = new Color(0.8823529f, 0.9490196f, 0f); // Y
 			}
 
 			gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = setColor;
@@ -114,6 +111,10 @@ namespace MineBeat.GameEditor.UI
 						notePositionText = string.Format("{0}", note.position.y);
 					}
 					break;
+				case NoteType.BoxColorChange:
+					noteTypeText = "Color Change";
+					notePositionText = string.Format("{0} → {1}", note.position.x, note.position.y);
+					break;
 				case NoteType.SizeChange:
 					noteTypeText = "Size Change";
 					notePositionText = string.Format("{0} → {1}", note.position.x, note.position.y);
@@ -126,6 +127,12 @@ namespace MineBeat.GameEditor.UI
 					break;
 				case NoteType.ImpactLine:
 					noteTypeText = "Impact Line S";
+					break;
+				case NoteType.PreviewS:
+					noteTypeText = "Preview Area S";
+					break;
+				case NoteType.PreviewE:
+					noteTypeText = "Preview Area E";
 					break;
 			}
 

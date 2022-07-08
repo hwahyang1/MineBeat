@@ -21,6 +21,7 @@
  V TimelineManager: 타임라인 Interaction 관리
  ~ ToolBarInteract: 툴바 Interaction 관리 (Blank Area 지우는 거 구현 필요)
  V AlertManager: 알림창 Interaction 관리
+ V SongCover: Song Cover 표시 관리
 
 : GameManager
  V GameManager: 곡 전체 정보 관리

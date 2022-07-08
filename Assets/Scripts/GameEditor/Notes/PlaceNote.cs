@@ -114,7 +114,7 @@ namespace MineBeat.GameEditor.Notes
 						break;
 				}
 
-				notesManager.Add(new Note(songManager.GetCurrentTime(), (NoteType)toolBarInteract.currentObject, position, noteDirection));
+				notesManager.Add(new Note(songManager.GetCurrentTime(), (NoteType)toolBarInteract.currentObject, NoteColor.WHITE, position, noteDirection));
 				notesManager.SortList();
 			}
 		}

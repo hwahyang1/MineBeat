@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using MineBeat.GameEditor.UI;
 using MineBeat.GameEditor.Notes;
 
 /*
@@ -37,11 +38,13 @@ namespace MineBeat.GameEditor.Song
 		private bool doNotPlayWhenError = true;
 
 		private NotesVerifier notesVerifier;
+		private AlertManager alertManager;
 		private AudioSource audioSource;
 
 		private void Start()
 		{
 			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
+			alertManager = GameObject.Find("UIManagers").GetComponent<AlertManager>();
 			audioSource = GetComponent<AudioSource>();
 		}
 
@@ -96,7 +99,11 @@ namespace MineBeat.GameEditor.Song
 		 */
 		public void OnPlayButtonClicked()
 		{
-			if (notesVerifier.isError && doNotPlayWhenError) return;
+			if (notesVerifier.isError && doNotPlayWhenError)
+			{
+				alertManager.Show("Alert", "Unable to play due to an error in the note placement.\nPlease try again after fixing the error or turn off the 'Do not play when there is an error' toggle.", AlertManager.AlertButtonType.Single, new string[] { "Close" }, () => { });
+				return;
+			}
 
 			audioSource.Play();
 
@@ -109,7 +116,11 @@ namespace MineBeat.GameEditor.Song
 		 */
 		public void OnPauseButtonClicked()
 		{
-			if (notesVerifier.isError && doNotPlayWhenError) return;
+			if (notesVerifier.isError && doNotPlayWhenError)
+			{
+				OnStopButtonClicked();
+				return;
+			}
 
 			audioSource.Pause();
 

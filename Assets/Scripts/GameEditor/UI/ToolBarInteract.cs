@@ -110,7 +110,7 @@ namespace MineBeat.GameEditor.UI
 		 */
 		public void OnBlankAreaDeleteButtonClicked()
 		{
-
+			// TODO
 		}
 
 		/*
@@ -120,6 +120,33 @@ namespace MineBeat.GameEditor.UI
 		public void OnImpactLineStartButtonClicked()
 		{
 			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.ImpactLine));
+		}
+
+		/*
+		 * [Method] OnPreviewAreaStartButtonClicked()
+		 * Timeline -> Preview Area 탭의 Start 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		 */
+		public void OnPreviewAreaStartButtonClicked()
+		{
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.PreviewS));
+		}
+
+		/*
+		 * [Method] OnPreviewAreaEndButtonClicked()
+		 * Timeline -> Preview Area 탭의 End 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		 */
+		public void OnPreviewAreaEndButtonClicked()
+		{
+			notesManager.Add(new Note(songManager.GetCurrentTime(), NoteType.PreviewE));
+		}
+
+		/*
+		 * [Method] OnPreviewAreaDeleteButtonClicked()
+		 * Timeline -> Preview Area 탭의 Delete 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		 */
+		public void OnPreviewAreaDeleteButtonClicked()
+		{
+			// TODO
 		}
 	}
 }

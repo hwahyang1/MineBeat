@@ -31,9 +31,9 @@ namespace MineBeat.GameEditor.UI
 		[SerializeField, Tooltip("버튼 GameObject를 PlayStatus에 맞게 배치합니다.")]
 		private Button[] buttons = new Button[3];
 
-		[Header("Control")]
+		/*[Header("Control")]
 		[SerializeField]
-		private float timelineMouseScrollSpeed;
+		private float timelineMouseScrollSpeed;*/
 
 		private bool hideUIOnPlay = false;
 

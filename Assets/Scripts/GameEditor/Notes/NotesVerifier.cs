@@ -61,6 +61,14 @@ namespace MineBeat.GameEditor.Notes
 				return;
 			}
 
+			if (notesManager.Find(NoteType.PreviewS).Count != 1 || notesManager.Find(NoteType.PreviewE).Count != 1)
+			{
+				isError = true;
+				returnMessage = "There must be one 'Preview Area S' and one 'Preview Area E'.";
+				ChangeMessage();
+				return;
+			}
+
 			isError = false;
 			returnMessage = "No error detected.";
 			ChangeMessage();

@@ -11,6 +11,7 @@ using SimpleFileBrowser; // https://github.com/yasirkula/UnitySimpleFileBrowser
 
 using MineBeat.GameEditor.UI;
 using MineBeat.GameEditor.Song;
+using MineBeat.GameEditor.Notes;
 
 /*
  * [Namespace] Minebeat.GameEditor.Files
@@ -18,7 +19,7 @@ using MineBeat.GameEditor.Song;
  */
 namespace MineBeat.GameEditor.Files
 {
-	// SongName.mbt(패키지(압축) 파일) -> MineBeat.ptrn(패턴 파일) && MineBeat.adio(음원 파일)
+	// SongName.mbt(패키지(압축) 파일) -> MineBeat.ptrn(패턴 파일) && MineBeat.adio(음원 파일) && MineBeat.covr(커버이미지)
 
 	/*
 	 * [Class] FileManager
@@ -40,14 +41,18 @@ namespace MineBeat.GameEditor.Files
 		private readonly string tempFileRootFolderPath = @"C:\Temp\MineBeat_DoNotDelete\";
 		private readonly string tempPatternFilePath = @"C:\Temp\MineBeat_DoNotDelete\MineBeat.ptrn";
 		private readonly string tempAudioFilePath = @"C:\Temp\MineBeat_DoNotDelete\MineBeat.adio";
+		private readonly string tempCoverImageFilePath = @"C:\Temp\MineBeat_DoNotDelete\MineBeat.covr";
 
 		private FileStream packageFileStream = null;
 		private FileStream tempPatternFileStream = null;
 		private FileStream tempAudioFileStream = null;
+		private FileStream tempCoverImageFileStream = null;
 
+		private NotesManager notesManager;
 		private AlertManager alertManager;
 		private SongManager songManager;
 		private GameManager gameManager;
+		private SongCover songCover;
 
 		/*
 		 * [Method] OpenAllFileStream(FileMode mode=FileMode.Open, FileAccess access=FileAccess.ReadWrite, string packageFilePath=""): void
@@ -67,6 +72,7 @@ namespace MineBeat.GameEditor.Files
 			if (packageFilePath != "") packageFileStream = new FileStream(packageFilePath, mode);
 			tempPatternFileStream = new FileStream(tempPatternFilePath, mode, access);
 			tempAudioFileStream = new FileStream(tempAudioFilePath, mode, access);
+			tempCoverImageFileStream = new FileStream(tempCoverImageFilePath, mode, access);
 		}
 
 		/*
@@ -90,6 +96,11 @@ namespace MineBeat.GameEditor.Files
 				tempAudioFileStream.Close();
 				tempAudioFileStream = null;
 			}
+			if (tempCoverImageFileStream != null)
+			{
+				tempCoverImageFileStream.Close();
+				tempCoverImageFileStream = null;
+			}
 		}
 
 		/*
@@ -108,9 +119,11 @@ namespace MineBeat.GameEditor.Files
 
 		private void Start()
 		{
+			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
 			alertManager = GameObject.Find("UIManagers").GetComponent<AlertManager>();
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+			songCover = GameObject.Find("UIManagers").GetComponent<SongCover>();
 
 			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
 			Directory.CreateDirectory(tempFileRootFolderPath);
@@ -221,6 +234,7 @@ namespace MineBeat.GameEditor.Files
 
 							songManager.OnPlayButtonClicked();
 
+							notesManager.RemoveAll();
 							break;
 						}
 					}
@@ -257,16 +271,29 @@ namespace MineBeat.GameEditor.Files
 					SongInfo data = formatter.Deserialize(tempPatternFileStream) as SongInfo;
 					gameManager.SetSongInfo(data);
 
-					using (UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
+					UnityWebRequest imageWebRequest = UnityWebRequestTexture.GetTexture(tempCoverImageFilePath);
+					yield return imageWebRequest.SendWebRequest();
+					if (imageWebRequest.result == UnityWebRequest.Result.ConnectionError)
 					{
-						yield return webRequest.SendWebRequest();
-						if (webRequest.result == UnityWebRequest.Result.ConnectionError)
+						yield return null;
+					}
+					else
+					{
+						Texture2D texture = ((DownloadHandlerTexture)imageWebRequest.downloadHandler).texture;
+						Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+						songCover.UpdateImage(sprite);
+					}
+
+					using (UnityWebRequest audioWebRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
+					{
+						yield return audioWebRequest.SendWebRequest();
+						if (audioWebRequest.result == UnityWebRequest.Result.ConnectionError)
 						{
 							continue;
 						}
 						else
 						{
-							songManager.audioClip = DownloadHandlerAudioClip.GetContent(webRequest);
+							songManager.audioClip = DownloadHandlerAudioClip.GetContent(audioWebRequest);
 							songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
 
 							alertManager.GetComponent<TimelineManager>().UpdateAudioClip();
@@ -308,6 +335,41 @@ namespace MineBeat.GameEditor.Files
 				ZipFile.CreateFromDirectory(tempFileRootFolderPath, filePath);
 
 				OpenAllFileStream(FileMode.Open, FileAccess.ReadWrite, filePath);
+			}
+
+			maintainCanvas = false;
+			canvas.SetActive(false);
+		}
+
+		public IEnumerator OpenImageFileCoroutine()
+		{
+			FileBrowser.SetFilters(true, new FileBrowser.Filter("Image Files", ".jpg", ".png"));
+			FileBrowser.SetDefaultFilter(".jpg");
+			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
+
+			maintainCanvas = true;
+			yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, @"C:\", null, "Select Image File...", "Load");
+
+			if (FileBrowser.Success)
+			{
+				string filePath = FileBrowser.Result[0];
+
+				tempCoverImageFileStream.Close();
+				File.Copy(filePath, tempCoverImageFilePath, true);
+				tempCoverImageFileStream = new FileStream(tempCoverImageFilePath, FileMode.Open, FileAccess.ReadWrite);
+
+				UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(tempCoverImageFilePath);
+				yield return webRequest.SendWebRequest();
+				if (webRequest.result == UnityWebRequest.Result.ConnectionError)
+				{
+					yield return null;
+				}
+				else
+				{
+					Texture2D texture = ((DownloadHandlerTexture)webRequest.downloadHandler).texture;
+					Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+					songCover.UpdateImage(sprite);
+				}
 			}
 
 			maintainCanvas = false;
