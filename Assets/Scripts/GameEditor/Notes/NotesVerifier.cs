@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 /*
  * [Namespace] Minebeat.GameEditor.Notes
@@ -17,7 +17,7 @@ namespace MineBeat.GameEditor.Notes
 	public class NotesVerifier : MonoBehaviour
 	{
 		[SerializeField]
-		private TextMeshProUGUI textArea;
+		private Text textArea;
 		[SerializeField]
 		private Color colorSuccess;
 		[SerializeField]

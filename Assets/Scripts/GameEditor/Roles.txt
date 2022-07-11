@@ -1,7 +1,7 @@
 [GameEditorScene]
 
-: TileBox
- V BoxSize: 박스 크기 조정 (얘만 UI 관리를 동시에 함 나머지는 아님)
+: TileBox (얘만 UI 관리를 동시에 함 나머지는 아님)
+ ~ BoxSize: 박스 크기/색상 조정 (색상 조정 나중에 작업 필요)
 
 : Notes
  V NotesManager: 노트 추가/제거 관리

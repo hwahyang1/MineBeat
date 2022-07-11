@@ -48,12 +48,12 @@ namespace MineBeat
 	[System.Serializable]
 	public enum NoteColor
 	{
-		WHITE,
-		SKYBLUE,
-		BLUE,
-		GREEN,
-		ORANGE,
-		PURPLE
+		White,
+		Skyblue,
+		Blue,
+		Green,
+		Orange,
+		Purple
 	}
 
 	/*
@@ -101,7 +101,7 @@ namespace MineBeat
 			this.timeCode = timeCode;
 			this.type = type;
 
-			color = NoteColor.WHITE;
+			color = NoteColor.White;
 			position = new NotePosition(0, 0);
 			direction = NoteDirection.None;
 		}
@@ -111,7 +111,7 @@ namespace MineBeat
 			this.type = type;
 			this.position = position;
 
-			color = NoteColor.WHITE;
+			color = NoteColor.White;
 			direction = NoteDirection.None;
 		}
 		public Note(float timeCode, NoteType type, NoteColor color, NotePosition position)

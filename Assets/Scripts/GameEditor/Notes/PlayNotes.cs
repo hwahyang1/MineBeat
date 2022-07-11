@@ -29,8 +29,8 @@ namespace MineBeat.GameEditor.Notes
 		private TileBase[] verticalWarning = new TileBase[4];
 
 		[Header("Prefab")]
-		[SerializeField]
-		private GameObject whiteBox;
+		[SerializeField, Tooltip("DefineNote.NoteColor을 기준으로 해당되는 색상의 노트 Prefab을 입력하세요.")]
+		private GameObject[] boxNotes = new GameObject[6];
 
 		[Header("Parent")]
 		[SerializeField]
@@ -133,7 +133,7 @@ namespace MineBeat.GameEditor.Notes
 
 						if (posX >= boxSize.currentSize + 1.5 || posX <= 0.5 || posY >= boxSize.currentSize + 1.5 || posY <= 0.5) continue;
 
-						Instantiate(whiteBox, new Vector3(posX, posY, 0f), Quaternion.identity, noteParent);
+						Instantiate(boxNotes[(int)current.color], new Vector3(posX, posY, 0f), Quaternion.identity, noteParent);
 
 						break;
 					case NoteType.Vertical:
@@ -143,20 +143,20 @@ namespace MineBeat.GameEditor.Notes
 						{
 							for (int i = 0; i < boxSize.currentSize; i++)
 							{
-								Instantiate(whiteBox, new Vector3(current.position.x + 0.5f, i + 1.5f, 0), Quaternion.identity, noteParent);
+								Instantiate(boxNotes[(int)current.color], new Vector3(current.position.x + 0.5f, i + 1.5f, 0), Quaternion.identity, noteParent);
 							}
 						}
 						else
 						{
 							for (int i = 0; i < boxSize.currentSize; i++)
 							{
-								Instantiate(whiteBox, new Vector3(i + 1.5f, current.position.y + 0.5f, 0), Quaternion.identity, noteParent);
+								Instantiate(boxNotes[(int)current.color], new Vector3(i + 1.5f, current.position.y + 0.5f, 0), Quaternion.identity, noteParent);
 							}
 						}
 
 						break;
 					case NoteType.SizeChange:
-						if (current.timeCode != currentTime) break; // 이전꺼는 이미 작업됨
+						if (current.timeCode != currentTime) break; // 현재 타임 이전꺼는 이미 작업된 상태로 넘어옴
 						boxSize.SetBoxSize(current.position.y);
 						break;
 					case NoteType.BlankS:

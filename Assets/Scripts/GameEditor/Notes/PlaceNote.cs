@@ -19,9 +19,6 @@ namespace MineBeat.GameEditor.Notes
 	 */
 	public class PlaceNote : MonoBehaviour
 	{
-		[SerializeField]
-		private ToolBarInteract toolBarInteract;
-
 		[Header("Tilemap")]
 		[SerializeField]
 		private Tilemap boxTilemap;
@@ -40,6 +37,8 @@ namespace MineBeat.GameEditor.Notes
 
 		private NoteDirection noteDirection = NoteDirection.None;
 
+		[SerializeField]
+		private ToolBarInteract toolBarInteract;
 		private NotesManager notesManager;
 		private SongManager songManager;
 
@@ -114,7 +113,7 @@ namespace MineBeat.GameEditor.Notes
 						break;
 				}
 
-				notesManager.Add(new Note(songManager.GetCurrentTime(), (NoteType)toolBarInteract.currentObject, NoteColor.WHITE, position, noteDirection));
+				notesManager.Add(new Note(songManager.GetCurrentTime(), (NoteType)toolBarInteract.currentObject, toolBarInteract.currentColor, position, noteDirection));
 				notesManager.SortList();
 			}
 		}

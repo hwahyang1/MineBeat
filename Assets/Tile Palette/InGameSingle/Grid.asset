@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: PurpleBoxPreview
+  m_Name: Grid
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: d6ace516cc9cf9244b2bf816c0fdbccf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9c26a49a6e5568e4b98b4b3d5abd710d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

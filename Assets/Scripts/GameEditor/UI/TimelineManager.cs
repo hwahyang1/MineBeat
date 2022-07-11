@@ -25,7 +25,7 @@ namespace MineBeat.GameEditor.UI
 		[SerializeField]
 		private TMP_InputField currentTimeCode;
 		[SerializeField]
-		private TextMeshProUGUI endTimeCode;
+		private Text endTimeCode;
 
 		[Header("Buttons")]
 		[SerializeField, Tooltip("버튼 GameObject를 PlayStatus에 맞게 배치합니다.")]

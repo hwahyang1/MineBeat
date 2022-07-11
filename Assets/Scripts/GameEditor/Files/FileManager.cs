@@ -48,6 +48,7 @@ namespace MineBeat.GameEditor.Files
 		private FileStream tempAudioFileStream = null;
 		private FileStream tempCoverImageFileStream = null;
 
+		private NotesVerifier notesVerifier;
 		private NotesManager notesManager;
 		private AlertManager alertManager;
 		private SongManager songManager;
@@ -119,6 +120,7 @@ namespace MineBeat.GameEditor.Files
 
 		private void Start()
 		{
+			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
 			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
 			alertManager = GameObject.Find("UIManagers").GetComponent<AlertManager>();
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
@@ -152,7 +154,7 @@ namespace MineBeat.GameEditor.Files
 			{
 				while (true)
 				{
-					int res = alertManager.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes", "No" }, OpenSongFileWorker, () => { });
+					int res = alertManager.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes (New)", "No (Close)" }, OpenSongFileWorker, () => { });
 					if (res == 0) return;
 				}
 			}
@@ -190,6 +192,11 @@ namespace MineBeat.GameEditor.Files
 
 		public void SavePackageFileButtonClicked()
 		{
+			if (notesVerifier.isError)
+			{
+				alertManager.Show("Alert", "Unable to save due to an error in the note placement.\nPlease try again after fixing the error.", AlertManager.AlertButtonType.Single, new string[] { "Close" }, () => { });
+				return;
+			}
 			songManager.OnStopButtonClicked();
 			StartCoroutine("SavePackageFileCoroutine");
 		}

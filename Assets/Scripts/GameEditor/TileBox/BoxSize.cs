@@ -16,7 +16,7 @@ namespace MineBeat.GameEditor.TileBox
 {
 	/*
 	 * [Class] BoxSize
-	 * 박스의 크기를 조정합니다.
+	 * 박스의 크기와 색상을 조정합니다.
 	 */
 	public class BoxSize : MonoBehaviour
 	{
@@ -31,8 +31,16 @@ namespace MineBeat.GameEditor.TileBox
 			private set { _currentSize = value; }
 		}
 
-		[Header("박스 크기 조정 시 사용되는 TileBase"), SerializeField]
-		private TileBase boxTile;
+		private NoteColor _currentColor = NoteColor.White; // 얘는 나중에 작업 예정
+		public NoteColor currentColor
+		{
+			get { return _currentColor; }
+			private set { _currentColor = value; }
+		}
+
+		[Header("박스 크기 조정 시 사용되는 TileBase")]
+		[SerializeField, Tooltip("DefineNote.NoteColor의 순서대로 TileBase를 입력합니다.")]
+		private TileBase[] boxTiles = new TileBase[6];
 		private Tilemap boxMap;
 
 		[SerializeField]
@@ -75,13 +83,13 @@ namespace MineBeat.GameEditor.TileBox
 				{
 					if (i == 0 || i == drawSize - 1) // 첫줄&막줄: 전부 boxTile로 그림
 					{
-						boxMap.SetTile(new Vector3Int(i, j, 0), boxTile);
+						boxMap.SetTile(new Vector3Int(i, j, 0), boxTiles[(int)currentColor]);
 					}
 					else // 나머지: 양끝만 boxTile로 그리고 나머지는 gridTile로 그림
 					{
 						if (j == 0 || j == drawSize - 1)
 						{
-							boxMap.SetTile(new Vector3Int(i, j, 0), boxTile);
+							boxMap.SetTile(new Vector3Int(i, j, 0), boxTiles[(int)currentColor]);
 						}
 						else
 						{
@@ -104,7 +112,7 @@ namespace MineBeat.GameEditor.TileBox
 		public void ChangeBoxSizeUp()
 		{
 			if (currentSize == maxSize) return;
-			AddNote(songManager.GetCurrentTime(), currentSize++, currentSize);
+			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize++, currentSize);
 		}
 
 		/*
@@ -114,7 +122,7 @@ namespace MineBeat.GameEditor.TileBox
 		public void ChangeBoxSizeDown()
 		{
 			if (currentSize == minSize) return;
-			AddNote(songManager.GetCurrentTime(), currentSize--, currentSize);
+			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize--, currentSize);
 		}
 
 		/*
@@ -125,7 +133,7 @@ namespace MineBeat.GameEditor.TileBox
 		{
 			int afterSize = textInput.text == "" ? 7 : int.Parse(textInput.text);
 			if (currentSize == afterSize) return;
-			AddNote(songManager.GetCurrentTime(), currentSize, afterSize);
+			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize, afterSize);
 		}
 
 		/*
@@ -156,7 +164,7 @@ namespace MineBeat.GameEditor.TileBox
 		 * <int afterSize>
 		 * 변경 후 크기를 입력합니다.
 		 */
-		private void AddNote(float timeCode, int beforeSize, int afterSize)
+		private void AddSizeChangeNote(float timeCode, int beforeSize, int afterSize)
 		{
 			List<Note> duplicate = notesManager.Find(NoteType.SizeChange, timeCode);
 			if (duplicate.Count == 0)
@@ -192,6 +200,8 @@ namespace MineBeat.GameEditor.TileBox
 				if (afterNotes[0].position.x != afterNotes[0].position.y) return;
 				notesManager.Remove(afterNotes[0]);
 			}
+
+			DrawBox();
 		}
 	}
 }

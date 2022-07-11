@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -34,8 +35,14 @@ namespace MineBeat.GameEditor.UI
 		[SerializeField, Tooltip("버튼 GameObject를 ObjectType에 맞게 배치합니다.")]
 		private Button[] objectButtons = new Button[3];
 
+		[SerializeField]
+		private Text currentColorText;
+
 		[HideInInspector]
 		public ObjectType currentObject = ObjectType.None;
+
+		[HideInInspector]
+		public NoteColor currentColor = NoteColor.White;
 
 		private NotesManager notesManager;
 		private SongManager songManager;
@@ -57,6 +64,8 @@ namespace MineBeat.GameEditor.UI
 			{
 				objectButtons[i].interactable = i != (int)currentObject;
 			}
+
+			currentColorText.text = currentColor.ToString();
 		}
 
 		/*
@@ -84,6 +93,26 @@ namespace MineBeat.GameEditor.UI
 		public void OnNoneButtonClicked()
 		{
 			currentObject = ObjectType.None;
+		}
+
+		/*
+		 * [Method] OnBeforeColorClicked(): void
+		 * Object 탭의 이전 색상으로 변경 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		 */
+		public void OnBeforeColorClicked()
+		{
+			if (currentColor == 0) currentColor = NoteColor.Purple; // 더 앞으로 갈 수 없으니 맨 뒤로 보냄
+			else currentColor--;
+		}
+
+		/*
+		 * [Method] OnAfterColorClicked(): void
+		 * Object 탭의 다음 색상으로 변경 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		 */
+		public void OnAfterColorClicked()
+		{
+			if (currentColor == System.Enum.GetValues(typeof(NoteColor)).Cast<NoteColor>().Last()) currentColor = NoteColor.White; // 더 뒤로 갈 수 없으니 맨 앞으로 보냄
+			else currentColor++;
 		}
 
 		/*

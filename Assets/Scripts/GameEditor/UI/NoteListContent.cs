@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 using MineBeat.GameEditor.Song;
-using MineBeat.GameEditor.Notes;
 
 /*
  * [Namespace] Minebeat.GameEditor.UI
@@ -43,18 +41,16 @@ namespace MineBeat.GameEditor.UI
 			{
 				if (note.timeCode - 0.35f <= currentTime && currentTime < note.timeCode)
 				{
-					//setColor = new Color(0f, 0.9686275f, 0.227451f); // G
-					setColor = new Color(0.8823529f, 0.9490196f, 0f); // Y
+					setColor = new Color(0.8823529f, 0.9490196f, 0f);
 				}
 			}
 			
 			if (note.timeCode <= currentTime && currentTime <= note.timeCode + 0.2f)
 			{
-				setColor = new Color(0f, 0.9686275f, 0.227451f); // G
-				//setColor = new Color(0.8823529f, 0.9490196f, 0f); // Y
+				setColor = new Color(0f, 0.9686275f, 0.227451f);
 			}
 
-			gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = setColor;
+			gameObject.transform.GetChild(1).GetComponent<Text>().color = setColor;
 		}
 
 		/*
@@ -99,9 +95,11 @@ namespace MineBeat.GameEditor.UI
 			switch (note.type)
 			{
 				case NoteType.Normal:
+					noteTypeText += string.Format(" ({0})", note.color.ToString()[0]);
 					notePositionText = string.Format("{0}, {1}", note.position.x, note.position.y);
 					break;
 				case NoteType.Vertical:
+					noteTypeText += string.Format(" ({0})", note.color.ToString()[0]);
 					if (note.direction == NoteDirection.Up || note.direction == NoteDirection.Down)
 					{
 						notePositionText = string.Format("{0}", note.position.x);
@@ -113,7 +111,7 @@ namespace MineBeat.GameEditor.UI
 					break;
 				case NoteType.BoxColorChange:
 					noteTypeText = "Color Change";
-					notePositionText = string.Format("{0} → {1}", note.position.x, note.position.y);
+					notePositionText = note.color.ToString();
 					break;
 				case NoteType.SizeChange:
 					noteTypeText = "Size Change";
@@ -136,9 +134,9 @@ namespace MineBeat.GameEditor.UI
 					break;
 			}
 
-			gameObject.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = noteTimeCodeText;
-			gameObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = noteTypeText;
-			gameObject.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = notePositionText;
+			gameObject.transform.GetChild(1).GetComponent<Text>().text = noteTimeCodeText;
+			gameObject.transform.GetChild(2).GetComponent<Text>().text = noteTypeText;
+			gameObject.transform.GetChild(3).GetComponent<Text>().text = notePositionText;
 
 			this.note = note;
 
