@@ -1,0 +1,26 @@
+[GameEditorScene]
+
+: TileBox (얘만 UI 관리를 동시에 함 나머지는 아님)
+ ~ BoxSize: 박스 크기/색상 조정 (색상 조정 나중에 작업 필요)
+
+: Notes
+ V NotesManager: 노트 추가/제거 관리
+ V PlayNotes: 타임라인에 따른 노트 위치(배치) 관리
+ ~ NotesVerifier: 노트 배치의 논리적 오류 확인 (오류 조건 추가 필요)
+ V PlaceNote: 노트 배치 미리보기 & 노트 배치
+
+: Files (Save/Load)
+ V FileManager: 파일 입출력만 담당
+
+: Song (Timeline)
+ V SongManager: 곡 재생/변경 관리
+
+: UI
+ V NoteListManager: UI 우측 노트 목록 관리
+ V NoteListContent: 노트 목록 항목 초기 설정
+ V TimelineManager: 타임라인 Interaction 관리
+ ~ ToolBarInteract: 툴바 Interaction 관리 (Blank Area 지우는 거 구현 필요)
+ V SongCover: Song Cover 표시 관리
+
+: GameManager
+ V GameManager: 곡 전체 정보 관리

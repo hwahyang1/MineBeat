@@ -146,7 +146,7 @@ namespace MineBeat.GameEditor.Files
 		/*
 		 * [Method] OnNewButtonClicked(): void
 		 * New 버튼이 클릭되었을 때 이벤트를 처리합니다.
-		 * 파일을 새로 불러오면 패턴 또한 초기화 됩니다.
+		 * 파일을 새로 생성하면 패턴 또한 초기화 됩니다.
 		 */
 		public void OnNewButtonClicked()
 		{
@@ -162,6 +162,12 @@ namespace MineBeat.GameEditor.Files
 		}
 		public void OpenSongFileWorker() // 함수명 이상하게 지어놨네 이거 유니티에서 쓰는 게 아님
 		{
+			ulong timestamp = (ulong)System.DateTimeOffset.Now.ToUnixTimeSeconds();
+			float random = Random.Range(0.01f, 1.2f);
+			ulong songId = (ulong)(timestamp * random);
+
+			gameManager.SetSongId(songId);
+
 			if (!isFirst)
 			{
 				songManager.OnStopButtonClicked();

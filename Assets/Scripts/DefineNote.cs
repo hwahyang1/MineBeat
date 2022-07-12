@@ -132,4 +132,27 @@ namespace MineBeat
 			this.direction = direction;
 		}
 	}
+
+	/*
+	 * [Class] SongInfo
+	 * 곡의 전체 데이터를 담는 Class 입니다.
+	 */
+	[System.Serializable]
+	public class SongInfo
+	{
+		public ulong id;
+		public string songName;
+		public string songAuthor;
+		public ushort songLevel;
+		public List<Note> notes;
+
+		public SongInfo(ulong id, string songName, string songAuthor, ushort songLevel, List<Note> notes)
+		{
+			this.id = id;
+			this.songName = songName;
+			this.songAuthor = songAuthor;
+			this.songLevel = songLevel;
+			this.notes = notes;
+		}
+	}
 }

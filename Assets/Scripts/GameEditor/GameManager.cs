@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 using MineBeat.GameEditor.Notes;
@@ -13,27 +14,6 @@ using MineBeat.GameEditor.Notes;
 namespace MineBeat.GameEditor
 {
 	/*
-	 * [Class] SongInfo
-	 * 곡의 전체 데이터를 담는 Class 입니다.
-	 */
-	[System.Serializable]
-	public class SongInfo
-	{
-		public string songName;
-		public string songAuthor;
-		public ushort songLevel;
-		public List<Note> notes;
-
-		public SongInfo(string songName, string songAuthor, ushort songLevel, List<Note> notes)
-		{
-			this.songName = songName;
-			this.songAuthor = songAuthor;
-			this.songLevel = songLevel;
-			this.notes = notes;
-		}
-	}
-
-	/*
 	 * [Class] GameManager
 	 * 게임의 전반적인 실행을 관리합니다.
 	 */
@@ -42,6 +22,8 @@ namespace MineBeat.GameEditor
 		[SerializeField]
 		private Transform SongInfoArea;
 		private NotesManager notesManager;
+
+		private ulong songId;
 
 		private void Start()
 		{
@@ -62,6 +44,7 @@ namespace MineBeat.GameEditor
 			string songLevel = SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text;
 
 			return new SongInfo(
+				songId,
 				songName == "" ? "SongName" : songName,
 				songAuthor == "" ? "Author" : songAuthor,
 				songLevel == "" ? (ushort)0 : ushort.Parse(songLevel),
@@ -78,10 +61,20 @@ namespace MineBeat.GameEditor
 		 */
 		public void SetSongInfo(SongInfo info)
 		{
+			songId = info.id;
 			SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = info.songName == "SongName" ? "" : info.songName;
 			SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text = info.songAuthor == "Author" ? "" : info.songAuthor;
-			SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = info.songLevel == 0 ? "" : info.songLevel+"";
+			SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = info.songLevel == 0 ? "" : info.songLevel + "";
 			notesManager.Set(info.notes);
-		} 
+		}
+
+		/*
+		 * [Method] SetSongId(ulong id): void
+		 * 곡의 고유 ID를 지정합니다.
+		 */
+		public void SetSongId(ulong id)
+		{
+			songId = id;
+		}
 	}
 }

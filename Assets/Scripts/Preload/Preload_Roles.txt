@@ -1,0 +1,10 @@
+[PreloadScene]
+
+: Scene
+ V SceneChange: Scene 변경 및 트랜지션
+
+: UI
+ V AlertManager: 알림창 Interaction 관리
+
+: GameManager
+ V GameManager: 로드 완료 이후 Scene 넘길 수 있도록 관리

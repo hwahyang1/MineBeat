@@ -6,6 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/PreloadScene.unity
+    guid: f618d6be5c8974c4199860f5564f0912
+  - enabled: 1
+    path: Assets/Scenes/ModeSelectScene.unity
+    guid: 7cee32b59f9dcdb418fb4c6e3dd62403
+  - enabled: 1
+    path: Assets/Scenes/SongSelectSingleScene.unity
+    guid: e8074e29afd3a4e409d3897724116a8a
+  - enabled: 1
+    path: Assets/Scenes/InGameSingleScene.unity
+    guid: e27e06c44426afd4b80f1dfcc4d01ffc
+  - enabled: 1
+    path: Assets/Scenes/ResultSingleScene.unity
+    guid: 6afd5a02aae3d324890b3a622976bd28
+  - enabled: 1
     path: Assets/Scenes/GameEditorScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
