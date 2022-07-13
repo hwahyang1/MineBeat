@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MineBeat.Preload.UI
@@ -39,7 +40,12 @@ namespace MineBeat.Preload.UI
 		[SerializeField, Tooltip("AlertButtonType와 동일한 순서로 입력합니다.")]
 		private GameObject[] buttonGroups = new GameObject[4];
 
-		private bool isActive = false;
+		private bool _isActive = false;
+		public bool isActive
+		{
+			get { return _isActive; }
+			private set { _isActive = value; }
+		}
 
 		private AlertButtonType alertButtonType;
 		private System.Action[] buttonActions;
@@ -55,7 +61,33 @@ namespace MineBeat.Preload.UI
 
 		private void Update()
 		{
-			if (isActive) canvas.SetActive(true);
+			if (isActive)
+			{
+				canvas.SetActive(true);
+				EventSystem.current.SetSelectedGameObject(null);
+
+				if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+				{
+					OnButtonClickedLeft();
+				}
+				else if (Input.GetKeyDown(KeyCode.Escape))
+				{
+					switch (alertButtonType) // 버튼 순서: Yes - No - Cancel
+					{
+						case AlertButtonType.None:
+							break;
+						case AlertButtonType.Single:
+							OnButtonClickedLeft();
+							break;
+						case AlertButtonType.Double:
+							OnButtonClickedCenter();
+							break;
+						case AlertButtonType.Triple:
+							OnButtonClickedRight();
+							break;
+					}
+				}
+			}
 		}
 
 		/*
@@ -77,7 +109,7 @@ namespace MineBeat.Preload.UI
 		 * 
 		 * <params UnityAction[] buttonActions>
 		 * 버튼에 대한 이벤트를 입력합니다.
-		 * 이벤트 입력 순서는 해당 ButtonGroup의 왼쪽부터입니다. (Double을 선택 한 경우, Y, N 순서로 이벤트 입력)
+		 * 이벤트 입력 순서는 해당 ButtonGroup의 왼쪽부터입니다. (ex- Double을 선택 한 경우, Y, N 순서로 이벤트 입력)
 		 * 무조건 ButtonType과 수가 일치해야 하며, ButtonType.None일 경우, 1개의 빈 Action을 입력합니다.
 		 * 아무 이벤트 없이 창을 닫게만 하고 싶을 경우, 해당되는 위치에 빈 Action을 입력합니다.
 		 * 

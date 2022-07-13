@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using MineBeat.GameEditor.UI;
 using MineBeat.GameEditor.Notes;
+
+using MineBeat.Preload.UI;
 
 /*
  * [Namespace] Minebeat.GameEditor.Song
@@ -44,7 +45,7 @@ namespace MineBeat.GameEditor.Song
 		private void Start()
 		{
 			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
-			alertManager = GameObject.Find("UIManagers").GetComponent<AlertManager>();
+			alertManager = GameObject.Find("PreloadScene Managers").GetComponent<AlertManager>();
 			audioSource = GetComponent<AudioSource>();
 		}
 

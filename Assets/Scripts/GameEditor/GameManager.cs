@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
@@ -28,6 +29,11 @@ namespace MineBeat.GameEditor
 		private void Start()
 		{
 			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
+		}
+
+		private void Update()
+		{
+			//EventSystem.current.SetSelectedGameObject(null);
 		}
 
 		/*

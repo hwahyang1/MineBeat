@@ -49,6 +49,8 @@ namespace MineBeat.Preload.Scene
 
 		public IEnumerator ChangeSceneCoroutine(string sceneName, bool fadeIn, bool fadeOut)
 		{
+			yield return new WaitForSeconds(0.05f); // 직전에 AlertManager가 실행 중이었으면 알림창이 종료 될 때 canvas를 꺼버려서 여기 트랜지션이 안먹음
+
 			if (fadeIn || fadeOut)
 			{
 				cover.SetActive(false);
@@ -69,6 +71,8 @@ namespace MineBeat.Preload.Scene
 					loadingCover.color = color;
 					yield return null;
 				}
+
+				yield return new WaitForSeconds(0.5f);
 			}
 
 			if (fadeOut) loadingCover.color = new Color(1f, 1f, 1f, 1f);

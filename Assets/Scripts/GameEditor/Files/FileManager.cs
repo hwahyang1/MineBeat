@@ -13,6 +13,8 @@ using MineBeat.GameEditor.UI;
 using MineBeat.GameEditor.Song;
 using MineBeat.GameEditor.Notes;
 
+using MineBeat.Preload.UI;
+
 /*
  * [Namespace] Minebeat.GameEditor.Files
  * Desciption
@@ -122,7 +124,7 @@ namespace MineBeat.GameEditor.Files
 		{
 			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
 			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
-			alertManager = GameObject.Find("UIManagers").GetComponent<AlertManager>();
+			alertManager = GameObject.Find("PreloadScene Managers").GetComponent<AlertManager>();
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 			songCover = GameObject.Find("UIManagers").GetComponent<SongCover>();
@@ -240,7 +242,7 @@ namespace MineBeat.GameEditor.Files
 							songManager.audioClip = DownloadHandlerAudioClip.GetContent(webRequest);
 							songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
 
-							alertManager.GetComponent<TimelineManager>().UpdateAudioClip();
+							songCover.GetComponent<TimelineManager>().UpdateAudioClip();
 
 							maintainCanvas = false;
 							canvas.SetActive(false);
