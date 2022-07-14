@@ -33,7 +33,10 @@ namespace MineBeat.GameEditor
 
 		private void Update()
 		{
-			//EventSystem.current.SetSelectedGameObject(null);
+			if (EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.transform.parent != SongInfoArea)
+			{
+				EventSystem.current.SetSelectedGameObject(null);
+			}
 		}
 
 		/*
@@ -81,6 +84,17 @@ namespace MineBeat.GameEditor
 		public void SetSongId(ulong id)
 		{
 			songId = id;
+		}
+
+		/*
+		 * [Method] ClearSongInfoInput(): void
+		 * 곡 정보 입력란을 비웁니다.
+		 */
+		public void ClearSongInfoInput()
+		{
+			SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = "";
+			SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text = "";
+			SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = "";
 		}
 	}
 }

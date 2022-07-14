@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using MineBeat.Preload.UI;
 using MineBeat.Preload.Scene;
 
 /*

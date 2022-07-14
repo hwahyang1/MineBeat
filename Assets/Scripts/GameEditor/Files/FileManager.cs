@@ -40,10 +40,10 @@ namespace MineBeat.GameEditor.Files
 		private string packageFilePath = @"C:\";
 		private string packageFileName = "MineBeat.mbt";
 
-		private readonly string tempFileRootFolderPath = @"C:\Temp\MineBeat_DoNotDelete\";
-		private readonly string tempPatternFilePath = @"C:\Temp\MineBeat_DoNotDelete\MineBeat.ptrn";
-		private readonly string tempAudioFilePath = @"C:\Temp\MineBeat_DoNotDelete\MineBeat.adio";
-		private readonly string tempCoverImageFilePath = @"C:\Temp\MineBeat_DoNotDelete\MineBeat.covr";
+		private readonly string tempFileRootFolderPath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\";
+		private readonly string tempPatternFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.ptrn";
+		private readonly string tempAudioFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.adio";
+		private readonly string tempCoverImageFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.covr";
 
 		private FileStream packageFileStream = null;
 		private FileStream tempPatternFileStream = null;
@@ -164,6 +164,9 @@ namespace MineBeat.GameEditor.Files
 		}
 		public void OpenSongFileWorker() // 함수명 이상하게 지어놨네 이거 유니티에서 쓰는 게 아님
 		{
+			notesManager.RemoveAll();
+			gameManager.ClearSongInfoInput();
+
 			ulong timestamp = (ulong)System.DateTimeOffset.Now.ToUnixTimeSeconds();
 			float random = Random.Range(0.01f, 1.2f);
 			ulong songId = (ulong)(timestamp * random);
@@ -394,10 +397,6 @@ namespace MineBeat.GameEditor.Files
 		private void OnDestroy()
 		{
 			CloseAllFileStream();
-
-			// 생각해보니까 폴더 전체를 지울거면 이걸 쓸 이유가 없음
-			/*File.Delete(tempPatternFilePath);
-			File.Delete(tempAudioFilePath);*/
 
 			Directory.Delete(tempFileRootFolderPath, true);
 		}
