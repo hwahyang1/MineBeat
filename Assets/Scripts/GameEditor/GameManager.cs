@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
+using MineBeat.GameEditor.Files;
 using MineBeat.GameEditor.Notes;
 
 /*
@@ -23,6 +24,7 @@ namespace MineBeat.GameEditor
 		[SerializeField]
 		private Transform SongInfoArea;
 		private NotesManager notesManager;
+		private FileManager fileManager;
 
 		private ulong songId;
 
@@ -33,7 +35,7 @@ namespace MineBeat.GameEditor
 
 		private void Update()
 		{
-			if (EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.transform.parent != SongInfoArea)
+			if (!fileManager.maintainCanvas && EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.transform.parent != SongInfoArea)
 			{
 				EventSystem.current.SetSelectedGameObject(null);
 			}

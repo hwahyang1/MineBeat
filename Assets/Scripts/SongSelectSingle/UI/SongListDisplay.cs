@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
+
+using MineBeat.SongSelectSingle.Song;
 
 /*
  * [Namespace] MineBeat.SongSelectSingle.UI
@@ -15,14 +18,56 @@ namespace MineBeat.SongSelectSingle.UI
 	 */
 	public class SongListDisplay : MonoBehaviour
 	{
-		private void Start()
-		{
+		[SerializeField]
+		private Transform parent;
 
+		[SerializeField]
+		private GameObject normalPrefab;
+		[SerializeField]
+		private GameObject selectedPrefab;
+
+		[SerializeField]
+		private ScrollRect scrollRect;
+		[SerializeField]
+		private RectTransform contentPanel;
+
+		/*
+		 * [Method] Display(List<ulong> ids, int selected): void
+		 * 곡 목록을 다시 그립니다.
+		 * 
+		 * <List<ulong> ids>
+		 * 곡의 목록을 입력합니다.
+		 * 
+		 * <int selected>
+		 * 현재 선택된 항목의 위치를 입력합니다. (ids 변수 기준)
+		 */
+		public void Display(List<ulong> ids, int selected)
+		{
+			for (int i = 0; i < parent.childCount; i++)
+			{
+				Destroy(parent.GetChild(i).gameObject);
+			}
+
+			for (int i = 0; i < ids.Count; i++)
+			{
+				GameObject generated = Instantiate(i == selected ? selectedPrefab : normalPrefab, parent.position, Quaternion.identity, parent);
+				SongElement songElement = generated.GetComponent<SongElement>();
+				songElement.order = i;
+				songElement.id = ids[i];
+				songElement.Set(PackageManager.Instance.GetSongInfo(ids[i]).songName, "A");
+			}
+
+			SnapTo(parent.GetChild(selected).GetComponent<RectTransform>());
 		}
 
-		private void Update()
+		// https://stackoverflow.com/questions/30766020/how-to-scroll-to-a-specific-element-in-scrollrect-with-unity-ui
+		private void SnapTo(RectTransform target)
 		{
+			Canvas.ForceUpdateCanvases();
 
+			contentPanel.anchoredPosition =
+					(Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
+					- (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
 		}
 	}
 }

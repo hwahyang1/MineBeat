@@ -190,7 +190,8 @@ namespace MineBeat.GameEditor.TileBox
 			//뒤에 노트 있는지 읽어야함
 			List<Note> afterNotes = notesManager.GetList().FindAll(target => target.timeCode > timeCode && target.type == NoteType.SizeChange);
 
-			for (int i = 0; i < afterNotes.Count; i++)
+			//for (int i = 0; i < afterNotes.Count; i++)
+			foreach (Note note in afterNotes)
 			{
 				/*
 				 * 이번 노트 Y하고 다음 노트 X 비교 (같으면 return) -> 다르면 다음 노트 X를 이번 노트 Y로 대입 -> 다음 노트 X하고 Y하고 서로 비교 (다르면 return) -> 서로 같으면 없애고 그 다음 노트를 대상으로 다시 검증

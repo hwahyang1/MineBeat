@@ -22,5 +22,25 @@ namespace MineBeat.SongSelectSingle.Extern
 			get { return _songInfo; }
 			set { if (SceneManager.GetActiveScene().name == "SongSelectSingleScene") _songInfo = value; }
 		}
+
+		private AudioClip _audioClip;
+		public AudioClip audioClip
+		{
+			get { return _audioClip; }
+			set { if (SceneManager.GetActiveScene().name == "SongSelectSingleScene") _audioClip = value; }
+		}
+
+		private void Start()
+		{
+			DontDestroyOnLoad(gameObject);
+		}
+
+		private void Update()
+		{
+			if (SceneManager.GetActiveScene().name != "SongSelectSingleScene" &&
+				SceneManager.GetActiveScene().name != "InGameSingleScene" &&
+				SceneManager.GetActiveScene().name != "ResultSingleScene")
+				Destroy(gameObject);
+		}
 	}
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using MineBeat.SongSelectSingle.Song;
+
 using MineBeat.Preload.UI;
 using MineBeat.Preload.Scene;
 
@@ -18,24 +20,38 @@ namespace MineBeat.SongSelectSingle.KeyInput
 	 */
 	public class HotKeyInputManager : MonoBehaviour
 	{
+		[SerializeField]
+		private float arrowCool = 0.25f;
+		private float currentCool = 0f;
+
 		private bool active = true;
 
-		private AlertManager alertManager;
-		private SceneChange sceneChange;
+		private SongManager songManager;
 
 		private void Start()
 		{
-			alertManager = GameObject.Find("PreloadScene Managers").GetComponent<AlertManager>();
-			sceneChange = GameObject.Find("PreloadScene Managers").GetComponent<SceneChange>();
+			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 		}
 
 		private void Update()
 		{
-			if (active && !alertManager.isActive)
+			if (currentCool < arrowCool) currentCool += Time.deltaTime;
+
+			if (active && !AlertManager.Instance.isActive)
 			{
-				if (Input.GetKeyDown(KeyCode.Escape))
+				if (Input.GetKey(KeyCode.UpArrow) && currentCool >= arrowCool)
 				{
-					alertManager.Show("확인", "모드 선택 화면으로 돌아갈까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요" }, () => { ChangeScene("ModeSelectScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); });
+					songManager.SelectedUp();
+					currentCool = 0f;
+				}
+				else if (Input.GetKey(KeyCode.DownArrow) && currentCool >= arrowCool)
+				{
+					songManager.SelectedDown();
+					currentCool = 0f;
+				}
+				else if (Input.GetKeyDown(KeyCode.Escape))
+				{
+					AlertManager.Instance.Show("확인", "모드 선택 화면으로 돌아갈까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요" }, () => { ChangeScene("ModeSelectScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); });
 				}
 				else if (Input.GetKeyDown(KeyCode.F10))
 				{
@@ -58,7 +74,7 @@ namespace MineBeat.SongSelectSingle.KeyInput
 		public void ChangeScene(string sceneName)
 		{
 			active = false;
-			sceneChange.ChangeScene(sceneName);
+			SceneChange.Instance.ChangeScene(sceneName);
 		}
 
 		/*

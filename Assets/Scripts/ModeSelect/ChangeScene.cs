@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using MineBeat.Preload.UI;
 using MineBeat.Preload.Scene;
 
 /*
@@ -18,16 +17,9 @@ namespace MineBeat.ModeSelect
 	 */
 	public class ChangeScene : MonoBehaviour
 	{
-		private SceneChange sceneChange;
-
-		private void Start()
-		{
-			sceneChange = GameObject.Find("PreloadScene Managers").GetComponent<SceneChange>();
-		}
-
 		public void Change(string sceneName)
 		{
-			sceneChange.ChangeScene(sceneName);
+			SceneChange.Instance.ChangeScene(sceneName);
 		}
 	}
 }

@@ -31,7 +31,12 @@ namespace MineBeat.GameEditor.Files
 	{
 		[SerializeField]
 		private GameObject canvas;
-		private bool maintainCanvas = false;
+		private bool _maintainCanvas = false;
+		public bool maintainCanvas
+		{
+			get { return _maintainCanvas; }
+			private set { _maintainCanvas = value; }
+		}
 
 		private bool isFirst = true;
 
@@ -52,7 +57,6 @@ namespace MineBeat.GameEditor.Files
 
 		private NotesVerifier notesVerifier;
 		private NotesManager notesManager;
-		private AlertManager alertManager;
 		private SongManager songManager;
 		private GameManager gameManager;
 		private SongCover songCover;
@@ -115,7 +119,7 @@ namespace MineBeat.GameEditor.Files
 			yield return new WaitForSeconds(0.1f);
 			while (true)
 			{
-				int res = alertManager.Show("Choose one", "Do you want to create the new pattern file?\nOr do you want to load the existing pattern file?", AlertManager.AlertButtonType.Double, new string[] { "Create new", "Load exist" }, OnNewButtonClicked, OpenPackageFileWorker);
+				int res = AlertManager.Instance.Show("Choose one", "Do you want to create the new pattern file?\nOr do you want to load the existing pattern file?", AlertManager.AlertButtonType.Double, new string[] { "Create new", "Load exist" }, OnNewButtonClicked, OpenPackageFileWorker);
 				if (res == 0) break;
 			}
 		}
@@ -124,7 +128,6 @@ namespace MineBeat.GameEditor.Files
 		{
 			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
 			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
-			alertManager = GameObject.Find("PreloadScene Managers").GetComponent<AlertManager>();
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 			songCover = GameObject.Find("UIManagers").GetComponent<SongCover>();
@@ -156,7 +159,7 @@ namespace MineBeat.GameEditor.Files
 			{
 				while (true)
 				{
-					int res = alertManager.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes (New)", "No (Close)" }, OpenSongFileWorker, () => { });
+					int res = AlertManager.Instance.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes (New)", "No (Close)" }, OpenSongFileWorker, () => { });
 					if (res == 0) return;
 				}
 			}
@@ -186,7 +189,7 @@ namespace MineBeat.GameEditor.Files
 			{
 				while (true)
 				{
-					int res = alertManager.Show("Warning!", "This action initializes all progress.\nDid you save the file you were working on?", AlertManager.AlertButtonType.Double, new string[] { "Yes (Load)", "No (Close)" }, OpenPackageFileWorker, () => { });
+					int res = AlertManager.Instance.Show("Warning!", "This action initializes all progress.\nDid you save the file you were working on?", AlertManager.AlertButtonType.Double, new string[] { "Yes (Load)", "No (Close)" }, OpenPackageFileWorker, () => { });
 					if (res == 0) return;
 				}
 			}
@@ -205,7 +208,7 @@ namespace MineBeat.GameEditor.Files
 		{
 			if (notesVerifier.isError)
 			{
-				alertManager.Show("Alert", "Unable to save due to an error in the note placement.\nPlease try again after fixing the error.", AlertManager.AlertButtonType.Single, new string[] { "Close" }, () => { });
+				AlertManager.Instance.Show("Alert", "Unable to save due to an error in the note placement.\nPlease try again after fixing the error.", AlertManager.AlertButtonType.Single, new string[] { "Close" }, () => { });
 				return;
 			}
 			songManager.OnStopButtonClicked();
@@ -314,7 +317,7 @@ namespace MineBeat.GameEditor.Files
 							songManager.audioClip = DownloadHandlerAudioClip.GetContent(audioWebRequest);
 							songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
 
-							alertManager.GetComponent<TimelineManager>().UpdateAudioClip();
+							songCover.gameObject.GetComponent<TimelineManager>().UpdateAudioClip();
 
 							maintainCanvas = false;
 							canvas.SetActive(false);

@@ -55,7 +55,7 @@ namespace MineBeat.GameEditor.UI
 
 		private void Update()
 		{
-			if (/*songManager.playStatus != PlayStatus.Stopped ||*/ Input.GetKeyDown(KeyCode.Escape))
+			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				currentObject = ObjectType.None;
 			}
