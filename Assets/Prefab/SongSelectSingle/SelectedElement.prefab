@@ -126,7 +126,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4373548324703944928}
         m_TargetAssemblyTypeName: MineBeat.SongSelectSingle.UI.SongElement, Assembly-CSharp
-        m_MethodName: Clicked
+        m_MethodName: Enter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -148,7 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b02908a95351ad841805e59a378812ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  songManager: {fileID: 0}
 --- !u!1 &3510200622508053084
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,4 +307,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SongName
+  m_Text: SongName <size=28>Author</size>

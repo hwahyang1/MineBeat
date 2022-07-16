@@ -41,19 +41,22 @@ namespace MineBeat.SongSelectSingle.UI
 		}
 
 		/*
-		 * [Method] Set(string name, string rank): void
+		 * [Method] Set(string name, string author, PlayRank rank): void
 		 * 곡 정보를 설정합니다.
 		 * 
 		 * <string name>
 		 * 곡 이름을 입력합니다.
 		 * 
-		 * <string rank>
+		 * <string author>
+		 * 작곡가를 입력합니다.
+		 * 
+		 * <PlayRank rank>
 		 * 랭크를 입력합니다.
 		 */
-		public void Set(string name, string rank)
+		public void Set(string name, string author, PlayRank rank)
 		{
-			gameObject.transform.GetChild(0).GetComponent<Text>().text = name;
-			gameObject.transform.GetChild(1).GetComponent<Text>().text = rank;
+			gameObject.transform.GetChild(0).GetComponent<Text>().text = string.Format("{0} <size=28>{1}</size>", name, author);
+			gameObject.transform.GetChild(1).GetComponent<Text>().text = rank.ToString();
 		}
 
 		/*
@@ -63,6 +66,15 @@ namespace MineBeat.SongSelectSingle.UI
 		public void Clicked()
 		{
 			songManager.SelectedChage(order);
+		}
+
+		/*
+		 * [Method] Enter(): void
+		 * 이 클래스가 붙은 GameObject(Button)이 클릭되었을 때 이벤트를 처리합니다.
+		 */
+		public void Enter()
+		{
+			songManager.Enter();
 		}
 	}
 }

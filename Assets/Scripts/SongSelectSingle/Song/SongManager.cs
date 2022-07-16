@@ -6,6 +6,8 @@ using UnityEngine;
 using MineBeat.SongSelectSingle.UI;
 using MineBeat.SongSelectSingle.Score;
 
+using MineBeat.Preload.Song;
+
 /*
  * [Namespace] MineBeat.SongSelectSingle.Song
  * Description
@@ -30,9 +32,21 @@ namespace MineBeat.SongSelectSingle.Song
 		{
 			songs = PackageManager.Instance.GetAllPackageId();
 
+			songDetail = GameObject.Find("UIManagers").GetComponent<SongDetail>();
+			previewSong = gameObject.GetComponent<PreviewSong>();
 			songListDisplay = GameObject.Find("UIManagers").GetComponent<SongListDisplay>();
 
-			songListDisplay.Display(songs, selected);
+			selected = Mathf.CeilToInt(songs.Count / 2f) - 1;
+			UpdateData();
+		}
+
+		/*
+		 * [Method] Enter(): void
+		 * 선택된 곡으로 게임을 실행합니다.
+		 */
+		public void Enter()
+		{
+			// TODO
 		}
 
 		/*
@@ -45,7 +59,7 @@ namespace MineBeat.SongSelectSingle.Song
 		public void SelectedChage(int i)
 		{
 			selected = i;
-			songListDisplay.Display(songs, selected);
+			UpdateData();
 		}
 
 		/*
@@ -54,10 +68,10 @@ namespace MineBeat.SongSelectSingle.Song
 		 */
 		public void SelectedUp()
 		{
-			if (selected == songs.Count - 1) selected = 0;
-			else selected++;
+			if (selected == 0) selected = songs.Count - 1;
+			else selected--;
 
-			songListDisplay.Display(songs, selected);
+			UpdateData();
 		}
 
 		/*
@@ -66,10 +80,27 @@ namespace MineBeat.SongSelectSingle.Song
 		 */
 		public void SelectedDown()
 		{
-			if (selected == 0) selected = songs.Count - 1;
-			else selected--;
+			if (selected == songs.Count - 1) selected = 0;
+			else selected++;
+
+			UpdateData();
+		}
+
+		/*
+		 * [Method] UpdateData(): void
+		 * 현재 선택된 항목에 맞춰 화면과 미리듣기를 갱신합니다.
+		 */
+		private void UpdateData()
+		{
+			SongInfo songInfo = PackageManager.Instance.GetSongInfo(songs[selected]);
+			var medias = PackageManager.Instance.GetMedias(songs[selected]);
+			float[] timecodes = new float[] { songInfo.notes.Find(target => target.type == NoteType.PreviewS).timeCode, songInfo.notes.Find(target => target.type == NoteType.PreviewE).timeCode };
 
 			songListDisplay.Display(songs, selected);
+
+			songDetail.UpdateInfo(songInfo, new PlayHistory(0, 0, 51463, 52, PlayRank.A), medias.Item1);
+			previewSong.Play(medias.Item2, timecodes);
+
 		}
 	}
 }

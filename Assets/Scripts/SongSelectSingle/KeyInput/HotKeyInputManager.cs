@@ -41,27 +41,57 @@ namespace MineBeat.SongSelectSingle.KeyInput
 			{
 				if (Input.GetKey(KeyCode.UpArrow) && currentCool >= arrowCool)
 				{
-					songManager.SelectedUp();
+					OnUpArrowKeyClicked();
 					currentCool = 0f;
 				}
 				else if (Input.GetKey(KeyCode.DownArrow) && currentCool >= arrowCool)
 				{
-					songManager.SelectedDown();
+					OnDownArrowKeyClicked();
 					currentCool = 0f;
 				}
 				else if (Input.GetKeyDown(KeyCode.Escape))
 				{
-					AlertManager.Instance.Show("확인", "모드 선택 화면으로 돌아갈까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요" }, () => { ChangeScene("ModeSelectScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); });
+					OnEscapeKeyClicked();
 				}
 				else if (Input.GetKeyDown(KeyCode.F10))
 				{
-					ChangeScene("ConfigScene");
+					OnF10KeyClicked();
 				}
 				else if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
 				{
-					//
+					OnEnterKeyClicked();
 				}
 			}
+		}
+
+		/*
+		 * [Method] OnUpArrowKeyClicked(): void
+		 * [Method] OnDownArrowKeyClicked(): void
+		 * [Method] OnEscapeKeyClicked(): void
+		 * [Method] OnF10KeyClicked(): void
+		 * [Method] OnEnterKeyClicked(): void
+		 * 
+		 * 키와 버튼 입력에 대한 이벤트를 처리합니다.
+		 */
+		public void OnUpArrowKeyClicked()
+		{
+			songManager.SelectedUp();
+		}
+		public void OnDownArrowKeyClicked()
+		{
+			songManager.SelectedDown();
+		}
+		public void OnEscapeKeyClicked()
+		{
+			AlertManager.Instance.Show("확인", "모드 선택 화면으로 돌아갈까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요" }, () => { ChangeScene("ModeSelectScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); });
+		}
+		public void OnF10KeyClicked()
+		{
+			ChangeScene("ConfigScene");
+		}
+		public void OnEnterKeyClicked()
+		{
+			songManager.Enter();
 		}
 
 		/*

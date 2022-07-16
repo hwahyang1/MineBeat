@@ -121,6 +121,7 @@ namespace MineBeat.GameEditor.Files
 			{
 				int res = AlertManager.Instance.Show("Choose one", "Do you want to create the new pattern file?\nOr do you want to load the existing pattern file?", AlertManager.AlertButtonType.Double, new string[] { "Create new", "Load exist" }, OnNewButtonClicked, OpenPackageFileWorker);
 				if (res == 0) break;
+				yield return new WaitForSeconds(0.1f);
 			}
 		}
 
@@ -157,16 +158,15 @@ namespace MineBeat.GameEditor.Files
 		{
 			if (!isFirst)
 			{
-				while (true)
-				{
-					int res = AlertManager.Instance.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes (New)", "No (Close)" }, OpenSongFileWorker, () => { });
-					if (res == 0) return;
-				}
+				AlertManager.Instance.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes (New)", "No (Close)" }, OpenSongFileWorker, () => { });
+				return;
 			}
 			OpenSongFileWorker();
 		}
 		public void OpenSongFileWorker() // 함수명 이상하게 지어놨네 이거 유니티에서 쓰는 게 아님
 		{
+			packageFileStream = null;
+			songCover.UpdateImage();
 			notesManager.RemoveAll();
 			gameManager.ClearSongInfoInput();
 
@@ -187,11 +187,8 @@ namespace MineBeat.GameEditor.Files
 		{
 			if (!isFirst)
 			{
-				while (true)
-				{
-					int res = AlertManager.Instance.Show("Warning!", "This action initializes all progress.\nDid you save the file you were working on?", AlertManager.AlertButtonType.Double, new string[] { "Yes (Load)", "No (Close)" }, OpenPackageFileWorker, () => { });
-					if (res == 0) return;
-				}
+				int res = AlertManager.Instance.Show("Warning!", "This action initializes all progress.\nDid you save the file you were working on?", AlertManager.AlertButtonType.Double, new string[] { "Yes (Load)", "No (Close)" }, OpenPackageFileWorker, () => { });
+				return;
 			}
 			OpenPackageFileWorker();
 		}
@@ -236,28 +233,26 @@ namespace MineBeat.GameEditor.Files
 					File.Copy(filePath, tempAudioFilePath, true);
 					tempAudioFileStream = new FileStream(tempAudioFilePath, FileMode.Open, FileAccess.ReadWrite);
 
-					using (UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
+					UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG);
+					yield return webRequest.SendWebRequest();
+					if (webRequest.result == UnityWebRequest.Result.ConnectionError)
 					{
-						yield return webRequest.SendWebRequest();
-						if (webRequest.result == UnityWebRequest.Result.ConnectionError)
-						{
-							continue;
-						}
-						else
-						{
-							songManager.audioClip = DownloadHandlerAudioClip.GetContent(webRequest);
-							songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
+						continue;
+					}
+					else
+					{
+						songManager.audioClip = DownloadHandlerAudioClip.GetContent(webRequest);
+						songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
 
-							songCover.GetComponent<TimelineManager>().UpdateAudioClip();
+						songCover.GetComponent<TimelineManager>().UpdateAudioClip();
 
-							maintainCanvas = false;
-							canvas.SetActive(false);
+						maintainCanvas = false;
+						canvas.SetActive(false);
 
-							songManager.OnPlayButtonClicked();
+						songManager.OnPlayButtonClicked();
 
-							notesManager.RemoveAll();
-							break;
-						}
+						notesManager.RemoveAll();
+						break;
 					}
 				}
 			}
@@ -292,17 +287,24 @@ namespace MineBeat.GameEditor.Files
 					SongInfo data = formatter.Deserialize(tempPatternFileStream) as SongInfo;
 					gameManager.SetSongInfo(data);
 
-					UnityWebRequest imageWebRequest = UnityWebRequestTexture.GetTexture(tempCoverImageFilePath);
-					yield return imageWebRequest.SendWebRequest();
-					if (imageWebRequest.result == UnityWebRequest.Result.ConnectionError)
+					if (new FileInfo(tempCoverImageFilePath).Length == 0L) // 커버이미지 등록이 되어 있지 않은경우
 					{
-						yield return null;
+						songCover.UpdateImage();
 					}
 					else
 					{
-						Texture2D texture = ((DownloadHandlerTexture)imageWebRequest.downloadHandler).texture;
-						Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-						songCover.UpdateImage(sprite);
+						UnityWebRequest imageWebRequest = UnityWebRequestTexture.GetTexture(tempCoverImageFilePath);
+						yield return imageWebRequest.SendWebRequest();
+						if (imageWebRequest.result == UnityWebRequest.Result.ConnectionError)
+						{
+							yield return null;
+						}
+						else
+						{
+							Texture2D texture = ((DownloadHandlerTexture)imageWebRequest.downloadHandler).texture;
+							Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+							songCover.UpdateImage(sprite);
+						}
 					}
 
 					using (UnityWebRequest audioWebRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
@@ -314,7 +316,7 @@ namespace MineBeat.GameEditor.Files
 						}
 						else
 						{
-							songManager.audioClip = DownloadHandlerAudioClip.GetContent(audioWebRequest);
+							songManager.audioClip = DownloadHandlerAudioClip.GetContent(audioWebRequest); /// TODO: 갑자기 안불러와짐
 							songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
 
 							songCover.gameObject.GetComponent<TimelineManager>().UpdateAudioClip();
@@ -338,20 +340,25 @@ namespace MineBeat.GameEditor.Files
 			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
 
 			maintainCanvas = true;
-			yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, packageFilePath, packageFileName, "Save Pattern File to...", "Save");
+			// 1. 기존에 있던 파일을 열었거나 2. 이미 저장을 한 경우 사고 방지를 위해 기존 파일에 덮어씌움
+			if (packageFileStream == null) yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, packageFilePath, packageFileName, "Save Pattern File to...", "Save");
 
-			if (FileBrowser.Success)
+			if (FileBrowser.Success || packageFileStream != null)
 			{
-				string filePath = FileBrowser.Result[0];
+				string filePath = packageFilePath + @"\" + packageFileName;
+				if (FileBrowser.Success)
+				{
+					filePath = FileBrowser.Result[0];
 
-				packageFilePath = Path.GetDirectoryName(filePath);
-				packageFileName = Path.GetFileName(filePath);
+					packageFilePath = Path.GetDirectoryName(filePath);
+					packageFileName = Path.GetFileName(filePath);
+				}
 
 				formatter.Serialize(tempPatternFileStream, gameManager.GetSongInfo());
 
-				if (File.Exists(filePath)) File.Delete(filePath);
-
 				CloseAllFileStream();
+
+				if (File.Exists(filePath)) File.Delete(filePath);
 
 				ZipFile.CreateFromDirectory(tempFileRootFolderPath, filePath);
 

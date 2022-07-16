@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using MineBeat.SongSelectSingle.Song;
+using MineBeat.Preload.Song;
 
 /*
  * [Namespace] MineBeat.SongSelectSingle.UI
@@ -31,6 +31,8 @@ namespace MineBeat.SongSelectSingle.UI
 		[SerializeField]
 		private RectTransform contentPanel;
 
+		private bool isFirst = true;
+
 		/*
 		 * [Method] Display(List<ulong> ids, int selected): void
 		 * 곡 목록을 다시 그립니다.
@@ -52,9 +54,10 @@ namespace MineBeat.SongSelectSingle.UI
 			{
 				GameObject generated = Instantiate(i == selected ? selectedPrefab : normalPrefab, parent.position, Quaternion.identity, parent);
 				SongElement songElement = generated.GetComponent<SongElement>();
+				SongInfo songInfo = PackageManager.Instance.GetSongInfo(ids[i]);
 				songElement.order = i;
 				songElement.id = ids[i];
-				songElement.Set(PackageManager.Instance.GetSongInfo(ids[i]).songName, "A");
+				songElement.Set(songInfo.songName, songInfo.songAuthor, PlayRank.A);
 			}
 
 			SnapTo(parent.GetChild(selected).GetComponent<RectTransform>());
@@ -63,7 +66,11 @@ namespace MineBeat.SongSelectSingle.UI
 		// https://stackoverflow.com/questions/30766020/how-to-scroll-to-a-specific-element-in-scrollrect-with-unity-ui
 		private void SnapTo(RectTransform target)
 		{
-			Canvas.ForceUpdateCanvases();
+			if (isFirst)
+			{
+				Canvas.ForceUpdateCanvases();
+				isFirst = false;
+			}
 
 			contentPanel.anchoredPosition =
 					(Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)

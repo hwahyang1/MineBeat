@@ -5,7 +5,7 @@
 
 : Song
  V PackageManager: 곡 목록을 관리
- ~ SongManager: 곡 선택 관리
+ ~ SongManager: 곡 선택 관리 (몇 가지 문제로 인해 Preload Scene으로 이동함)
  - PreviewSong: 곡 프리뷰 구간 재생을 관리
 
 : KeyInput
@@ -13,8 +13,8 @@
 
 : UI
  V SongListDisplay: 곡 목록을 관리 (우측)
- V SongElement: 곡 목록 항목들에 붙는 스크립트
- - SongDetail: 현재 선택된 곡 정보를 보여줌 (좌측)
+ ~ SongElement: 곡 목록 항목들에 붙는 스크립트
+ V SongDetail: 현재 선택된 곡 정보를 보여줌 (좌측)
 
 : Extern (DontDestroyOnLoad에 담겨서 InGameSingleScene/ResultSingleScene과 공유하는 스크립트)
  V SelectedSongInfo (SingleTon): 선택된 곡 정보를 담고 있는 스크립트 (Scene 넘길 때 생성함)
