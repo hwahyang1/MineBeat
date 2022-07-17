@@ -20,7 +20,8 @@ namespace MineBeat
 		A,
 		B,
 		C,
-		D
+		D,
+		X
 	}
 
 	/*
@@ -35,7 +36,8 @@ namespace MineBeat
 		public uint score;
 		public uint maxCombo;
 		public PlayRank rank;
-		public PlayHistory(ulong songId, ulong timecode, uint score, uint maxCombo, PlayRank rank)		{
+		public PlayHistory(ulong songId, ulong timecode, uint score, uint maxCombo, PlayRank rank)
+		{
 			this.songId = songId;
 			this.timecode = timecode;
 			this.score = score;

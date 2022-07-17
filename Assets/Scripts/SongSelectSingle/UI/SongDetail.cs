@@ -42,7 +42,7 @@ namespace MineBeat.SongSelectSingle.UI
 			songInfoArea.GetChild(2).GetComponent<Text>().text = song.songAuthor;
 			songInfoArea.GetChild(3).GetComponent<Text>().text = string.Format("Level {0:00}", song.songLevel);
 
-			recordArea.GetChild(0).GetComponent<Text>().text = history.rank.ToString();
+			recordArea.GetChild(0).GetComponent<Text>().text = history.rank == PlayRank.X ? "-" : history.rank.ToString();
 			recordArea.GetChild(2).GetComponent<Text>().text = string.Format("{0:D6}", history.score);
 			recordArea.GetChild(4).GetComponent<Text>().text = string.Format("{0:D4}", history.maxCombo);
 		}

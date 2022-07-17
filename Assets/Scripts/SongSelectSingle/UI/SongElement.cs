@@ -56,7 +56,7 @@ namespace MineBeat.SongSelectSingle.UI
 		public void Set(string name, string author, PlayRank rank)
 		{
 			gameObject.transform.GetChild(0).GetComponent<Text>().text = string.Format("{0} <size=28>{1}</size>", name, author);
-			gameObject.transform.GetChild(1).GetComponent<Text>().text = rank.ToString();
+			gameObject.transform.GetChild(1).GetComponent<Text>().text = rank == PlayRank.X ? "-" : rank.ToString();
 		}
 
 		/*

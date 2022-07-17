@@ -16,23 +16,25 @@ namespace MineBeat.SongSelectSingle.Extern
 	 */
 	public class SelectedSongInfo : Singleton<SelectedSongInfo>
 	{
-		private SongInfo _songInfo;
-		public SongInfo songInfo
+		private ulong _id;
+		public ulong id
 		{
-			get { return _songInfo; }
-			set { if (SceneManager.GetActiveScene().name == "SongSelectSingleScene") _songInfo = value; }
+			get { return _id; }
+			set { if (SceneManager.GetActiveScene().name == "SongSelectSingleScene") _id = value; }
 		}
 
-		private AudioClip _audioClip;
-		public AudioClip audioClip
+		private uint _score;
+		public uint score
 		{
-			get { return _audioClip; }
-			set { if (SceneManager.GetActiveScene().name == "SongSelectSingleScene") _audioClip = value; }
+			get { return _score; }
+			set { if (SceneManager.GetActiveScene().name == "InGameSingleScene") _score = value; }
 		}
 
-		private void Start()
+		private uint _combo;
+		public uint combo
 		{
-			DontDestroyOnLoad(gameObject);
+			get { return _combo; }
+			set { if (SceneManager.GetActiveScene().name == "InGameSingleScene") _combo = value; }
 		}
 
 		private void Update()

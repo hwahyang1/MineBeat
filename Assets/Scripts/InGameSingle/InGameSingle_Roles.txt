@@ -1,0 +1,26 @@
+[InGameSingleScene]
+
+: Player
+ V PlayerController: 플레이어 이동 관리 (조작감 개선좀)
+ V FollowCam: 카메라가 플레이어를 따라다니도록 설정
+
+: Score
+ ~ ScoreManager: 게임 스코어/콤보 관리
+
+: HP
+ V HPManager: 체력 관리
+
+: Song
+ - SongPlayManager: 곡 재생 관리
+
+: Note
+ - PlaceNote: 노트 배치
+ - PlayNote: 각 GameObject에 붙음
+
+: Box
+ - BoxManager: 박스 크기/색상 관리
+
+: UI
+ V SongInfoManager: 곡 정보 표기 관리
+ V HPBar: 체력바 표기 관리
+ V ScoreText: 스코어 텍스트 관리

@@ -113,8 +113,6 @@ namespace MineBeat.Preload.Song
 		{
 			base.Awake();
 
-			DontDestroyOnLoad(gameObject);
-
 			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
 			Directory.CreateDirectory(tempFileRootFolderPath);
 			Directory.CreateDirectory(packageRootFolderPath);

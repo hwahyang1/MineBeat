@@ -5,6 +5,8 @@ using UnityEngine;
 
 using MineBeat.SongSelectSingle.UI;
 using MineBeat.SongSelectSingle.Score;
+using MineBeat.SongSelectSingle.Extern;
+using MineBeat.SongSelectSingle.KeyInput;
 
 using MineBeat.Preload.Song;
 
@@ -26,7 +28,9 @@ namespace MineBeat.SongSelectSingle.Song
 		private SongDetail songDetail;
 		private PreviewSong previewSong;
 		private SongListDisplay songListDisplay;
+		private HotKeyInputManager hotKeyInputManager;
 		private ScoreHistoryManager scoreHistoryManager;
+
 
 		private void Start()
 		{
@@ -35,6 +39,8 @@ namespace MineBeat.SongSelectSingle.Song
 			songDetail = GameObject.Find("UIManagers").GetComponent<SongDetail>();
 			previewSong = gameObject.GetComponent<PreviewSong>();
 			songListDisplay = GameObject.Find("UIManagers").GetComponent<SongListDisplay>();
+			hotKeyInputManager = GameObject.Find("HotKeyInputManager").GetComponent<HotKeyInputManager>();
+			scoreHistoryManager = GameObject.Find("ScoreHistoryManager").GetComponent<ScoreHistoryManager>();
 
 			selected = Mathf.CeilToInt(songs.Count / 2f) - 1;
 			UpdateData();
@@ -46,7 +52,9 @@ namespace MineBeat.SongSelectSingle.Song
 		 */
 		public void Enter()
 		{
-			// TODO
+			SelectedSongInfo selectedSongInfo = new GameObject("SelectedSongInfo").AddComponent<SelectedSongInfo>();
+			selectedSongInfo.id = songs[selected];
+			hotKeyInputManager.ChangeScene("InGameSingleScene");
 		}
 
 		/*
@@ -87,20 +95,21 @@ namespace MineBeat.SongSelectSingle.Song
 		}
 
 		/*
-		 * [Method] UpdateData(): void
+		 * [Method] async UpdateData(): void
 		 * 현재 선택된 항목에 맞춰 화면과 미리듣기를 갱신합니다.
 		 */
-		private void UpdateData()
+		private async void UpdateData()
 		{
+			if (scoreHistoryManager == null) await System.Threading.Tasks.Task.Delay(5);
+
 			SongInfo songInfo = PackageManager.Instance.GetSongInfo(songs[selected]);
 			var medias = PackageManager.Instance.GetMedias(songs[selected]);
 			float[] timecodes = new float[] { songInfo.notes.Find(target => target.type == NoteType.PreviewS).timeCode, songInfo.notes.Find(target => target.type == NoteType.PreviewE).timeCode };
 
 			songListDisplay.Display(songs, selected);
 
-			songDetail.UpdateInfo(songInfo, new PlayHistory(0, 0, 51463, 52, PlayRank.A), medias.Item1);
+			songDetail.UpdateInfo(songInfo, scoreHistoryManager.GetHistory(songs[selected]), medias.Item1);
 			previewSong.Play(medias.Item2, timecodes);
-
 		}
 	}
 }

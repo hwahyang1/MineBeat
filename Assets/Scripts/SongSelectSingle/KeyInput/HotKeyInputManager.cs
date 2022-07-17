@@ -27,10 +27,12 @@ namespace MineBeat.SongSelectSingle.KeyInput
 		private bool active = true;
 
 		private SongManager songManager;
+		private PreviewSong previewSong;
 
 		private void Start()
 		{
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
+			previewSong = songManager.gameObject.GetComponent<PreviewSong>();
 		}
 
 		private void Update()
@@ -87,7 +89,7 @@ namespace MineBeat.SongSelectSingle.KeyInput
 		}
 		public void OnF10KeyClicked()
 		{
-			ChangeScene("ConfigScene");
+			AlertManager.Instance.Show("확인", "게임 설정 화면으로 이동할까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요" }, () => { ChangeScene("ConfigScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); });
 		}
 		public void OnEnterKeyClicked()
 		{
@@ -103,6 +105,7 @@ namespace MineBeat.SongSelectSingle.KeyInput
 		 */
 		public void ChangeScene(string sceneName)
 		{
+			previewSong.forceFadeout = true;
 			active = false;
 			SceneChange.Instance.ChangeScene(sceneName);
 		}
