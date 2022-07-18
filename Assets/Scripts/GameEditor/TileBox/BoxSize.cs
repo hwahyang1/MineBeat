@@ -75,26 +75,19 @@ namespace MineBeat.GameEditor.TileBox
 			boxMap.ClearAllTiles();
 			gridMap.ClearAllTiles();
 
-			int drawSize = currentSize + 2;// boxSize 기준이 안에 빈 공간이라 2 더해야함
-
+			int drawSize = currentSize + 2;
 			for (int i = 0; i < drawSize; i++)
 			{
 				for (int j = 0; j < drawSize; j++)
 				{
-					if (i == 0 || i == drawSize - 1) // 첫줄&막줄: 전부 boxTile로 그림
+					if (i == 0 || i == drawSize - 1 ||
+						j == 0 || j == drawSize - 1)
 					{
 						boxMap.SetTile(new Vector3Int(i, j, 0), boxTiles[(int)currentColor]);
 					}
-					else // 나머지: 양끝만 boxTile로 그리고 나머지는 gridTile로 그림
+					else
 					{
-						if (j == 0 || j == drawSize - 1)
-						{
-							boxMap.SetTile(new Vector3Int(i, j, 0), boxTiles[(int)currentColor]);
-						}
-						else
-						{
-							gridMap.SetTile(new Vector3Int(i, j, 0), gridTile);
-						}
+						gridMap.SetTile(new Vector3Int(i, j, 0), gridTile);
 					}
 				}
 			}

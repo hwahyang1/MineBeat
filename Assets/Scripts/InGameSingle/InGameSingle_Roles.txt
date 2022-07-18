@@ -11,14 +11,14 @@
  V HPManager: 체력 관리
 
 : Song
- - SongPlayManager: 곡 재생 관리
+ V SongPlayManager: 곡 재생 관리
 
-: Note
- - PlaceNote: 노트 배치
+: Notes
+ ~ PlaceNote: 노트 배치
  - PlayNote: 각 GameObject에 붙음
 
 : Box
- - BoxManager: 박스 크기/색상 관리
+ V BoxManager: 박스 크기/색상 관리
 
 : UI
  V SongInfoManager: 곡 정보 표기 관리

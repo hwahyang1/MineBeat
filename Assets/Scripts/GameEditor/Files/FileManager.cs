@@ -12,6 +12,7 @@ using SimpleFileBrowser; // https://github.com/yasirkula/UnitySimpleFileBrowser
 using MineBeat.GameEditor.UI;
 using MineBeat.GameEditor.Song;
 using MineBeat.GameEditor.Notes;
+using MineBeat.GameEditor.TileBox;
 
 using MineBeat.Preload.UI;
 
@@ -60,6 +61,7 @@ namespace MineBeat.GameEditor.Files
 		private SongManager songManager;
 		private GameManager gameManager;
 		private SongCover songCover;
+		private BoxSize boxSize;
 
 		/*
 		 * [Method] OpenAllFileStream(FileMode mode=FileMode.Open, FileAccess access=FileAccess.ReadWrite, string packageFilePath=""): void
@@ -132,6 +134,7 @@ namespace MineBeat.GameEditor.Files
 			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
 			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 			songCover = GameObject.Find("UIManagers").GetComponent<SongCover>();
+			boxSize = GameObject.Find("Tilemaps").GetComponent<BoxSize>();
 
 			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
 			Directory.CreateDirectory(tempFileRootFolderPath);
@@ -165,7 +168,12 @@ namespace MineBeat.GameEditor.Files
 		}
 		public void OpenSongFileWorker() // 함수명 이상하게 지어놨네 이거 유니티에서 쓰는 게 아님
 		{
-			packageFileStream = null;
+			if (packageFileStream != null)
+			{
+				packageFileStream.Close();
+				packageFileStream = null;
+			}
+			boxSize.SetBoxSize(7);
 			songCover.UpdateImage();
 			notesManager.RemoveAll();
 			gameManager.ClearSongInfoInput();

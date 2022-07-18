@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * [Namespace] MineBeat.InGameSingle.Note
+ * [Namespace] MineBeat.InGameSingle.Notes
  * Description
  */
-namespace MineBeat.InGameSingle.Note
+namespace MineBeat.InGameSingle.Notes
 {
 	/*
 	 * [Class] PlayNote
