@@ -1370,6 +1370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43b84e5a7893914398ee502afa64eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  warningTilemap: {fileID: 986508029}
+  parent: {fileID: 748384606}
+  prefab: {fileID: 8272909264527664944, guid: 2e19fa9be78dfbf40aedaf4f0b52a38a, type: 3}
 --- !u!4 &796010019
 Transform:
   m_ObjectHideFlags: 0
@@ -1423,6 +1426,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: 0, y: 65}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!1 &922236388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 922236390}
+  - component: {fileID: 922236389}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &922236389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922236388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 566cb5db8f8b953428acc206116c2455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreAdjust: 14000000280000003200000046000000640000001e000000
+  hpAdjust: fbfff6ff1e00
+--- !u!4 &922236390
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922236388}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &956122179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1942,7 +1991,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d68cb9a5569d3664193ecba5103d62d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 0
 --- !u!4 &1367373952
 Transform:
   m_ObjectHideFlags: 0
@@ -3117,6 +3165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4500
+  coolTime: 0.5
 --- !u!50 &2059314129
 Rigidbody2D:
   serializedVersion: 4

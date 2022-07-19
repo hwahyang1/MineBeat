@@ -1,11 +1,11 @@
 [InGameSingleScene]
 
 : Player
- V PlayerController: 플레이어 이동 관리 (조작감 개선좀)
+ V PlayerController: 플레이어 이동/쿨타임 관리 (조작감 개선좀)
  V FollowCam: 카메라가 플레이어를 따라다니도록 설정
 
 : Score
- ~ ScoreManager: 게임 스코어/콤보 관리
+ V ScoreManager: 게임 스코어/콤보 관리
 
 : HP
  V HPManager: 체력 관리
@@ -24,3 +24,6 @@
  V SongInfoManager: 곡 정보 표기 관리
  V HPBar: 체력바 표기 관리
  V ScoreText: 스코어 텍스트 관리
+
+: GameManager
+ V GameManager: 스코어/체력 변동 이벤트 처리

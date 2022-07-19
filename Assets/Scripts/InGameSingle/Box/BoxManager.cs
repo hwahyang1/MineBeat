@@ -26,9 +26,16 @@ namespace MineBeat.InGameSingle.Box
 		[SerializeField, Header("DefineNote.NoteColor를 기준으로 입력합니다.")]
 		private TileBase[] boxes;
 
+		private int _size = 7;
+		public int size
+		{
+			get { return _size; }
+			private set { _size = value; }
+		}
+
 		private void Start()
 		{
-			Draw(7);
+			Draw(size);
 		}
 
 		/*
@@ -66,6 +73,8 @@ namespace MineBeat.InGameSingle.Box
 			float boxCenter = drawSize / 2f;
 			GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position = new Vector3(boxCenter, boxCenter, 0f);
 			Camera.main.transform.position = new Vector3(boxCenter, boxCenter, -10f);
+
+			size = boxSize;
 		}
 	}
 }

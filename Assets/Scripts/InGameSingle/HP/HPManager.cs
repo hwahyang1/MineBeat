@@ -22,7 +22,6 @@ namespace MineBeat.InGameSingle.HP
 			get { return _maxHp; }
 		}
 
-		[SerializeField, Range(0, 100)] // 테스트 완료 후 삭제예정
 		private short _hp;
 		public short hp
 		{

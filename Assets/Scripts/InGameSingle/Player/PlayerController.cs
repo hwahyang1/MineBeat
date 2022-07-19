@@ -11,7 +11,7 @@ namespace MineBeat.InGameSingle.Player
 {
 	/*
 	 * [Class] PlayerController
-	 * 플레이어의 이동을 관리합니다.
+	 * 플레이어의 이동과 쿨타임을 관리합니다.
 	 */
 	public class PlayerController : MonoBehaviour
 	{
@@ -20,6 +20,17 @@ namespace MineBeat.InGameSingle.Player
 
 		private Rigidbody2D rb;
 
+		[SerializeField]
+		private float coolTime = 0.5f;
+		private float nowCoolTime = 0f;
+
+		private bool _isCoolTime = false;
+		public bool isCoolTime
+		{
+			get { return _isCoolTime; }
+			private set { _isCoolTime = value; }
+		}
+
 		private void Start()
 		{
 			rb = GetComponent<Rigidbody2D>();
@@ -27,6 +38,16 @@ namespace MineBeat.InGameSingle.Player
 
 		private void Update()
 		{
+			if (isCoolTime)
+			{
+				if (nowCoolTime >= coolTime)
+				{
+					isCoolTime = false;
+					nowCoolTime = 0f;
+				}
+				nowCoolTime += Time.deltaTime;
+			}
+
 			if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
 			{
 				rb.AddForce(new Vector2(0f, moveSpeed * Time.deltaTime));
@@ -47,6 +68,15 @@ namespace MineBeat.InGameSingle.Player
 				rb.AddForce(new Vector2(moveSpeed * Time.deltaTime, 0f));
 				//transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0f, 0f));
 			}
+		}
+
+		/*
+		 * [Method] StartCoolTime(): void
+		 * 플레이어의 체력이 깎였을 때 쿨타임을 실행합니다.
+		 */
+		public void StartCoolTime()
+		{
+			isCoolTime = true;
 		}
 	}
 }
