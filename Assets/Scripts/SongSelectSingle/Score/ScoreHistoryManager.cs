@@ -34,7 +34,7 @@ namespace MineBeat.SongSelectSingle.Score
 		{
 			base.Awake();
 
-			rootPath = Application.persistentDataPath + @"\History";
+			rootPath = Application.persistentDataPath + @"\History\";
 			protectModify = true;
 
 			if (!Directory.Exists(rootPath)) Directory.CreateDirectory(rootPath);
