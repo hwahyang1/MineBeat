@@ -15,7 +15,8 @@
 
 : Notes
  ~ PlaceNote: 노트 배치
- - PlayNote: 각 GameObject에 붙음
+ V PlayNote: 각 GameObject에 붙음
+ V PlayNoteChild: PlayNote 하위 GameObject에 붙어서 판정만 처리함
 
 : Box
  V BoxManager: 박스 크기/색상 관리

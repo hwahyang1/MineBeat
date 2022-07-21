@@ -30,10 +30,16 @@ namespace MineBeat.InGameSingle.Player
 			get { return _isCoolTime; }
 			private set { _isCoolTime = value; }
 		}
+		[SerializeField]
+		private Color normalColor = new Color(1f, 1f, 1f, 1f);
+		[SerializeField]
+		private Color coolTimeColor = new Color(1f, 1f, 1f, 1f);
+		private SpriteRenderer spriteRenderer;
 
 		private void Start()
 		{
 			rb = GetComponent<Rigidbody2D>();
+			spriteRenderer = GetComponent<SpriteRenderer>();
 		}
 
 		private void Update()
@@ -42,10 +48,14 @@ namespace MineBeat.InGameSingle.Player
 			{
 				if (nowCoolTime >= coolTime)
 				{
+					spriteRenderer.color = normalColor;
 					isCoolTime = false;
 					nowCoolTime = 0f;
 				}
-				nowCoolTime += Time.deltaTime;
+				else
+				{
+					nowCoolTime += Time.deltaTime;
+				}
 			}
 
 			if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
@@ -76,6 +86,7 @@ namespace MineBeat.InGameSingle.Player
 		 */
 		public void StartCoolTime()
 		{
+			spriteRenderer.color = coolTimeColor;
 			isCoolTime = true;
 		}
 	}

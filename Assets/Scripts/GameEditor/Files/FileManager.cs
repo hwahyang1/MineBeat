@@ -324,7 +324,7 @@ namespace MineBeat.GameEditor.Files
 						}
 						else
 						{
-							songManager.audioClip = DownloadHandlerAudioClip.GetContent(audioWebRequest); /// TODO: 갑자기 안불러와짐
+							songManager.audioClip = DownloadHandlerAudioClip.GetContent(audioWebRequest);
 							songManager.GetComponent<AudioSource>().clip = songManager.audioClip;
 
 							songCover.gameObject.GetComponent<TimelineManager>().UpdateAudioClip();
@@ -362,6 +362,9 @@ namespace MineBeat.GameEditor.Files
 					packageFileName = Path.GetFileName(filePath);
 				}
 
+				tempPatternFileStream.Close();
+				tempPatternFileStream = new FileStream(tempPatternFilePath, FileMode.Create, FileAccess.Write);
+
 				formatter.Serialize(tempPatternFileStream, gameManager.GetSongInfo());
 
 				CloseAllFileStream();
@@ -375,6 +378,8 @@ namespace MineBeat.GameEditor.Files
 
 			maintainCanvas = false;
 			canvas.SetActive(false);
+
+			AlertManager.Instance.Show("Success", "The file was successfully saved.", AlertManager.AlertButtonType.Single, new string[] { "Close" }, () => { });
 		}
 
 		public IEnumerator OpenImageFileCoroutine()

@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using MineBeat.InGameSingle.HP;
+using MineBeat.InGameSingle.Song;
 using MineBeat.InGameSingle.Score;
 using MineBeat.InGameSingle.Player;
+
+using MineBeat.SongSelectSingle.Extern;
+
+using MineBeat.Preload.Scene;
 
 /*
  * [Namespace] MineBeat.InGameSingle
@@ -26,11 +31,27 @@ namespace MineBeat.InGameSingle
 
 		private HPManager hpManager;
 		private ScoreManager scoreManager;
+		private SongPlayManager songPlayManager;
 
 		private void Start()
 		{
 			hpManager = GameObject.Find("HPManager").GetComponent<HPManager>();
 			scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+			songPlayManager = GameObject.Find("SongManager").GetComponent<SongPlayManager>();
+		}
+
+		private void Update()
+		{
+			if (!songPlayManager.isPlaying)
+			{
+				SelectedSongInfo selectedSongInfo = GameObject.Find("SelectedSongInfo").GetComponent<SelectedSongInfo>();
+				selectedSongInfo.score = scoreManager.score;
+				selectedSongInfo.combo = scoreManager.maxCombo;
+
+				SceneChange.Instance.ChangeScene("ResultSingleScene");
+
+				Destroy(gameObject);
+			}
 		}
 
 		/*

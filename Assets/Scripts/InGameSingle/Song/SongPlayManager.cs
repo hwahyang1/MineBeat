@@ -25,7 +25,7 @@ namespace MineBeat.InGameSingle.Song
 
 		public bool isPlaying
 		{
-			get { return isStarted && audioSource.time == 0f && !audioSource.isPlaying; }
+			get { return !(isStarted && audioSource.time == 0f && !audioSource.isPlaying); }
 		}
 
 		public float timecode

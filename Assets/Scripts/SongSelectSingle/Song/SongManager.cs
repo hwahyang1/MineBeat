@@ -31,7 +31,6 @@ namespace MineBeat.SongSelectSingle.Song
 		private HotKeyInputManager hotKeyInputManager;
 		private ScoreHistoryManager scoreHistoryManager;
 
-
 		private void Start()
 		{
 			songs = PackageManager.Instance.GetAllPackageId();
@@ -42,7 +41,24 @@ namespace MineBeat.SongSelectSingle.Song
 			hotKeyInputManager = GameObject.Find("HotKeyInputManager").GetComponent<HotKeyInputManager>();
 			scoreHistoryManager = GameObject.Find("ScoreHistoryManager").GetComponent<ScoreHistoryManager>();
 
-			selected = Mathf.CeilToInt(songs.Count / 2f) - 1;
+			GameObject selectedSongInfo = GameObject.Find("SelectedSongInfo");
+			if (selectedSongInfo == null)
+			{
+				selected = Mathf.CeilToInt(songs.Count / 2f) - 1;
+			}
+			else
+			{
+				ulong target = selectedSongInfo.GetComponent<SelectedSongInfo>().id;
+				for (int i = 0; i < songs.Count; i++)
+				{
+					if (songs[i] == target)
+					{
+						selected = i;
+						break;
+					}
+				}
+				Destroy(selectedSongInfo);
+			}
 			UpdateData();
 		}
 

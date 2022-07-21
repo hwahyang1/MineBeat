@@ -33,6 +33,13 @@ namespace MineBeat.InGameSingle.Box
 			private set { _size = value; }
 		}
 
+		private NoteColor _color = NoteColor.White;
+		public NoteColor color
+		{
+			get { return _color; }
+			private set { _color = value; }
+		}
+
 		private void Start()
 		{
 			Draw(size);
@@ -75,6 +82,19 @@ namespace MineBeat.InGameSingle.Box
 			Camera.main.transform.position = new Vector3(boxCenter, boxCenter, -10f);
 
 			size = boxSize;
+			color = noteColor;
+		}
+
+		/*
+		 * [Method] ChangeVisibility(bool isVisible): void
+		 * 박스의 활성 여부를 결정합니다.
+		 * 
+		 * <bool isVisible>
+		 * 활성 여부를 입력합니다.
+		 */
+		public void ChangeVisibility(bool isVisible)
+		{
+			boxTilemap.transform.parent.gameObject.SetActive(isVisible);
 		}
 	}
 }

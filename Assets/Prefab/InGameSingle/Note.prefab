@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8272909264527664910}
   - component: {fileID: 8272909264527664911}
   - component: {fileID: 8272909264527664909}
+  - component: {fileID: 4333089568542507262}
   - component: {fileID: 5090012793803418405}
   m_Layer: 0
   m_Name: Note
@@ -112,6 +113,22 @@ MonoBehaviour:
   - {fileID: 21300000, guid: da82cfcddd49a2241b82027582958572, type: 3}
   - {fileID: 21300000, guid: 0b05aaf2b91f04f4ebb88c081fea6fdc, type: 3}
   - {fileID: 21300000, guid: e98543686f7b22941baa884d44646a99, type: 3}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  inactiveColor: {r: 0.6509804, g: 0.6509804, b: 0.6509804, a: 1}
+--- !u!114 &4333089568542507262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272909264527664944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4248378518f2d4da8540522f6e6065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  inactiveColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
 --- !u!61 &5090012793803418405
 BoxCollider2D:
   m_ObjectHideFlags: 0

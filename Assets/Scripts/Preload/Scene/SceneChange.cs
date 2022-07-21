@@ -19,7 +19,7 @@ namespace MineBeat.Preload.Scene
 		[SerializeField]
 		private Image loadingCover;
 
-		[Header("Unused GameObject(canvas)")]
+		[Header("Unused GameObject (Canvas)")]
 		[SerializeField]
 		private GameObject cover;
 		[SerializeField]
