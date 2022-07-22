@@ -95,7 +95,7 @@ namespace MineBeat.SongSelectSingle.Score
 				history.Remove(target);
 			}
 
-			FileStream stream = new FileStream(rootPath + playHistory.songId + ".dat", FileMode.CreateNew, FileAccess.Write);
+			FileStream stream = new FileStream(rootPath + playHistory.songId + ".dat", FileMode.Create, FileAccess.Write);
 			formatter.Serialize(stream, playHistory);
 
 			history.Add(new System.Tuple<ulong, FileStream, PlayHistory>(playHistory.songId, stream, playHistory));

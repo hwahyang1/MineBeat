@@ -167,14 +167,17 @@ namespace MineBeat.InGameSingle.Notes
 		 */
 		private void OnBoxEnter()
 		{
-			if (noteInfo.type == NoteType.Normal)
+			if (isActive)
 			{
-				gameManager.ChangeScore(noteInfo.color);
-			}
+				if (noteInfo.type == NoteType.Normal)
+				{
+					gameManager.ChangeScore(noteInfo.color);
+				}
 
-			for (int i = 0; i < transform.childCount; i++)
-			{
-				Destroy(transform.GetChild(i).gameObject);
+				for (int i = 0; i < transform.childCount; i++)
+				{
+					Destroy(transform.GetChild(i).gameObject);
+				}
 			}
 
 			Destroy(gameObject);

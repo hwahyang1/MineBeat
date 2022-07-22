@@ -42,9 +42,51 @@ namespace MineBeat.ResultSingle
 			scoreComboHistory.Add(new System.Tuple<uint, uint, bool>(previousHistory.score, selectedSongInfo.score, selectedSongInfo.score > previousHistory.score));
 			scoreComboHistory.Add(new System.Tuple<uint, uint, bool>(previousHistory.maxCombo, selectedSongInfo.combo, selectedSongInfo.combo > previousHistory.maxCombo));
 
-			playRank = PlayRank.D;
+			CalculateRank();
 
 			SubmitData();
+		}
+
+		/*
+		 * [Method] CalculateRank(): void
+		 * 랭크를 계산합니다.
+		 */
+		private void CalculateRank()
+		{
+			float impactLineTimecode = songInfo.notes.Find(target => target.type == NoteType.ImpactLine).timeCode;
+			List<Note> targets = songInfo.notes.FindAll(target => target.timeCode < impactLineTimecode && target.type == NoteType.Normal && target.color != NoteColor.Purple);
+
+			uint maxScore = 0;
+
+			foreach (Note note in targets)
+			{
+				switch (note.color)
+				{
+					case NoteColor.White:
+						maxScore += 20;
+						break;
+					case NoteColor.Skyblue:
+						maxScore += 40;
+						break;
+					case NoteColor.Blue:
+						maxScore += 50;
+						break;
+					case NoteColor.Green:
+						maxScore += 70;
+						break;
+					case NoteColor.Orange:
+						maxScore += 100;
+						break;
+				}
+			}
+
+			float rate = scoreComboHistory[0].Item2 / (maxScore * 1.0f);
+
+			if (rate >= 0.98f) playRank = PlayRank.S;
+			else if (rate >= 0.9f) playRank = PlayRank.A;
+			else if (rate >= 0.8f) playRank = PlayRank.B;
+			else if (rate >= 0.7f) playRank = PlayRank.C;
+			else playRank = PlayRank.D;
 		}
 
 		/*

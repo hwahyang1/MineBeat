@@ -48,16 +48,9 @@ namespace MineBeat.SongSelectSingle.Song
 			}
 			else
 			{
-				ulong target = selectedSongInfo.GetComponent<SelectedSongInfo>().id;
-				for (int i = 0; i < songs.Count; i++)
-				{
-					if (songs[i] == target)
-					{
-						selected = i;
-						break;
-					}
-				}
+				ulong findId = selectedSongInfo.GetComponent<SelectedSongInfo>().id;
 				Destroy(selectedSongInfo);
+				selected = songs.FindIndex(target => target == findId);
 			}
 			UpdateData();
 		}
