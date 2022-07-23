@@ -1,0 +1,11 @@
+[ConfigScene]
+
+: KeyInput
+ V HotKeyInputManager: 단축키 입력 관리
+
+: Selection
+ - CategorySelectionManager: 카테고리 선택 관리
+
+: UI
+ - Categories: 카테고리 UI 표기 관리
+ - CategoryElement: 카테고리 안의 각 항목 이벤트 처리

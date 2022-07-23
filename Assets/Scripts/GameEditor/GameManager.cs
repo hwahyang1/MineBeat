@@ -28,6 +28,8 @@ namespace MineBeat.GameEditor
 
 		private ulong songId;
 
+		public bool blockInput = false;
+
 		private void Start()
 		{
 			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
@@ -38,7 +40,12 @@ namespace MineBeat.GameEditor
 		{
 			if (!fileManager.maintainCanvas && EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.transform.parent != SongInfoArea)
 			{
+				blockInput = false;
 				EventSystem.current.SetSelectedGameObject(null);
+			}
+			else
+			{
+				blockInput = true;
 			}
 		}
 

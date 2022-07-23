@@ -43,9 +43,9 @@ namespace MineBeat.Preload.Song
 			LevelDesc
 		}
 
-		private readonly string tempFileRootFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\";
-		private readonly string packageRootFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\Packages\";
-		private readonly string tempPackageFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\TempPackage\"; // packageRootFolderPath로 옮기기 전에 곡 정보 읽어오는 용도
+		private const string tempFileRootFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\";
+		private const string packageRootFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\Packages\";
+		private const string tempPackageFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\TempPackage\"; // packageRootFolderPath로 옮기기 전에 곡 정보 읽어오는 용도
 
 		private BinaryFormatter formatter = new BinaryFormatter();
 
@@ -74,7 +74,7 @@ namespace MineBeat.Preload.Song
 
 					if (webRequest.result == UnityWebRequest.Result.ConnectionError)
 					{
-						AlertManager.Instance.Show("에러", "곡 정보를 불러오지 못했습니다.\n\nPath: " + path, AlertManager.AlertButtonType.Single, new string[] { "닫기" }, CloseProcess);
+						StartCoroutine("DelayedAlert", path);
 					}
 					else
 					{
@@ -98,7 +98,7 @@ namespace MineBeat.Preload.Song
 
 				if (webRequest.result == UnityWebRequest.Result.ConnectionError)
 				{
-					AlertManager.Instance.Show("에러", "곡 정보를 불러오지 못했습니다.\n\nPath: " + path, AlertManager.AlertButtonType.Single, new string[] { "닫기" }, CloseProcess);
+					StartCoroutine("DelayedAlert", path);
 				}
 				else
 				{
@@ -117,7 +117,17 @@ namespace MineBeat.Preload.Song
 			Directory.CreateDirectory(tempFileRootFolderPath);
 			Directory.CreateDirectory(packageRootFolderPath);
 
+			if (!Directory.Exists(Application.dataPath + @"\.Patterns"))
+			{
+				StartCoroutine("DelayedAlert", Application.dataPath + @"/.Patterns");
+				return;
+			}
 			string[] files = Directory.GetFiles(Application.dataPath + @"\.Patterns", "*.mbt");
+			if (files.Length == 0)
+			{
+				StartCoroutine("DelayedAlert", Application.dataPath + @"/.Patterns");
+				return;
+			}
 			foreach (string filePath in files)
 			{
 				// UnPack
@@ -147,6 +157,15 @@ namespace MineBeat.Preload.Song
 			}
 
 			Sort(SortType.NameAsc);
+		}
+
+		public IEnumerator DelayedAlert(string path)
+		{
+			while (SceneManager.GetActiveScene().name != "ModeSelectScene")
+			{
+				yield return null;
+			}
+			AlertManager.Instance.Show("에러", "곡 정보를 불러오지 못했습니다.\n\nPath: " + path, AlertManager.AlertButtonType.Single, new string[] { "닫기" }, CloseProcess);
 		}
 
 		private void Update()

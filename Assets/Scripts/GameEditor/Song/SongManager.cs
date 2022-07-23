@@ -40,17 +40,22 @@ namespace MineBeat.GameEditor.Song
 
 		private NotesVerifier notesVerifier;
 		private AlertManager alertManager;
+		private GameManager gameManager;
 		private AudioSource audioSource;
+
 
 		private void Start()
 		{
 			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
 			alertManager = GameObject.Find("PreloadScene Managers").GetComponent<AlertManager>();
+			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 			audioSource = GetComponent<AudioSource>();
 		}
 
 		private void Update()
 		{
+			if (gameManager.blockInput) return;
+
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				switch (playStatus)

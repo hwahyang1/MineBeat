@@ -43,6 +43,7 @@ namespace MineBeat.ResultSingle
 			if (blockInput) return;
 
 			//Destroy(GameObject.Find("SelectedSongInfo"));
+			//Destroy(GameObject.Find("ScoreHistoryManager"));
 
 			SceneChange.Instance.ChangeScene("SongSelectSingleScene");
 			blockInput = true;

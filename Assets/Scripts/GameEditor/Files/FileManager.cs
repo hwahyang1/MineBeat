@@ -46,10 +46,10 @@ namespace MineBeat.GameEditor.Files
 		private string packageFilePath = @"C:\";
 		private string packageFileName = "MineBeat.mbt";
 
-		private readonly string tempFileRootFolderPath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\";
-		private readonly string tempPatternFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.ptrn";
-		private readonly string tempAudioFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.adio";
-		private readonly string tempCoverImageFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.covr";
+		private const string tempFileRootFolderPath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\";
+		private const string tempPatternFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.ptrn";
+		private const string tempAudioFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.adio";
+		private const string tempCoverImageFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.covr";
 
 		private FileStream packageFileStream = null;
 		private FileStream tempPatternFileStream = null;

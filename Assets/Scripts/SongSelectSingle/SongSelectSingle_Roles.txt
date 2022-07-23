@@ -5,7 +5,6 @@
 
 : Song
  V PackageManager: 곡 목록을 관리
- V SongManager: 곡 선택 관리 (몇 가지 문제로 인해 Preload Scene으로 이동함)
  V PreviewSong: 곡 프리뷰 구간 재생을 관리
 
 : KeyInput

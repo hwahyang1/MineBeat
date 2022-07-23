@@ -18,6 +18,8 @@ namespace MineBeat.Preload.Scene
 		private GameObject canvas;
 		[SerializeField]
 		private Image loadingCover;
+		[SerializeField]
+		private Text loadingPercent;
 
 		[Header("Unused GameObject (Canvas)")]
 		[SerializeField]
@@ -49,7 +51,9 @@ namespace MineBeat.Preload.Scene
 
 		public IEnumerator ChangeSceneCoroutine(string sceneName, bool fadeIn, bool fadeOut)
 		{
-			yield return new WaitForSeconds(0.05f); // 직전에 AlertManager가 실행 중이었으면 알림창이 종료 될 때 canvas를 꺼버려서 여기 트랜지션이 안먹음
+			yield return new WaitForSeconds(0.05f); // 직전에 AlertManager가 실행 중이었으면 알림창이 종료 될 때 canvas를 꺼버려서 페이드인이 안먹음
+
+			loadingPercent.gameObject.SetActive(false);
 
 			if (fadeIn || fadeOut)
 			{
@@ -71,17 +75,30 @@ namespace MineBeat.Preload.Scene
 					loadingCover.color = color;
 					yield return null;
 				}
-
-				yield return new WaitForSeconds(0.5f);
+				yield return new WaitForSeconds(0.25f);
 			}
 
-			if (fadeOut) loadingCover.color = new Color(1f, 1f, 1f, 1f);
+			if (fadeOut)
+			{
+				loadingPercent.gameObject.SetActive(true);
+				loadingPercent.text = "0%";
+				loadingCover.color = new Color(1f, 1f, 1f, 1f);
+				yield return new WaitForSeconds(0.25f);
+			}
 
 			AsyncOperation sceneChange = SceneManager.LoadSceneAsync(sceneName);
 			while (!sceneChange.isDone)
 			{
+				loadingPercent.text = string.Format("{0}%", Mathf.Round(sceneChange.progress * 1000) * 0.1f);
 				yield return null;
 			}
+
+			loadingPercent.text = "100%";
+			yield return new WaitForSeconds(0.2f);
+
+			loadingPercent.gameObject.SetActive(false);
+			loadingPercent.text = "0%";
+			yield return new WaitForSeconds(0.05f);
 
 			if (fadeOut)
 			{

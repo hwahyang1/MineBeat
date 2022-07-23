@@ -53,7 +53,15 @@ namespace MineBeat.ResultSingle
 		 */
 		private void CalculateRank()
 		{
-			float impactLineTimecode = songInfo.notes.Find(target => target.type == NoteType.ImpactLine).timeCode;
+			float impactLineTimecode;
+			try
+			{
+				impactLineTimecode = songInfo.notes.Find(target => target.type == NoteType.ImpactLine).timeCode;
+			}
+			catch (System.NullReferenceException)
+			{
+				impactLineTimecode = songInfo.notes[songInfo.notes.Count - 1].timeCode + 1f;
+			}
 			List<Note> targets = songInfo.notes.FindAll(target => target.timeCode < impactLineTimecode && target.type == NoteType.Normal && target.color != NoteColor.Purple);
 
 			uint maxScore = 0;
