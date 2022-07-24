@@ -6,6 +6,8 @@ using UnityEngine;
 using MineBeat.Preload.UI;
 using MineBeat.Preload.Scene;
 
+using MineBeat.Config.Selection;
+
 /*
  * [Namespace] MineBeat.Config.KeyInput
  * Description
@@ -19,6 +21,13 @@ namespace MineBeat.Config.KeyInput
 	public class HotKeyInputManager : MonoBehaviour
 	{
 		private bool active = true;
+
+		private CategorySelectionManager categorySelectionManager;
+
+		private void Start()
+		{
+			categorySelectionManager = GameObject.Find("CategoryManager").GetComponent<CategorySelectionManager>();
+		}
 
 		private void Update()
 		{
@@ -60,11 +69,11 @@ namespace MineBeat.Config.KeyInput
 		}
 		public void OnUpArrowKeyPressed()
 		{
-
+			categorySelectionManager.ChangeCategory(true);
 		}
 		public void OnDownArrowKeyPressed()
 		{
-
+			categorySelectionManager.ChangeCategory(false);
 		}
 		public void OnLeftArrowKeyPressed()
 		{
