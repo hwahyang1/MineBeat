@@ -26,8 +26,10 @@ namespace MineBeat.Config.UI.Elements
 		protected GameObject elementSlider;
 		protected GameObject elementValue;
 
-		protected virtual void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+
 			elementName = transform.GetChild(0).gameObject;
 			elementSlider = transform.GetChild(1).gameObject;
 			elementValue = transform.GetChild(2).gameObject;

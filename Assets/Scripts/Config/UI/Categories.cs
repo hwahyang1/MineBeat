@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using MineBeat.Config.Selection;
-using MineBeat.Config.UI.Elements;
 
 /*
  * [Namespace] MineBeat.Config.UI
@@ -19,6 +18,9 @@ namespace MineBeat.Config.UI
 	 */
 	public class Categories : MonoBehaviour
 	{
+		[SerializeField]
+		private Text description;
+
 		[SerializeField, Tooltip("CategorySelectionManager.Category 순서대로 카테고리 Element GameObject를 입력합니다.")]
 		private List<GameObject> categoryObjects = new List<GameObject>();
 		[SerializeField, Tooltip("CategorySelectionManager.Category 순서대로 카테고리 Content GameObject를 입력합니다.")]
@@ -58,10 +60,19 @@ namespace MineBeat.Config.UI
 					categoryElements[i].SetActive((int)currentCategory == i);
 				}
 			}
+		}
 
-			Vector3 mPosition = Input.mousePosition; //마우스의 스크린 좌표를 입력받는다.
-			Vector3 target = Camera.main.ScreenToWorldPoint(mPosition); //입력 받은 마우스의 좌표값을 월드좌표로 변환
-			Instantiate(obj, target, Quaternion.identity); //변환한 위치에 원하는 오브젝트를 생성
+		/*
+		 * [Method] ChangeDescription(string value = null): void
+		 * 설명을 바꿉니다.
+		 * 
+		 * <string value = null>
+		 * 바꿀 설명을 지정합니다.
+		 * null일 경우, 기본 설명을 표시합니다.
+		 */
+		public void ChangeDescription(string value = null)
+		{
+			description.text = (value == null) ? "항목에 마우스를 올리면 설명이 표시됩니다." : value;
 		}
 	}
 }

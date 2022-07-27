@@ -1,13 +1,13 @@
 [ConfigScene]
 
 : KeyInput
- ~ HotKeyInputManager: 단축키 입력 관리
+ V HotKeyInputManager: 단축키 입력 관리
 
 : Selection
- ~ CategorySelectionManager: 카테고리 선택 관리
+ V CategorySelectionManager: 카테고리 선택 관리
 
 : UI
- ~ Categories: 카테고리/설명 UI 표기 관리
+ V Categories: 카테고리/설명 UI 표기 관리
  : Elements
   V CategoryElement: 공통항목 Parent
   V SelectCategoryElement: 선택형 카테고리 항목 Sub-Parent

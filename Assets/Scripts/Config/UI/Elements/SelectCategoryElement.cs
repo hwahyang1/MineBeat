@@ -25,8 +25,10 @@ namespace MineBeat.Config.UI.Elements
 		protected GameObject elementSelected;
 		protected GameObject elementRightArrow;
 
-		protected virtual void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+
 			elementName = transform.GetChild(0).gameObject;
 			elementLeftArrow = transform.GetChild(1).gameObject;
 			elementSelected = transform.GetChild(2).gameObject;
