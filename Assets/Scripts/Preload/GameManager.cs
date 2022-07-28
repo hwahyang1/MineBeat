@@ -18,18 +18,25 @@ namespace MineBeat.Preload
 	public class GameManager : MonoBehaviour
 	{
 		[SerializeField]
-		private GameObject canvas;
+		private List<GameObject> canvases = new List<GameObject>();
 
 		[SerializeField]
-		private GameObject managersObject;
+		private List<GameObject> soundObjects = new List<GameObject>();
 
 		[SerializeField]
 		private SceneChange sceneChange;
 
 		private void Start()
 		{
-			DontDestroyOnLoad(canvas);
-			DontDestroyOnLoad(managersObject);
+			foreach (GameObject obj in canvases)
+			{
+				DontDestroyOnLoad(obj);
+			}
+
+			foreach (GameObject obj in soundObjects)
+			{
+				DontDestroyOnLoad(obj);
+			}
 
 			StartCoroutine("DelayedStart");
 		}

@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/*
+ * [Namespace] MineBeat.Preload.UI
+ * Description
+ */
 namespace MineBeat.Preload.UI
 {
 	/*

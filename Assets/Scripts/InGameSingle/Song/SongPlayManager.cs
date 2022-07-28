@@ -19,18 +19,19 @@ namespace MineBeat.InGameSingle.Song
 	 */
 	public class SongPlayManager : MonoBehaviour
 	{
-		private AudioSource audioSource;
+		private AudioSource backgroundSound;
+		//private AudioSource effectSound;
 
 		private bool isStarted = false;
 
 		public bool isPlaying
 		{
-			get { return !(isStarted && audioSource.time == 0f && !audioSource.isPlaying); }
+			get { return !(isStarted && backgroundSound.time == 0f && !backgroundSound.isPlaying); }
 		}
 
 		public float timecode
 		{
-			get { return audioSource.time; }
+			get { return backgroundSound.time; }
 		}
 
 		private ulong id;
@@ -39,9 +40,11 @@ namespace MineBeat.InGameSingle.Song
 		{
 			id = GameObject.Find("SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
 
-			audioSource = gameObject.GetComponent<AudioSource>();
+			List<GameObject> audioSources = new List<GameObject>(GameObject.FindGameObjectsWithTag("AudioSource"));
+			backgroundSound = audioSources.Find(target => target.name == "BackgroundSound").GetComponent<AudioSource>();
+			//effectSound = audioSources.Find(target => target.name == "EffectSound").GetComponent<AudioSource>();
 
-			audioSource.clip = PackageManager.Instance.GetMedias(id).Item2;
+			backgroundSound.clip = PackageManager.Instance.GetMedias(id).Item2;
 		}
 
 		private void Start()
@@ -52,8 +55,15 @@ namespace MineBeat.InGameSingle.Song
 		public IEnumerator DelayedStart()
 		{
 			yield return new WaitForSeconds(1.5f);
-			audioSource.Play();
+			backgroundSound.Play();
 			isStarted = true;
+		}
+
+		private void OnDestroy()
+		{
+			backgroundSound.time = 0f;
+			backgroundSound.Stop();
+			backgroundSound.clip = null;
 		}
 	}
 }

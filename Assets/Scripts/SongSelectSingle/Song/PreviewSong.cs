@@ -15,14 +15,12 @@ namespace MineBeat.SongSelectSingle.Song
 	 */
 	public class PreviewSong : MonoBehaviour
 	{
-		// TODO: 나중에 설정부분 작업하면 연동필요
-		[SerializeField]
-		[Range(0f, 1f)]
-		private float maxVolume = 1f;
+		private float maxVolume;
 
 		float[] timecodes = new float[2];
 		private AudioClip audioClip = null;
-		private AudioSource audioSource;
+		private AudioSource backgroundSound;
+		//private AudioSource effectSound;
 
 		[HideInInspector]
 		public bool forceFadeout = false;
@@ -30,43 +28,47 @@ namespace MineBeat.SongSelectSingle.Song
 
 		private void Start()
 		{
-			audioSource = gameObject.GetComponent<AudioSource>();
+			List<GameObject> audioSources = new List<GameObject>(GameObject.FindGameObjectsWithTag("AudioSource"));
+			backgroundSound = audioSources.Find(target => target.name == "BackgroundSound").GetComponent<AudioSource>();
+			//effectSound = audioSources.Find(target => target.name == "EffectSound").GetComponent<AudioSource>();
+
+			maxVolume = backgroundSound.volume;
 		}
 
 		private void Update()
 		{
 			if (reloadRequired)
 			{
-				audioSource.Stop();
-				audioSource.clip = audioClip;
-				audioSource.time = timecodes[0];
-				audioSource.volume = 0f;
-				audioSource.Play();
+				backgroundSound.Stop();
+				backgroundSound.clip = audioClip;
+				backgroundSound.time = timecodes[0];
+				backgroundSound.volume = 0f;
+				backgroundSound.Play();
 				reloadRequired = false;
 			}
 
 			if (forceFadeout)
 			{
-				audioSource.volume = Mathf.Lerp(audioSource.volume, 0f, 3f * Time.deltaTime);
+				backgroundSound.volume = Mathf.Lerp(backgroundSound.volume, 0f, 3f * Time.deltaTime);
 			}
 			else
 			{
-				if (audioSource.time <= timecodes[0] + 0.75f)
+				if (backgroundSound.time <= timecodes[0] + 0.75f)
 				{
-					audioSource.volume = Mathf.Lerp(audioSource.volume, maxVolume, 2.75f * Time.deltaTime);
+					backgroundSound.volume = Mathf.Lerp(backgroundSound.volume, maxVolume, 2.75f * Time.deltaTime);
 				}
-				else if (audioSource.time >= timecodes[1] - 1f)
+				else if (backgroundSound.time >= timecodes[1] - 1f)
 				{
-					audioSource.volume = Mathf.Lerp(audioSource.volume, 0f, 3f * Time.deltaTime);
+					backgroundSound.volume = Mathf.Lerp(backgroundSound.volume, 0f, 3f * Time.deltaTime);
 				}
 				else
 				{
-					audioSource.volume = maxVolume;
+					backgroundSound.volume = maxVolume;
 				}
 
-				if (audioSource.time > timecodes[1])
+				if (backgroundSound.time > timecodes[1])
 				{
-					audioSource.time = timecodes[0];
+					backgroundSound.time = timecodes[0];
 				}
 			}
 		}
@@ -87,6 +89,14 @@ namespace MineBeat.SongSelectSingle.Song
 			this.timecodes = timecodes;
 
 			reloadRequired = true;
+		}
+
+		private void OnDestroy()
+		{
+			backgroundSound.time = 0f;
+			backgroundSound.Stop();
+			backgroundSound.volume = maxVolume;
+			backgroundSound.clip = null;
 		}
 	}
 }

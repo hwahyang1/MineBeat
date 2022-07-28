@@ -10,7 +10,7 @@
  V SongManager: 곡 선택 관리 (SongSelectSingleScene에서 넘어옴)
 
 : Config
- ~ ConfigManager: 설정 파일 저장/불러오기/적용 관리 (ConfigScene에서 넘어옴)
+ V ConfigManager: 설정 파일 저장/불러오기/적용 관리 (ConfigScene에서 넘어옴)
 
 : GameManager
  V GameManager: 로드 완료 이후 Scene 넘길 수 있도록 관리

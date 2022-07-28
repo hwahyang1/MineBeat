@@ -17,9 +17,9 @@ namespace MineBeat.Config.UI.Elements
 	public abstract class SliderCategoryElement : CategoryElement
 	{
 		[SerializeField]
-		protected int minValue = 0;
+		protected float minValue = 0f;
 		[SerializeField]
-		protected int maxValue = 100;
+		protected float maxValue = 1f;
 		protected float currentValue = 0f;
 
 		protected GameObject elementName;

@@ -12,21 +12,21 @@ using MineBeat.Preload.Config;
 namespace MineBeat.Config.UI.Elements.Graphic
 {
 	/*
-	 * [Class] Resolution
-	 * 해상도 선택을 관리합니다.
+	 * [Class] FPSCount
+	 * FPS 카운터 선택을 관리합니다.
 	 */
-	public class Resolution : SelectCategoryElement
+	public class FPSCount : SelectCategoryElement
 	{
 		protected override void Start()
 		{
-			currentSelection = (int)ConfigManager.Instance.GetConfig().resolutionHeight;
+			currentSelection = ConfigManager.Instance.GetConfig().fpsCounter ? 1 : 0;
 			base.Start();
 		}
 
 		protected override void OnValueChanged()
 		{
 			RootConfig config = ConfigManager.Instance.GetConfig();
-			config.resolutionHeight = (ResolutionHeight)currentSelection;
+			config.fpsCounter = currentSelection == 1;
 			ConfigManager.Instance.SetConfig(config);
 			base.OnValueChanged();
 		}

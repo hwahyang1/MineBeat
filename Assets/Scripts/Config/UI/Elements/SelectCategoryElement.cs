@@ -39,7 +39,7 @@ namespace MineBeat.Config.UI.Elements
 		}
 
 		/// <summary>
-		/// 해당 Method는 사전에 선택된 값을 기준으로 UI를 업데이트 시킵니다.
+		/// 해당 Method는 currentSelection 변수를 기준으로 UI를 업데이트 시킵니다.
 		/// 모든 작업이 완료된 후 base.Start()를 호출합니다.
 		/// </summary>
 		protected virtual void Start()
