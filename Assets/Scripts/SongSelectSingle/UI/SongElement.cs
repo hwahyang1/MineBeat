@@ -37,7 +37,9 @@ namespace MineBeat.SongSelectSingle.UI
 
 		private void Start()
 		{
-			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			songManager = managers.Find(target => target.name == "SongManager").GetComponent<SongManager>();
 		}
 
 		/*

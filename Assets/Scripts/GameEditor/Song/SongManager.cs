@@ -46,9 +46,11 @@ namespace MineBeat.GameEditor.Song
 
 		private void Start()
 		{
-			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
-			alertManager = GameObject.Find("PreloadScene Managers").GetComponent<AlertManager>();
-			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			notesVerifier = managers.Find(target => target.name == "NoteManagers").GetComponent<NotesVerifier>();
+			alertManager = managers.Find(target => target.name == "PreloadScene Managers").GetComponent<AlertManager>();
+			gameManager = managers.Find(target => target.name == "GameManager").GetComponent<GameManager>();
 			audioSource = GetComponent<AudioSource>();
 		}
 

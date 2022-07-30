@@ -25,7 +25,9 @@ namespace MineBeat.InGameSingle.UI
 
 		private void Start()
 		{
-			scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			scoreManager = managers.Find(target => target.name == "ScoreManager").GetComponent<ScoreManager>();
 		}
 
 		private void Update()

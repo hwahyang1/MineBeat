@@ -26,7 +26,7 @@ namespace MineBeat.GameEditor.Notes
 
 		private void Start()
 		{
-			notesVerifier = gameObject.GetComponent<NotesVerifier>();
+			notesVerifier = GetComponent<NotesVerifier>();
 		}
 
 		/*

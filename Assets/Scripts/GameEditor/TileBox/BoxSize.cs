@@ -56,12 +56,14 @@ namespace MineBeat.GameEditor.TileBox
 
 		private void Start()
 		{
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
 			boxMap = transform.Find("Box").GetComponent<Tilemap>();
 			gridMap = transform.Find("Box Grid").GetComponent<Tilemap>();
 
 			mainCamara = Camera.main;
-			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
-			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
+			songManager = managers.Find(target => target.name == "SongManager").GetComponent<SongManager>();
+			notesManager = managers.Find(target => target.name == "NoteManagers").GetComponent<NotesManager>();
 
 			DrawBox();
 		}

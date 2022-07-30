@@ -31,8 +31,10 @@ namespace MineBeat.SongSelectSingle.KeyInput
 
 		private void Start()
 		{
-			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
-			previewSong = songManager.gameObject.GetComponent<PreviewSong>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			songManager = managers.Find(target => target.name == "SongManager").GetComponent<SongManager>();
+			previewSong = managers.Find(target => target.name == "SongManager").GetComponent<PreviewSong>();
 		}
 
 		private void Update()

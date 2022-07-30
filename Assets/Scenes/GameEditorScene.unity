@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 8945366}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: Managers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -320,6 +320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SongInfoArea: {fileID: 1088565242}
+  blockInput: 0
 --- !u!1 &50846109
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +578,7 @@ GameObject:
   - component: {fileID: 108338780}
   m_Layer: 0
   m_Name: NoteManagers
-  m_TagString: Untagged
+  m_TagString: Managers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4724,7 +4725,7 @@ GameObject:
   - component: {fileID: 911464118}
   m_Layer: 0
   m_Name: FileManager
-  m_TagString: Untagged
+  m_TagString: Managers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5527,7 +5528,7 @@ GameObject:
   - component: {fileID: 1103653351}
   m_Layer: 0
   m_Name: UIManagers
-  m_TagString: Untagged
+  m_TagString: Managers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10447,7 +10448,7 @@ GameObject:
   - component: {fileID: 1883220571}
   m_Layer: 0
   m_Name: SongManager
-  m_TagString: Untagged
+  m_TagString: Managers
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

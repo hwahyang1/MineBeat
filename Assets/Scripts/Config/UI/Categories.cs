@@ -42,7 +42,7 @@ namespace MineBeat.Config.UI
 
 		private void Start()
 		{
-			categorySelectionManager = gameObject.GetComponent<CategorySelectionManager>();
+			categorySelectionManager = GetComponent<CategorySelectionManager>();
 		}
 
 		private void Update()

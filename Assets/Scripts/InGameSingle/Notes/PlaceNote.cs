@@ -44,9 +44,12 @@ namespace MineBeat.InGameSingle.Notes
 
 		private void Awake()
 		{
-			boxManager = GameObject.Find("Tilemaps").GetComponent<BoxManager>();
-			songPlayManager = GameObject.Find("SongManager").GetComponent<SongPlayManager>();
-			id = GameObject.Find("SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			boxManager = managers.Find(target => target.name == "Tilemaps").GetComponent<BoxManager>();
+			songPlayManager = managers.Find(target => target.name == "SongManager").GetComponent<SongPlayManager>();
+			id = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
+
 			notes = PackageManager.Instance.GetSongInfo(id).notes;
 		}
 

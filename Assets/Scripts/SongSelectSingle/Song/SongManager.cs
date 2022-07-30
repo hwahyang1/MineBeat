@@ -35,11 +35,13 @@ namespace MineBeat.SongSelectSingle.Song
 		{
 			songs = PackageManager.Instance.GetAllPackageId();
 
-			songDetail = GameObject.Find("UIManagers").GetComponent<SongDetail>();
-			previewSong = gameObject.GetComponent<PreviewSong>();
-			songListDisplay = GameObject.Find("UIManagers").GetComponent<SongListDisplay>();
-			hotKeyInputManager = GameObject.Find("HotKeyInputManager").GetComponent<HotKeyInputManager>();
-			scoreHistoryManager = GameObject.Find("ScoreHistoryManager").GetComponent<ScoreHistoryManager>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			songDetail = managers.Find(target => target.name == "UIManagers").GetComponent<SongDetail>();
+			previewSong = GetComponent<PreviewSong>();
+			songListDisplay = managers.Find(target => target.name == "UIManagers").GetComponent<SongListDisplay>();
+			hotKeyInputManager = managers.Find(target => target.name == "HotKeyInputManager").GetComponent<HotKeyInputManager>();
+			scoreHistoryManager = managers.Find(target => target.name == "ScoreHistoryManager").GetComponent<ScoreHistoryManager>();
 
 			GameObject selectedSongInfo = GameObject.Find("SelectedSongInfo");
 			if (selectedSongInfo == null)

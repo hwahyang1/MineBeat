@@ -26,7 +26,9 @@ namespace MineBeat.Config.KeyInput
 
 		private void Start()
 		{
-			categorySelectionManager = GameObject.Find("CategoryManager").GetComponent<CategorySelectionManager>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			categorySelectionManager = managers.Find(target => target.name == "CategoryManager").GetComponent<CategorySelectionManager>();
 		}
 
 		private void Update()

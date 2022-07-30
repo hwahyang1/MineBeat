@@ -129,11 +129,13 @@ namespace MineBeat.GameEditor.Files
 
 		private void Start()
 		{
-			notesVerifier = GameObject.Find("NoteManagers").GetComponent<NotesVerifier>();
-			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
-			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
-			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-			songCover = GameObject.Find("UIManagers").GetComponent<SongCover>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			notesVerifier = managers.Find(target => target.name == "NoteManagers").GetComponent<NotesVerifier>();
+			notesManager = managers.Find(target => target.name == "NoteManagers").GetComponent<NotesManager>();
+			songManager = managers.Find(target => target.name == "SongManager").GetComponent<SongManager>();
+			gameManager = managers.Find(target => target.name == "GameManager").GetComponent<GameManager>();
+			songCover = managers.Find(target => target.name == "UIManagers").GetComponent<SongCover>();
 			boxSize = GameObject.Find("Tilemaps").GetComponent<BoxSize>();
 
 			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);

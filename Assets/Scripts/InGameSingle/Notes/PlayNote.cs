@@ -65,8 +65,10 @@ namespace MineBeat.InGameSingle.Notes
 		{
 			if (transform.parent.gameObject.TryGetComponent(typeof(PlayNote), out Component component)) Destroy(this);
 
-			spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			spriteRenderer = GetComponent<SpriteRenderer>();
+			gameManager = managers.Find(target => target.name == "GameManager").GetComponent<GameManager>();
 			boxManager = GameObject.Find("Tilemaps").GetComponent<BoxManager>();
 		}
 

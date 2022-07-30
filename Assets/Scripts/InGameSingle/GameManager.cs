@@ -35,13 +35,22 @@ namespace MineBeat.InGameSingle
 
 		private void Start()
 		{
-			hpManager = GameObject.Find("HPManager").GetComponent<HPManager>();
-			scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
-			songPlayManager = GameObject.Find("SongManager").GetComponent<SongPlayManager>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			hpManager = managers.Find(target => target.name == "HPManager").GetComponent<HPManager>();
+			scoreManager = managers.Find(target => target.name == "ScoreManager").GetComponent<ScoreManager>();
+			songPlayManager = managers.Find(target => target.name == "SongManager").GetComponent<SongPlayManager>();
 		}
 
 		private void Update()
 		{
+			if (hpManager.hp <= 0)
+			{
+				SceneChange.Instance.ChangeScene("SongSelectSingleScene");
+
+				Destroy(gameObject);
+			}
+
 			if (!songPlayManager.isPlaying)
 			{
 				SelectedSongInfo selectedSongInfo = GameObject.Find("SelectedSongInfo").GetComponent<SelectedSongInfo>();

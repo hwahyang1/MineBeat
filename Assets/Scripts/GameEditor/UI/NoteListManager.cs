@@ -28,8 +28,10 @@ namespace MineBeat.GameEditor.UI
 
 		private void Start()
 		{
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
 			toggleGroup = gameObject.GetComponent<ToggleGroup>();
-			notesManager = GameObject.Find("NoteManagers").GetComponent<NotesManager>();
+			notesManager = managers.Find(target => target.name == "NoteManagers").GetComponent<NotesManager>();
 		}
 
 		private void Update()

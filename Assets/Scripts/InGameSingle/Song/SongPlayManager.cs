@@ -38,7 +38,9 @@ namespace MineBeat.InGameSingle.Song
 
 		private void Awake()
 		{
-			id = GameObject.Find("SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			id = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
 
 			List<GameObject> audioSources = new List<GameObject>(GameObject.FindGameObjectsWithTag("AudioSource"));
 			backgroundSound = audioSources.Find(target => target.name == "BackgroundSound").GetComponent<AudioSource>();

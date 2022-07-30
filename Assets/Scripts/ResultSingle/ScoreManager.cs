@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 using MineBeat.SongSelectSingle.Score;
 using MineBeat.SongSelectSingle.Extern;
 
 using MineBeat.Preload.Song;
+using MineBeat.Preload.Config;
 
 /*
  * [Namespace] MineBeat.ResultSingle
@@ -33,8 +35,10 @@ namespace MineBeat.ResultSingle
 
 		private void Awake()
 		{
-			scoreHistoryManager = GameObject.Find("ScoreHistoryManager").GetComponent<ScoreHistoryManager>();
-			selectedSongInfo = GameObject.Find("SelectedSongInfo").GetComponent<SelectedSongInfo>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			scoreHistoryManager = managers.Find(target => target.name == "ScoreHistoryManager").GetComponent<ScoreHistoryManager>();
+			selectedSongInfo = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>();
 
 			songInfo = PackageManager.Instance.GetSongInfo(selectedSongInfo.id);
 			previousHistory = scoreHistoryManager.GetHistory(selectedSongInfo.id);
@@ -45,6 +49,8 @@ namespace MineBeat.ResultSingle
 			CalculateRank();
 
 			SubmitData();
+
+			if (ConfigManager.Instance.GetConfig().skipResult) SceneManager.LoadScene("SongSelectSingleScene");
 		}
 
 		/*

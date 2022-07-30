@@ -27,7 +27,9 @@ namespace MineBeat.InGameSingle.UI
 
 		private void Start()
 		{
-			hpManager = GameObject.Find("HPManager").GetComponent<HPManager>();
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
+			hpManager = managers.Find(target => target.name == "HPManager").GetComponent<HPManager>();
 
 			hpText.text = "HP: " + hpManager.hp;
 			hpSlider.value = 1f;

@@ -53,9 +53,11 @@ namespace MineBeat.GameEditor.Notes
 
 		private void Start()
 		{
+			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
+
 			boxSize = GameObject.Find("Tilemaps").GetComponent<BoxSize>();
-			notesManager = gameObject.GetComponent<NotesManager>();
-			songManager = GameObject.Find("SongManager").GetComponent<SongManager>();
+			notesManager = GetComponent<NotesManager>();
+			songManager = managers.Find(target => target.name == "SongManager").GetComponent<SongManager>();
 		}
 
 		private void Update()
