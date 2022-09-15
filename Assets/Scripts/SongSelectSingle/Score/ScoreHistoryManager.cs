@@ -6,16 +6,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
- * [Namespace] MineBeat.SongSelectSingle.Score
- * Description
- */
 namespace MineBeat.SongSelectSingle.Score
 {
-	/*
-	 * [Class] ScoreHistoryManager
-	 * 이전 플레이 기록을 저장 및 관리합니다.
-	 */
+	/// <summary>
+	/// 이전 플레이 기록을 저장 및 관리합니다.
+	/// </summary>
 	public class ScoreHistoryManager : Singleton<ScoreHistoryManager>
 	{
 		// 플레이 기록은 rootPath에 ID.dat 파일로 저장합니다.
@@ -58,17 +53,11 @@ namespace MineBeat.SongSelectSingle.Score
 				Destroy(gameObject);
 		}
 
-		/*
-		 * [Method] GetHistory(ulong id): PlayHistory
-		 * 특정한 곡의 플레이 기록을 반환합니다.
-		 * 
-		 * <ulong id>
-		 * 찾을 곡의 ID를 입력합니다.
-		 * 
-		 * <RETURN: PlayHistory>
-		 * 해당하는 곡의 플레이 기록을 반환합니다.
-		 * 플레이 기록이 없을 경우, 기본값을 반환합니다.
-		 */
+		/// <summary>
+		/// 특정한 곡의 플레이 기록을 반환합니다.
+		/// </summary>
+		/// <param name="id">찾을 곡의 ID를 입력합니다.</param>
+		/// <returns>해당하는 곡의 플레이 기록을 반환합니다. 플레이 기록이 없을 경우, 기본값을 반환합니다.</returns>
 		public PlayHistory GetHistory(ulong id)
 		{
 			if (history.Exists(target => target.Item1 == id))
@@ -78,14 +67,11 @@ namespace MineBeat.SongSelectSingle.Score
 			return new PlayHistory(id, 0, 0, 0, PlayRank.X);
 		}
 
-		/*
-		 * [Method] AddHistory(PlayHistory playHistory): void
-		 * 특정한 곡의 플레이 기록을 추가합니다.
-		 * 기존에 플레이 기록이 있다면, 덮어씌웁니다.
-		 * 
-		 * <PlayHistory playHistory>
-		 * 플레이 기록을 입력합니다.
-		 */
+		/// <summary>
+		/// 특정한 곡의 플레이 기록을 추가합니다.
+		/// 기존에 플레이 기록이 있다면, 덮어씌웁니다.
+		/// </summary>
+		/// <param name="playHistory">플레이 기록을 입력합니다.</param>
 		public void AddHistory(PlayHistory playHistory)
 		{
 			if (history.Exists(target => target.Item1 == playHistory.songId))

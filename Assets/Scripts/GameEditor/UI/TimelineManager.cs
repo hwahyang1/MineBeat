@@ -7,16 +7,11 @@ using TMPro;
 
 using MineBeat.GameEditor.Song;
 
-/*
- * [Namespace] Minebeat.GameEditor.UI
- * Desciption
- */
 namespace MineBeat.GameEditor.UI
 {
-	/*
-	 * [Class] TimelineManager
-	 * 곡의 재생 정보를 표기합니다.
-	 */
+	/// <summary>
+	/// 곡의 재생 정보를 표기합니다.
+	/// </summary>
 	public class TimelineManager : MonoBehaviour
 	{
 		[Header("Timeline")]
@@ -79,25 +74,19 @@ namespace MineBeat.GameEditor.UI
 			}*/
 		}
 
-		/*
-		 * [Method] OnHideUIWhenPlayToggleChanged(): void
-		 * Hide UI while playing 토글이 변경되었을 때 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// 'Hide UI while playing' 토글이 변경되었을 때 이벤트를 처리합니다.
+		/// </summary>
 		public void OnHideUIWhenPlayToggleChanged()
 		{
 			hideUIOnPlay = !hideUIOnPlay;
 		}
 
-		/*
-		 * [Method] ConvertTimeCode(float length): string
-		 * float 형태의 초를 문자열의 TimeCode로 반환합니다.
-		 * 
-		 * <float length>
-		 * 길이를 초 단위로 받습니다.
-		 * 
-		 * <RETURN: string>
-		 * 변환된 문자열 형태로 반환합니다.
-		 */
+		/// <summary>
+		/// float 형태의 초를 문자열의 TimeCode로 반환합니다.
+		/// </summary>
+		/// <param name="length">길이를 초 단위로 받습니다.</param>
+		/// <returns>변환된 문자열 형태로 반환합니다.</returns>
 		private string ConvertTimeCode(float length)
 		{
 			int front = Mathf.FloorToInt(length);
@@ -109,16 +98,11 @@ namespace MineBeat.GameEditor.UI
 			return string.Format("{0:00}:{1:00}:{2:000}", min, sec, back);
 		}
 
-		/*
-		 * [Method] ConvertTimeCode(string code): float
-		 * 문자열 형태의 TimeCode를 실수형의 초로 반환합니다.
-		 * 
-		 * <string code>
-		 * 길이를 문자열로 받습니다.
-		 * 
-		 * <RETURN: float>
-		 * 변환된 실수 형태로 반환합니다.
-		 */
+		/// <summary>
+		/// 문자열 형태의 TimeCode를 실수형의 초로 반환합니다.
+		/// </summary>
+		/// <param name="code">길이를 문자열로 받습니다.</param>
+		/// <returns>변환된 실수 형태로 반환합니다.</returns>
 		private float ConvertTimeCode(string code)
 		{
 			try
@@ -137,10 +121,10 @@ namespace MineBeat.GameEditor.UI
 			}
 		}
 
-		/*
-		 * [Method] UpdateAudioClip(): void
-		 * AudioClip이 갱신되었을 때 정보를 갱신합니다.
-		 */
+		/// <summary>
+		/// AudioClip이 갱신되었을 때 정보를 갱신합니다.
+		/// </summary>
+		///
 		public void UpdateAudioClip()
 		{
 			currentTimeCode.text = "00:00:000";
@@ -148,10 +132,9 @@ namespace MineBeat.GameEditor.UI
 			endTimeCode.text = ConvertTimeCode(songManager.audioClip.length);
 		}
 
-		/*
-		 * [Method] OnCurrentTimeCodeEditEnded(): void
-		 * CurrentTimeCode의 값이 변경되었을 때 정보를 갱신합니다. (입력이 완전히 끝나야 호출됩니다)
-		 */
+		/// <summary>
+		/// CurrentTimeCode의 값이 변경되었을 때 정보를 갱신합니다. (입력이 완전히 끝나야 호출됩니다)
+		/// </summary>
 		public void OnCurrentTimeCodeEditEnded()
 		{
 			float targetTimeCode = ConvertTimeCode(currentTimeCode.text);
@@ -165,11 +148,10 @@ namespace MineBeat.GameEditor.UI
 			currentTimeCode.text = ConvertTimeCode(targetTimeCode);
 			timeline.value = targetTimeCode / maxTimeCode;
 		}
-
-		/*
-		 * [Method] OnTimelineChanged(): void
-		 * Timeline의 값이 변경되었을 때 정보를 갱신합니다.
-		 */
+		
+		/// <summary>
+		/// Timeline의 값이 변경되었을 때 정보를 갱신합니다.
+		/// </summary>
 		public void OnTimelineChanged()
 		{
 			float currentValue = songManager.audioClip.length * timeline.value;
@@ -178,13 +160,10 @@ namespace MineBeat.GameEditor.UI
 			songManager.ChangeCurrentTime(currentValue);
 		}
 
-		/*
-		 * [Method] ChangeTimeCode(float timeCode): void
-		 * 현재 TimeCode를 지정한 값으로 바꿉니다.
-		 * 
-		 * <float timeCode>
-		 * 바꾸길 원하는 시간 값을 초 단위로 입력합니다.
-		 */
+		/// <summary>
+		/// 현재 TimeCode를 지정한 값으로 바꿉니다.
+		/// </summary>
+		/// <param name="timeCode">바꾸길 원하는 시간 값을 초 단위로 입력합니다.</param>
 		public void ChangeTimeCode(float timeCode)
 		{
 			float maxTimeCode = ConvertTimeCode(endTimeCode.text);

@@ -7,10 +7,9 @@ using UnityEngine.SceneManagement;
 
 namespace MineBeat.Preload.Scene
 {
-	/*
-	 * [Class] SceneChange
-	 * Scene 변경과 트랜지션을 관리합니다.
-	 */
+	/// <summary>
+	/// Scene 변경과 트랜지션을 관리합니다.
+	/// </summary>
 	public class SceneChange : Singleton<SceneChange>
 	{
 		[Header("GameObject (Canvas)")]
@@ -31,19 +30,12 @@ namespace MineBeat.Preload.Scene
 		[SerializeField]
 		private float transitionTime = 1f;
 
-		/*
-		 * [Method] ChangeScene(string sceneName, bool fadeIn = true, bool fadeOut = true): void
-		 * Scene을 변경합니다.
-		 * 
-		 * <string sceneName>
-		 * 변경할 Scene의 이름을 입력합니다.
-		 * 
-		 * <bool fadeIn = true>
-		 * Scene 변경 시 페이드 인 트랜지션을 적용 할 지 결정합니다.
-		 * 
-		 * <bool fadeOut = true>
-		 * Scene 변경 시 페이드 아웃 트랜지션을 적용 할 지 결정합니다.
-		 */
+		/// <summary>
+		/// Scene을 변경합니다.
+		/// </summary>
+		/// <param name="sceneName">변경할 Scene의 이름을 입력합니다.</param>
+		/// <param name="fadeIn">Scene 변경 시 페이드 인 트랜지션을 적용 할 지 결정합니다.</param>
+		/// <param name="fadeOut">Scene 변경 시 페이드 아웃 트랜지션을 적용 할 지 결정합니다.</param>
 		public void ChangeScene(string sceneName, bool fadeIn = true, bool fadeOut = true)
 		{
 			StartCoroutine(ChangeSceneCoroutine(sceneName, fadeIn, fadeOut));

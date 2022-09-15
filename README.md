@@ -1,6 +1,6 @@
 # MineBeat
 
-Unity 2022.1.12f1
+Unity 2022.1.16f1
 
 ## 개요
 

@@ -7,16 +7,11 @@ using UnityEngine.Tilemaps;
 using MineBeat.InGameSingle.Box;
 using MineBeat.InGameSingle.Player;
 
-/*
- * [Namespace] MineBeat.InGameSingle.Notes
- * Description
- */
 namespace MineBeat.InGameSingle.Notes
 {
-	/*
-	 * [Class] PlayNote
-	 * 배치된 노트에 붙어 노트를 제어합니다.
-	 */
+	/// <summary>
+	/// 배치된 노트에 붙어 노트를 제어합니다.
+	/// </summary>
 	public class PlayNote : MonoBehaviour
 	{
 		[SerializeField, Tooltip("DefineNote.NoteDirection을 기준으로 입력합니다.")]
@@ -163,10 +158,9 @@ namespace MineBeat.InGameSingle.Notes
 			timecode += Time.deltaTime;
 		}
 
-		/*
-		 * [Method] OnBoxEnter(): void
-		 * 노트가 박스와 충돌했을 때 (또는 그에 상응하는 이벤트가 발생했을 때) 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// 노트가 박스와 충돌했을 때 (또는 그에 상응하는 이벤트가 발생했을 때) 이벤트를 처리합니다.
+		/// </summary>
 		private void OnBoxEnter()
 		{
 			if (isActive)
@@ -185,13 +179,10 @@ namespace MineBeat.InGameSingle.Notes
 			Destroy(gameObject);
 		}
 
-		/*
-		 * [Method] OnTriggered(Collider2D collision): void
-		 * 다른 GameObject와 충돌했을 때 판정을 처리합니다.
-		 * 
-		 * <Collider2D collision>
-		 * 충돌한 GameObject를 입력합니다.
-		 */
+		/// <summary>
+		/// 다른 GameObject와 충돌했을 때 판정을 처리합니다.
+		/// </summary>
+		/// <param name="collision">충돌한 GameObject를 입력합니다.</param>
 		public void OnTriggered(Collider2D collision)
 		{
 

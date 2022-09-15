@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
- * [Namespace] MineBeat.ResultSingle
- * Description
- */
 namespace MineBeat.ResultSingle
 {
-	/*
-	 * [Class] UIManager
-	 * UI 노출을 관리합니다.
-	 */
+	/// <summary>
+	/// UI 노출을 관리합니다.
+	/// </summary>
 	public class UIManager : MonoBehaviour
 	{
 		[SerializeField]

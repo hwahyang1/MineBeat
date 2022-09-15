@@ -3,18 +3,12 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] Minebeat
- * Desciption
- */
 namespace MineBeat
 {
-	/*
-	 * [Class] Singleton<T>
-	 * 싱글톤 패턴 템플릿입니다.
-	 * 
-	 * © stageroad0820 (cloudysolar)
-	 */
+	/// <summary>
+	/// 싱글톤 패턴 템플릿입니다.
+	/// © stageroad0820 (cloudysolar)
+	/// </summary>
 	public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 	{
 		private static T instance;

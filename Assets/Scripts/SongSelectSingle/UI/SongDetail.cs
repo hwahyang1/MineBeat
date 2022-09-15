@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
- * [Namespace] MineBeat.SongSelectSingle.UI
- * Description
- */
 namespace MineBeat.SongSelectSingle.UI
 {
-	/*
-	 * [Class] SongDetail
-	 * UI 좌측 현재 곡 정보를 띄워줍니다.
-	 */
+	/// <summary>
+	/// UI 좌측 현재 곡 정보를 띄워줍니다.
+	/// </summary>
 	public class SongDetail : MonoBehaviour
 	{
 		[SerializeField]
@@ -21,20 +16,12 @@ namespace MineBeat.SongSelectSingle.UI
 		[SerializeField]
 		private Transform recordArea;
 
-		/*
-		 * [Method] UpdateInfo(SongInfo song, PlayHistory history, Sprite cover = null): void
-		 * 곡 정보를 갱신합니다.
-		 * 
-		 * <SongInfo song>
-		 * 곡 정보를 입력합니다.
-		 * 
-		 * <PlayHistory history>
-		 * 과거의 플레이 기록을 입력합니다.
-		 * 
-		 * <Sprite cover = null>
-		 * 커버이미지를 입력합니다.
-		 * 입력되지 않을 경우(null), 기본 이미지를 출력합니다.
-		 */
+		/// <summary>
+		/// 곡 정보를 갱신합니다.
+		/// </summary>
+		/// <param name="song">곡 정보를 입력합니다.</param>
+		/// <param name="history">과거의 플레이 기록을 입력합니다.</param>
+		/// <param name="cover">커버이미지를 입력합니다. 입력되지 않을 경우(null), 기본 이미지를 출력합니다.</param>
 		public void UpdateInfo(SongInfo song, PlayHistory history, Sprite cover = null)
 		{
 			songInfoArea.GetChild(0).GetComponent<Image>().sprite = cover;

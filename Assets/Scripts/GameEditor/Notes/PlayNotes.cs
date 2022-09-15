@@ -7,16 +7,11 @@ using UnityEngine.Tilemaps;
 using MineBeat.GameEditor.Song;
 using MineBeat.GameEditor.TileBox;
 
-/*
- * [Namespace] Minebeat.GameEditor.Notes
- * Desciption
- */
 namespace MineBeat.GameEditor.Notes
 {
-	/*
-	 * [Class] PlayNotes
-	 * TimeCode에 따른 노트의 위치를 계산하고, 노트를 배치 및 제거합니다.
-	 */
+	/// <summary>
+	/// TimeCode에 따른 노트의 위치를 계산하고, 노트를 배치 및 제거합니다.
+	/// </summary>
 	public class PlayNotes : MonoBehaviour
 	{
 		[Header("Tilemap")]
@@ -73,10 +68,11 @@ namespace MineBeat.GameEditor.Notes
 			}
 		}
 
-		/*
-		 * [Method] Draw(): void
-		 * 화면상에 표기되는 노트를 다시 그립니다.
-		 */
+		/// <summary>
+		/// 화면상에 표기되는 노트를 다시 그립니다.
+		/// </summary>
+		/// <param name="notes">노트 정보를 입력합니다.</param>
+		/// <param name="currentTime">현재 Timecode를 입력합니다.</param>
 		public void Draw(List<Note> notes, float currentTime)
 		{
 			for (int i = 0; i < noteParent.childCount; i++)

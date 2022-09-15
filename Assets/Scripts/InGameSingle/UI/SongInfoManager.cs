@@ -7,16 +7,11 @@ using UnityEngine.UI;
 using MineBeat.Preload.Song;
 using MineBeat.SongSelectSingle.Extern;
 
-/*
- * [Namespace] MineBeat.InGameSingle.UI
- * Description
- */
 namespace MineBeat.InGameSingle.UI
 {
-	/*
-	 * [Class] SongInfoManager
-	 * 곡 정보 표기를 관리합니다.
-	 */
+	/// <summary>
+	/// 곡 정보 표기를 관리합니다.
+	/// </summary>
 	public class SongInfoManager : MonoBehaviour
 	{
 		[SerializeField]

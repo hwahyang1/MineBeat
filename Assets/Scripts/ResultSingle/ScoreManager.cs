@@ -10,16 +10,11 @@ using MineBeat.SongSelectSingle.Extern;
 using MineBeat.Preload.Song;
 using MineBeat.Preload.Config;
 
-/*
- * [Namespace] MineBeat.ResultSingle
- * Description
- */
 namespace MineBeat.ResultSingle
 {
-	/*
-	 * [Class] ScoreManager
-	 * 결과 점수를 처리합니다.
-	 */
+	/// <summary>
+	/// 결과 점수를 처리합니다.
+	/// </summary>
 	public class ScoreManager : MonoBehaviour
 	{
 		private ScoreHistoryManager scoreHistoryManager;
@@ -53,10 +48,9 @@ namespace MineBeat.ResultSingle
 			if (ConfigManager.Instance.GetConfig().skipResult) SceneManager.LoadScene("SongSelectSingleScene");
 		}
 
-		/*
-		 * [Method] CalculateRank(): void
-		 * 랭크를 계산합니다.
-		 */
+		/// <summary>
+		/// 랭크를 계산합니다.
+		/// </summary>
 		private void CalculateRank()
 		{
 			float impactLineTimecode;
@@ -103,10 +97,9 @@ namespace MineBeat.ResultSingle
 			else playRank = PlayRank.D;
 		}
 
-		/*
-		 * [Method] SubmitData(): void
-		 * 점수를 갱신합니다.
-		 */
+		/// <summary>
+		/// 점수를 갱신합니다.
+		/// </summary>
 		private void SubmitData()
 		{
 			if (!(scoreComboHistory[0].Item3 || scoreComboHistory[1].Item3)) return;
@@ -122,40 +115,22 @@ namespace MineBeat.ResultSingle
 			scoreHistoryManager.AddHistory(history);
 		}
 
-		/*
-		 * [Method] GetSongInfo(): SongInfo
-		 * 현재 곡의 정보를 반환합니다.
-		 * 
-		 * <RETURN: SongInfo>
-		 * 현재 곡의 정보를 반환합니다.
-		 */
-		public SongInfo GetSongInfo()
-		{
-			return songInfo;
-		}
+		/// <summary>
+		/// 현재 곡의 정보를 반환합니다.
+		/// </summary>
+		/// <returns>현재 곡의 정보를 반환합니다.</returns>
+		public SongInfo GetSongInfo() => songInfo;
 
-		/*
-		 * [Method] GetScoreComboHistory(): List<System.Tuple<ulong, ulong, bool>>
-		 * 점수와 콤보의 이전 기록, 현재 기록과 최고기록 갱신 여부를 반환합니다.
-		 * 
-		 * <RETURN: List<System.Tuple<ulong, ulong, bool>>>
-		 * 점수와 콤보의 이전 기록, 현재 기록과 최고기록 갱신 여부를 반환합니다.
-		 */
-		public List<System.Tuple<uint, uint, bool>> GetScoreComboHistory()
-		{
-			return scoreComboHistory;
-		}
+		/// <summary>
+		/// 점수와 콤보의 이전 기록, 현재 기록과 최고기록 갱신 여부를 반환합니다.
+		/// </summary>
+		/// <returns>점수와 콤보의 이전 기록, 현재 기록과 최고기록 갱신 여부를 반환합니다.</returns>
+		public List<System.Tuple<uint, uint, bool>> GetScoreComboHistory() => scoreComboHistory;
 
-		/*
-		 * [Method] GetPlayRank(): PlayRank
-		 * 현재 점수 기준 랭크를 반환합니다.
-		 * 
-		 * <RETURN: PlayRank>
-		 * 현재 점수 기준 랭크를 반환합니다.
-		 */
-		public PlayRank GetPlayRank()
-		{
-			return playRank;
-		}
+		/// <summary>
+		/// 현재 점수 기준 랭크를 반환합니다.
+		/// </summary>
+		/// <returns>현재 점수 기준 랭크를 반환합니다.</returns>
+		public PlayRank GetPlayRank() => playRank;
 	}
 }

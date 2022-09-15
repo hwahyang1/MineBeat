@@ -10,16 +10,11 @@ using MineBeat.SongSelectSingle.KeyInput;
 
 using MineBeat.Preload.Song;
 
-/*
- * [Namespace] MineBeat.SongSelectSingle.Song
- * Description
- */
 namespace MineBeat.SongSelectSingle.Song
 {
-	/*
-	 * [Class] SongManager
-	 * 곡 선택을 관리합니다.
-	 */
+	/// <summary>
+	/// 곡 선택을 관리합니다.
+	/// </summary>
 	public class SongManager : MonoBehaviour
 	{
 		private int selected = 0;
@@ -56,35 +51,31 @@ namespace MineBeat.SongSelectSingle.Song
 			}
 			UpdateData();
 		}
-
-		/*
-		 * [Method] Enter(): void
-		 * 선택된 곡으로 게임을 실행합니다.
-		 */
+		
+		/// <summary>
+		/// 선택된 곡으로 게임을 실행합니다.
+		/// </summary>
 		public void Enter()
 		{
 			SelectedSongInfo selectedSongInfo = new GameObject("SelectedSongInfo").AddComponent<SelectedSongInfo>();
 			selectedSongInfo.id = songs[selected];
+			selectedSongInfo.tag = "Managers";
 			hotKeyInputManager.ChangeScene("InGameSingleScene");
 		}
 
-		/*
-		 * [Method] SelectedChange(int i): void
-		 * 현재 선택된 항목을 변경합니다.
-		 * 
-		 * <int i>
-		 * 변경할 항목의 위치를 지정합니다.
-		 */
+		/// <summary>
+		/// 현재 선택된 항목을 변경합니다.
+		/// </summary>
+		/// <param name="i">변경할 항목의 위치를 지정합니다.</param>
 		public void SelectedChage(int i)
 		{
 			selected = i;
 			UpdateData();
 		}
 
-		/*
-		 * [Method] SelectedUp(): void
-		 * 현재 선택된 항목 바로 위의 항목을 선택합니다.
-		 */
+		/// <summary>
+		/// 현재 선택된 항목 바로 위의 항목을 선택합니다.
+		/// </summary>
 		public void SelectedUp()
 		{
 			if (selected == 0) selected = songs.Count - 1;
@@ -93,10 +84,9 @@ namespace MineBeat.SongSelectSingle.Song
 			UpdateData();
 		}
 
-		/*
-		 * [Method] SelectedUp(): void
-		 * 현재 선택된 항목 바로 아래의 항목을 선택합니다.
-		 */
+		/// <summary>
+		/// 현재 선택된 항목 바로 아래의 항목을 선택합니다.
+		/// </summary>
 		public void SelectedDown()
 		{
 			if (selected == songs.Count - 1) selected = 0;
@@ -105,10 +95,9 @@ namespace MineBeat.SongSelectSingle.Song
 			UpdateData();
 		}
 
-		/*
-		 * [Method] async UpdateData(): void
-		 * 현재 선택된 항목에 맞춰 화면과 미리듣기를 갱신합니다.
-		 */
+		/// <summary>
+		/// 현재 선택된 항목에 맞춰 화면과 미리듣기를 갱신합니다.
+		/// </summary>
 		private async void UpdateData()
 		{
 			if (scoreHistoryManager == null) await System.Threading.Tasks.Task.Delay(5);

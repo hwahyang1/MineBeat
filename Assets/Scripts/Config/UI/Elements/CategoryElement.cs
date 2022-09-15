@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] MineBeat.Config.UI.Elements
- * Description
- */
 namespace MineBeat.Config.UI.Elements
 {
-	/*
-	 * [Class] CategoryElement
-	 * 공통 - 카테고리 각 항목을 관리합니다.
-	 */
+	/// <summary>
+	/// 공통 - 카테고리 각 항목을 관리합니다.
+	/// </summary>
 	public abstract class CategoryElement : MonoBehaviour
 	{
 		[SerializeField]
@@ -28,10 +23,10 @@ namespace MineBeat.Config.UI.Elements
 			categories = managers.Find(target => target.name == "CategoryManager").GetComponent<Categories>();
 		}
 
-		/*
-		 * [Method] GetDescription(): void
-		 * 설명을 반환합니다.
-		 */
+		/// <summary>
+		/// 설명을 반환합니다.
+		/// </summary>
+		/// <returns></returns>
 		public string GetDescription()
 		{
 			return description;

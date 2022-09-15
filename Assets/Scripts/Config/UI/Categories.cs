@@ -6,16 +6,11 @@ using UnityEngine.UI;
 
 using MineBeat.Config.Selection;
 
-/*
- * [Namespace] MineBeat.Config.UI
- * Description
- */
 namespace MineBeat.Config.UI
 {
-	/*
-	 * [Class] Categories
-	 * 카테고리/설명란의 UI 표출을 관리합니다.
-	 */
+	/// <summary>
+	/// 카테고리/설명란의 UI 표출을 관리합니다.
+	/// </summary>
 	public class Categories : MonoBehaviour
 	{
 		[SerializeField]
@@ -62,14 +57,10 @@ namespace MineBeat.Config.UI
 			}
 		}
 
-		/*
-		 * [Method] ChangeDescription(string value = null): void
-		 * 설명을 바꿉니다.
-		 * 
-		 * <string value = null>
-		 * 바꿀 설명을 지정합니다.
-		 * null일 경우, 기본 설명을 표시합니다.
-		 */
+		/// <summary>
+		/// 설명을 바꿉니다.
+		/// </summary>
+		/// <param name="value">바꿀 설명을 지정합니다. null일 경우, 기본 설명을 표시합니다.</param>
 		public void ChangeDescription(string value = null)
 		{
 			description.text = (value == null) ? "항목에 마우스를 올리면 설명이 표시됩니다." : value;

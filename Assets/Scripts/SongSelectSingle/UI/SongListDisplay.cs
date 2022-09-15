@@ -8,16 +8,11 @@ using MineBeat.SongSelectSingle.Score;
 
 using MineBeat.Preload.Song;
 
-/*
- * [Namespace] MineBeat.SongSelectSingle.UI
- * Description
- */
 namespace MineBeat.SongSelectSingle.UI
 {
-	/*
-	 * [Class] SongListDisplay
-	 * 곡 목록을 표시합니다.
-	 */
+	/// <summary>
+	/// 곡 목록을 표시합니다.
+	/// </summary>
 	public class SongListDisplay : MonoBehaviour
 	{
 		[SerializeField]
@@ -44,16 +39,11 @@ namespace MineBeat.SongSelectSingle.UI
 			scoreHistoryManager = managers.Find(target => target.name == "ScoreHistoryManager").GetComponent<ScoreHistoryManager>();
 		}
 
-		/*
-		 * [Method] async Display(List<ulong> ids, int selected): void
-		 * 곡 목록을 다시 그립니다.
-		 * 
-		 * <List<ulong> ids>
-		 * 곡의 목록을 입력합니다.
-		 * 
-		 * <int selected>
-		 * 현재 선택된 항목의 위치를 입력합니다. (ids 변수 기준)
-		 */
+		/// <summary>
+		/// 곡 목록을 다시 그립니다.
+		/// </summary>
+		/// <param name="ids">곡의 목록을 입력합니다.</param>
+		/// <param name="selected">현재 선택된 항목의 위치를 입력합니다. (ids 변수 기준)</param>
 		public async void Display(List<ulong> ids, int selected)
 		{
 			for (int i = 0; i < parent.childCount; i++)
@@ -86,9 +76,7 @@ namespace MineBeat.SongSelectSingle.UI
 				isFirst = false;
 			}
 
-			contentPanel.anchoredPosition =
-					(Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position)
-					- (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
+			contentPanel.anchoredPosition = (Vector2)scrollRect.transform.InverseTransformPoint(contentPanel.position) - (Vector2)scrollRect.transform.InverseTransformPoint(target.position);
 		}
 	}
 }

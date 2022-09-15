@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] Minebeat
- * Desciption
- */
 namespace MineBeat
 {
-	 /*
-	 * [Enum] NoteType
-	 * 노트의 종류를 정의합니다.
-	 */
+	/// <summary>
+	/// 노트의 종류를 정의합니다.
+	/// </summary>
 	[System.Serializable]
 	public enum NoteType
 	{
@@ -27,10 +22,9 @@ namespace MineBeat
 		PreviewE
 	}
 
-	/*
-	 * [Enum] NoteDirection
-	 * 박스를 기준으로 노트에 어느 방향에 존재하는지 표현합니다.
-	 */
+	/// <summary>
+	/// 박스를 기준으로 노트에 어느 방향에 존재하는지 표현합니다.
+	/// </summary>
 	[System.Serializable]
 	public enum NoteDirection
 	{
@@ -41,10 +35,9 @@ namespace MineBeat
 		None
 	}
 
-	/*
-	 * [Enum] NoteColor
-	 * (Normal/Vertical 한정) 노트의 색상을 정의합니다.
-	 */
+	/// <summary>
+	/// (Normal/Vertical 한정) 노트의 색상을 정의합니다.
+	/// </summary>
 	[System.Serializable]
 	public enum NoteColor
 	{
@@ -56,10 +49,9 @@ namespace MineBeat
 		Purple
 	}
 
-	/*
-	 * [Class] NotePosition
-	 * 노트의 위치를 정의합니다.
-	 */
+	/// <summary>
+	/// 노트의 위치를 정의합니다.
+	/// </summary>
 	[System.Serializable]
 	public class NotePosition
 	{
@@ -83,10 +75,9 @@ namespace MineBeat
 		}
 	}
 
-	/*
-	 * [Class] Note
-	 * 노트의 정보를 정의합니다.
-	 */
+	/// <summary>
+	/// 노트의 정보를 정의합니다.
+	/// </summary>
 	[System.Serializable]
 	public class Note
 	{
@@ -133,10 +124,9 @@ namespace MineBeat
 		}
 	}
 
-	/*
-	 * [Class] SongInfo
-	 * 곡의 전체 데이터를 담는 Class 입니다.
-	 */
+	/// <summary>
+	/// 곡의 전체 데이터를 담는 Class 입니다.
+	/// </summary>
 	[System.Serializable]
 	public class SongInfo
 	{

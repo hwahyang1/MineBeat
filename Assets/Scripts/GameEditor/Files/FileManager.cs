@@ -16,18 +16,13 @@ using MineBeat.GameEditor.TileBox;
 
 using MineBeat.Preload.UI;
 
-/*
- * [Namespace] Minebeat.GameEditor.Files
- * Desciption
- */
 namespace MineBeat.GameEditor.Files
 {
-	// SongName.mbt(패키지(압축) 파일) -> MineBeat.ptrn(패턴 파일) && MineBeat.adio(음원 파일) && MineBeat.covr(커버이미지)
+	/* SongName.mbt(패키지(압축) 파일) -> MineBeat.ptrn(패턴 파일) && MineBeat.adio(음원 파일) && MineBeat.covr(커버이미지) */
 
-	/*
-	 * [Class] FileManager
-	 * 에디터에서 사용하는 외부 파일의 입/출력을 관리합니다.
-	 */
+	/// <summary>
+	/// 에디터에서 사용하는 외부 파일의 입/출력을 관리합니다.
+	/// </summary>
 	public class FileManager : MonoBehaviour
 	{
 		[SerializeField]
@@ -63,19 +58,12 @@ namespace MineBeat.GameEditor.Files
 		private SongCover songCover;
 		private BoxSize boxSize;
 
-		/*
-		 * [Method] OpenAllFileStream(FileMode mode=FileMode.Open, FileAccess access=FileAccess.ReadWrite, string packageFilePath=""): void
-		 * 모든 핸들을 엽니다.
-		 * 
-		 * <FileMode mode=FileMode.Open>
-		 * 핸들의 오픈 형식을 지정합니다.
-		 * 
-		 * <FileAccess access=FileAccess.ReadWrite>
-		 * 핸들의 접근 형식을 지정합니다.
-		 * 
-		 * <string packageFilePath="">
-		 * packageFileStream의 핸들을 열 경우 파일의 경로를 입력합니다.
-		 */
+		/// <summary>
+		/// 모든 핸들을 엽니다.
+		/// </summary>
+		/// <param name="mode">핸들의 오픈 형식을 지정합니다.</param>
+		/// <param name="access">핸들의 접근 형식을 지정합니다.</param>
+		/// <param name="packageFilePath">packageFileStream의 핸들을 열 경우 파일의 경로를 입력합니다.</param>
 		private void OpenAllFileStream(FileMode mode=FileMode.Open, FileAccess access=FileAccess.ReadWrite, string packageFilePath = "")
 		{
 			if (packageFilePath != "") packageFileStream = new FileStream(packageFilePath, mode);
@@ -84,10 +72,9 @@ namespace MineBeat.GameEditor.Files
 			tempCoverImageFileStream = new FileStream(tempCoverImageFilePath, mode, access);
 		}
 
-		/*
-		 * [Method] CloaseAllFileSteam(): void
-		 * 열려있는 모든 핸들을 닫습니다.
-		 */
+		/// <summary>
+		/// 열려있는 모든 핸들을 닫습니다.
+		/// </summary>
 		private void CloseAllFileStream()
 		{
 			if (packageFileStream != null)
@@ -112,10 +99,10 @@ namespace MineBeat.GameEditor.Files
 			}
 		}
 
-		/*
-		 * [Coroutine] DelayedStart()
-		 * 스크립트의 준비를 위해 Start() Method의 일부 코드를 조금 늦게 실행합니다.
-		 */
+		/// <summary>
+		/// 스크립트의 준비를 위해 Start() Method의 일부 코드를 조금 늦게 실행합니다.
+		/// </summary>
+		/// <returns></returns>
 		public IEnumerator DelayedStart()
 		{
 			yield return new WaitForSeconds(0.1f);
@@ -154,11 +141,9 @@ namespace MineBeat.GameEditor.Files
 			}
 		}
 
-		/*
-		 * [Method] OnNewButtonClicked(): void
-		 * New 버튼이 클릭되었을 때 이벤트를 처리합니다.
-		 * 파일을 새로 생성하면 패턴 또한 초기화 됩니다.
-		 */
+		/// <summary>
+		/// New 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		/// </summary>
 		public void OnNewButtonClicked()
 		{
 			if (!isFirst)

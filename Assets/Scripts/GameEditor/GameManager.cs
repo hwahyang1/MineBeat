@@ -9,16 +9,11 @@ using TMPro;
 using MineBeat.GameEditor.Files;
 using MineBeat.GameEditor.Notes;
 
-/*
- * [Namespace] Minebeat.GameEditor
- * Desciption
- */
 namespace MineBeat.GameEditor
 {
-	/*
-	 * [Class] GameManager
-	 * 게임의 전반적인 실행을 관리합니다.
-	 */
+	/// <summary>
+	/// 게임의 전반적인 실행을 관리합니다.
+	/// </summary>
 	public class GameManager : MonoBehaviour
 	{
 		[SerializeField]
@@ -51,13 +46,10 @@ namespace MineBeat.GameEditor
 			}
 		}
 
-		/*
-		 * [Method] GetSongInfo(): SongInfo
-		 * 곡 정보를 반환합니다.
-		 * 
-		 * <REUTRN: SongInfo>
-		 * 곡 정보를 반환합니다.
-		 */
+		/// <summary>
+		/// 곡 정보를 반환합니다.
+		/// </summary>
+		/// <returns>곡 정보를 반환합니다.</returns>
 		public SongInfo GetSongInfo()
 		{
 			string songName = SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text;
@@ -73,13 +65,10 @@ namespace MineBeat.GameEditor
 			);
 		}
 
-		/*
-		 * [Method] Set(SongInfo info): void
-		 * 곡 정보를 덮어씌웁니다.
-		 * 
-		 * <SongInfo info>
-		 * 덮어씌울 곡의 정보를 담습니다.
-		 */
+		/// <summary>
+		/// 곡 정보를 덮어씌웁니다.
+		/// </summary>
+		/// <param name="info">덮어씌울 곡의 정보를 담습니다.</param>
 		public void SetSongInfo(SongInfo info)
 		{
 			songId = info.id;
@@ -89,19 +78,18 @@ namespace MineBeat.GameEditor
 			notesManager.Set(info.notes);
 		}
 
-		/*
-		 * [Method] SetSongId(ulong id): void
-		 * 곡의 고유 ID를 지정합니다.
-		 */
+		/// <summary>
+		/// 곡의 고유 ID를 지정합니다.
+		/// </summary>
+		/// <param name="id">지정할 ID를 입력합니다.</param>
 		public void SetSongId(ulong id)
 		{
 			songId = id;
 		}
 
-		/*
-		 * [Method] ClearSongInfoInput(): void
-		 * 곡 정보 입력란을 비웁니다.
-		 */
+		/// <summary>
+		/// 곡 정보 입력란을 비웁니다.
+		/// </summary>
 		public void ClearSongInfoInput()
 		{
 			SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = "";

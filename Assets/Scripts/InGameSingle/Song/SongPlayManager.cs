@@ -7,16 +7,11 @@ using MineBeat.SongSelectSingle.Extern;
 
 using MineBeat.Preload.Song;
 
-/*
- * [Namespace] MineBeat.InGameSingle.Song
- * Description
- */
 namespace MineBeat.InGameSingle.Song
 {
-	/*
-	 * [Class] SongPlayManager
-	 * 곡의 재생을 관리합니다.
-	 */
+	/// <summary>
+	/// 곡의 재생을 관리합니다.
+	/// </summary>
 	public class SongPlayManager : MonoBehaviour
 	{
 		private AudioSource backgroundSound;

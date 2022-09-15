@@ -8,16 +8,11 @@ using MineBeat.Preload.Scene;
 
 using MineBeat.Config.Selection;
 
-/*
- * [Namespace] MineBeat.Config.KeyInput
- * Description
- */
 namespace MineBeat.Config.KeyInput
 {
-	/*
-	 * [Class] HotKeyInputManager
-	 * 단축키 입력 이벤트를 처리합니다.
-	 */
+	/// <summary>
+	/// 단축키 입력 이벤트를 처리합니다.
+	/// </summary>
 	public class HotKeyInputManager : MonoBehaviour
 	{
 		private bool active = true;
@@ -57,14 +52,18 @@ namespace MineBeat.Config.KeyInput
 			}
 		}
 
-		/*
-		 * [Method] OnEscaapeKeyPressed(): void
-		 * [Method] OnUpArrowKeyPressed(): void
-		 * [Method] OnDownArrowKeyPressed(): void
-		 * [Method] OnLeftArrowKeyPressed(): void
-		 * [Method] OnRightArrowKeyPressed(): void
-		 * 각 키의 입력 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// 잠깐의 시간을 두고 active 변수의 값을 총 2번 반전시킵니다. (active 값 반전 -> 일정 시간 대기 -> active 값 반전)
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerator ToggleTwiceActiveDelay()
+		{
+			active = !active;
+			yield return new WaitForSeconds(0.1f);
+			active = !active;
+		}
+
+		/* Key Events */
 		public void OnEscaapeKeyPressed()
 		{
 			AlertManager.Instance.Show("확인", "모드 선택 화면으로 돌아갈까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요" }, () => { SceneChange.Instance.ChangeScene("ModeSelectScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); });
@@ -84,18 +83,6 @@ namespace MineBeat.Config.KeyInput
 		public void OnRightArrowKeyPressed()
 		{
 
-		}
-
-		/*
-		 * [Coroutine] ToggleTwiceActiveDelay(): IEnumerator
-		 * 잠깐의 시간을 두고 active 변수의 값을 총 2번 반전시킵니다.
-		 * (active 값 반전 -> 일정 시간 대기 -> active 값 반전)
-		 */
-		public IEnumerator ToggleTwiceActiveDelay()
-		{
-			active = !active;
-			yield return new WaitForSeconds(0.1f);
-			active = !active;
 		}
 	}
 }

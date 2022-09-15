@@ -5,16 +5,11 @@ using UnityEngine;
 
 using MineBeat.Preload.Scene;
 
-/*
- * [Namespace] MineBeat.ResultSingle
- * Description
- */
 namespace MineBeat.ResultSingle
 {
-	/*
-	 * [Class] HotKeyManager
-	 * 단축키 입력을 처리합니다.
-	 */
+	/// <summary>
+	/// 단축키 입력을 처리합니다.
+	/// </summary>
 	public class HotKeyManager : MonoBehaviour
 	{
 		private bool blockInput = false;
@@ -33,11 +28,7 @@ namespace MineBeat.ResultSingle
 			}
 		}
 
-		/*
-		 * [Method] OnEnterKeyPressed(): void
-		 * [Method] OnRestartKeyPressed(): void
-		 * 키 입력을 처리합니다.
-		 */
+		/* Key Events */
 		public void OnEnterKeyPressed()
 		{
 			if (blockInput) return;

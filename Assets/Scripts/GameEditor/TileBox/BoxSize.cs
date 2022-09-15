@@ -8,16 +8,11 @@ using UnityEngine.Tilemaps;
 using MineBeat.GameEditor.Song;
 using MineBeat.GameEditor.Notes;
 
-/*
- * [Namespace] Minebeat.GameEditor.TileBox
- * Desciption
- */
 namespace MineBeat.GameEditor.TileBox
 {
-	/*
-	 * [Class] BoxSize
-	 * 박스의 크기와 색상을 조정합니다.
-	 */
+	/// <summary>
+	/// 박스의 크기와 색상을 조정합니다.
+	/// </summary>
 	public class BoxSize : MonoBehaviour
 	{
 		[Header("박스 최대/최소 크기"), SerializeField]
@@ -68,10 +63,9 @@ namespace MineBeat.GameEditor.TileBox
 			DrawBox();
 		}
 
-		/*
-		 * [Method] DrawBox(): void
-		 * 상자를 다시 그립니다.
-		 */
+		/// <summary>
+		/// 상자를 다시 그립니다.
+		/// </summary>
 		public void DrawBox()
 		{
 			boxMap.ClearAllTiles();
@@ -100,30 +94,27 @@ namespace MineBeat.GameEditor.TileBox
 			textInput.text = currentSize.ToString();
 		}
 
-		/*
-		 * [Method] ChangeBoxSizeUp(): void
-		 * 상자의 크기를 키웁니다.
-		 */
+		/// <summary>
+		/// 상자의 크기를 키웁니다.
+		/// </summary>
 		public void ChangeBoxSizeUp()
 		{
 			if (currentSize == maxSize) return;
 			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize++, currentSize);
 		}
 
-		/*
-		 * [Method] ChangeBoxSizeDown(): void
-		 * 상자의 크기를 줄입니다.
-		 */
+		/// <summary>
+		/// 상자의 크기를 줄입니다.
+		/// </summary>
 		public void ChangeBoxSizeDown()
 		{
 			if (currentSize == minSize) return;
 			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize--, currentSize);
 		}
 
-		/*
-		 * [Method] ChangeBoxSize(): void
-		 * Input Field에 입력된 값으로 박스의 크기를 수정합니다.
-		 */
+		/// <summary>
+		/// Input Field에 입력된 값으로 박스의 크기를 수정합니다.
+		/// </summary>
 		public void ChangeBoxSize()
 		{
 			int afterSize = textInput.text == "" ? 7 : int.Parse(textInput.text);
@@ -131,13 +122,10 @@ namespace MineBeat.GameEditor.TileBox
 			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize, afterSize);
 		}
 
-		/*
-		 * [Method] SetBoxSize(int size): void
-		 * 상자의 크기를 지정합니다.
-		 * 
-		 * <int size>
-		 * 원하는 박스의 크기를 지정합니다.
-		 */
+		/// <summary>
+		/// 상자의 크기를 지정합니다.
+		/// </summary>
+		/// <param name="size">원하는 박스의 크기를 지정합니다.</param>
 		public void SetBoxSize(int size)
 		{
 			if (size < minSize) size = minSize;
@@ -146,19 +134,12 @@ namespace MineBeat.GameEditor.TileBox
 			DrawBox();
 		}
 
-		/*
-		 * [Method] AddNote(float timeCode, int beforeSize, int afterSize): void
-		 * NotesManager에 SizeChange 노트를 추가합니다.
-		 * 
-		 * <float timeCode>
-		 * SizeChange 노트를 추가할 위치를 입력합니다.
-		 * 
-		 * <int beforeSize>
-		 * 변경 전 크기를 입력합니다.
-		 * 
-		 * <int afterSize>
-		 * 변경 후 크기를 입력합니다.
-		 */
+		/// <summary>
+		/// NotesManager에 SizeChange 노트를 추가합니다.
+		/// </summary>
+		/// <param name="timeCode">SizeChange 노트를 추가할 위치를 입력합니다.</param>
+		/// <param name="beforeSize">변경 전 크기를 입력합니다.</param>
+		/// <param name="afterSize">변경 후 크기를 입력합니다.</param>
 		private void AddSizeChangeNote(float timeCode, int beforeSize, int afterSize)
 		{
 			List<Note> duplicate = notesManager.Find(NoteType.SizeChange, timeCode);

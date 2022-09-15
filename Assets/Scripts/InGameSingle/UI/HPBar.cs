@@ -6,16 +6,11 @@ using UnityEngine.UI;
 
 using MineBeat.InGameSingle.HP;
 
-/*
- * [Namespace] MineBeat.InGameSingle.UI
- * Description
- */
 namespace MineBeat.InGameSingle.UI
 {
-	/*
-	 * [Class] HPBar
-	 * 체력바 표기를 관리합니다.
-	 */
+	/// <summary>
+	/// 체력바 표기를 관리합니다.
+	/// </summary>
 	public class HPBar : MonoBehaviour
 	{
 		[SerializeField]

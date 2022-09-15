@@ -8,16 +8,11 @@ using MineBeat.SongSelectSingle.Song;
 using MineBeat.Preload.UI;
 using MineBeat.Preload.Scene;
 
-/*
- * [Namespace] MineBeat.SongSelectSingle.KeyInput
- * Description
- */
 namespace MineBeat.SongSelectSingle.KeyInput
 {
-	/*
-	 * [Class] HotKeyInputManager
-	 * 단축키 입력을 받습니다.
-	 */
+	/// <summary>
+	/// 단축키 입력을 받습니다.
+	/// </summary>
 	public class HotKeyInputManager : MonoBehaviour
 	{
 		[SerializeField]
@@ -68,15 +63,29 @@ namespace MineBeat.SongSelectSingle.KeyInput
 			}
 		}
 
-		/*
-		 * [Method] OnUpArrowKeyClicked(): void
-		 * [Method] OnDownArrowKeyClicked(): void
-		 * [Method] OnEscapeKeyClicked(): void
-		 * [Method] OnF10KeyClicked(): void
-		 * [Method] OnEnterKeyClicked(): void
-		 * 
-		 * 키와 버튼 입력에 대한 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// Scene을 변경합니다.
+		/// </summary>
+		/// <param name="sceneName">변경할 Scene 이름을 지정합니다.</param>
+		public void ChangeScene(string sceneName)
+		{
+			previewSong.forceFadeout = true;
+			active = false;
+			SceneChange.Instance.ChangeScene(sceneName);
+		}
+
+		/// <summary>
+		/// 잠깐의 시간을 두고 active 변수의 값을 총 2번 반전시킵니다.
+		/// </summary>
+		/// <returns>(active 값 반전 -> 일정 시간 대기 -> active 값 반전)</returns>
+		public IEnumerator ToggleTwiceActiveDelay()
+		{
+			active = !active;
+			yield return new WaitForSeconds(0.1f);
+			active = !active;
+		}
+
+		/* Key Events */
 		public void OnUpArrowKeyClicked()
 		{
 			songManager.SelectedUp();
@@ -96,32 +105,6 @@ namespace MineBeat.SongSelectSingle.KeyInput
 		public void OnEnterKeyClicked()
 		{
 			songManager.Enter();
-		}
-
-		/*
-		 * [Method] ChangeScene(string sceneName): void
-		 * Scene을 변경합니다.
-		 * 
-		 * <string sceneName>
-		 * 변경할 Scene 이름을 지정합니다.
-		 */
-		public void ChangeScene(string sceneName)
-		{
-			previewSong.forceFadeout = true;
-			active = false;
-			SceneChange.Instance.ChangeScene(sceneName);
-		}
-
-		/*
-		 * [Coroutine] ToggleTwiceActiveDelay(): IEnumerator
-		 * 잠깐의 시간을 두고 active 변수의 값을 총 2번 반전시킵니다.
-		 * (active 값 반전 -> 일정 시간 대기 -> active 값 반전)
-		 */
-		public IEnumerator ToggleTwiceActiveDelay()
-		{
-			active = !active;
-			yield return new WaitForSeconds(0.1f);
-			active = !active;
 		}
 	}
 }

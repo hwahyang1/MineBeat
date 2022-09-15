@@ -6,16 +6,11 @@ using UnityEngine;
 
 using MineBeat.GameEditor.UI;
 
-/*
- * [Namespace] Minebeat.GameEditor.Notes
- * Desciption
- */
 namespace MineBeat.GameEditor.Notes
 {
-	/*
-	 * [Class] NotesManager
-	 * 노트의 추가와 제거를 관리합니다.
-	 */
+	/// <summary>
+	/// 노트의 추가와 제거를 관리합니다.
+	/// </summary>
 	public class NotesManager : MonoBehaviour
 	{
 		[SerializeField]
@@ -29,13 +24,10 @@ namespace MineBeat.GameEditor.Notes
 			notesVerifier = GetComponent<NotesVerifier>();
 		}
 
-		/*
-		 * [Method] Set(List<Note> item): void
-		 * 노트 목록을 덮어씌웁니다.
-		 * 
-		 * <List<Note> item>
-		 * 덮어씌울 노트의 정보를 담습니다.
-		 */
+		/// <summary>
+		/// 노트 목록을 덮어씌웁니다.
+		/// </summary>
+		/// <param name="item">덮어씌울 노트의 정보를 담습니다.</param>
 		public void Set(List<Note> item)
 		{
 			notes = item;
@@ -44,13 +36,10 @@ namespace MineBeat.GameEditor.Notes
 			notesVerifier.Verify();
 		}
 
-		/*
-		 * [Method] Add(Note item): void
-		 * 노트 목록에 새로운 항목을 추가합니다.
-		 * 
-		 * <Note item>
-		 * 추가할 노트의 정보를 담습니다.
-		 */
+		/// <summary>
+		/// 노트 목록에 새로운 항목을 추가합니다.
+		/// </summary>
+		/// <param name="item">추가할 노트의 정보를 담습니다.</param>
 		public void Add(Note item)
 		{
 			if (notes.Contains(item)) return;
@@ -60,13 +49,10 @@ namespace MineBeat.GameEditor.Notes
 			notesVerifier.Verify();
 		}
 
-		/*
-		 * [Method] Remove(Note item): void
-		 * 노트 목록에 특정 항목을 제거합니다.
-		 * 
-		 * <Note item>
-		 * 제거할 노트의 정보를 담습니다.
-		 */
+		/// <summary>
+		/// 노트 목록에 특정 항목을 제거합니다.
+		/// </summary>
+		/// <param name="item">제거할 노트의 정보를 담습니다.</param>
 		public void Remove(Note item)
 		{
 			if (!notes.Contains(item)) return;
@@ -84,10 +70,9 @@ namespace MineBeat.GameEditor.Notes
 			notesVerifier.Verify();
 		}
 
-		/*
-		 * [Method] Remove(Note item): void
-		 * 노트 목록을 초기화 합니다.
-		 */
+		/// <summary>
+		/// 노트 목록을 초기화 합니다.
+		/// </summary>
 		public void RemoveAll()
 		{
 			notes.Clear();
@@ -96,21 +81,12 @@ namespace MineBeat.GameEditor.Notes
 			notesVerifier.Verify();
 		}
 
-		/*
-		 * [Method] Find(float timecode, bool allowUpToSec = false)
-		 * 입력된 값에 부합하는 노트를 찾습니다.
-		 * 
-		 * <float timecode>
-		 * 검색을 원하는 값을 입력합니다.
-		 * 
-		 * <bool allowUpToSec = false>
-		 * 초단위로 일치하는 값까지 반환할 지 여부를 결정합니다.
-		 * false일 경우, ms단위까지 정확히 일치해야 반환합니다.
-		 * 
-		 * <RETURN: List<Note>>
-		 * 검색 기준에 부합하는 결과값을 반환합니다.
-		 * 결과값이 없을 경우, 빈 List가 반환됩니다.
-		 */
+		/// <summary>
+		/// 입력된 값에 부합하는 노트를 찾습니다.
+		/// </summary>
+		/// <param name="timecode">검색을 원하는 값을 입력합니다.</param>
+		/// <param name="allowUpToSec">초단위로 일치하는 값까지 반환할 지 여부를 결정합니다. false일 경우, ms단위까지 정확히 일치해야 반환합니다.</param>
+		/// <returns>검색 기준에 부합하는 결과값을 반환합니다. 결과값이 없을 경우, 빈 List가 반환됩니다.</returns>
 		public List<Note> Find(float timecode, bool allowUpToSec = false)
 		{
 			List<Note> result = new List<Note>();
@@ -127,17 +103,11 @@ namespace MineBeat.GameEditor.Notes
 			return result;
 		}
 
-		/*
-		 * [Method] Find(NoteType noteType)
-		 * 입력된 값에 부합하는 노트를 찾습니다.
-		 * 
-		 * <NoteType noteType>
-		 * 검색을 원하는 값을 입력합니다.
-		 * 
-		 * <RETURN: List<Note>>
-		 * 검색 기준에 부합하는 결과값을 반환합니다.
-		 * 결과값이 없을 경우, 빈 List가 반환됩니다.
-		 */
+		/// <summary>
+		/// 입력된 값에 부합하는 노트를 찾습니다.
+		/// </summary>
+		/// <param name="noteType">검색을 원하는 값을 입력합니다.</param>
+		/// <returns>검색 기준에 부합하는 결과값을 반환합니다. 결과값이 없을 경우, 빈 List가 반환됩니다.</returns>
 		public List<Note> Find(NoteType noteType)
 		{
 			List<Note> result = new List<Note>();
@@ -147,24 +117,13 @@ namespace MineBeat.GameEditor.Notes
 			return result;
 		}
 
-		/*
-		 * [Method] Find(NoteType noteType, float timecode, bool allowUpToSec = false)
-		 * 입력된 값에 부합하는 노트를 찾습니다.
-		 * 
-		 * <NoteType noteType>
-		 * 검색을 원하는 값을 입력합니다.
-		 * 
-		 * <float timecode>
-		 * 검색을 원하는 값을 입력합니다.
-		 * 
-		 * <bool allowUpToSec = false>
-		 * 초단위로 일치하는 값까지 반환할 지 여부를 결정합니다.
-		 * false일 경우, ms단위까지 정확히 일치해야 반환합니다.
-		 * 
-		 * <RETURN: List<Note>>
-		 * 검색 기준에 모두 부합하는(AND) 결과값을 반환합니다.
-		 * 결과값이 없을 경우, 빈 List가 반환됩니다.
-		 */
+		/// <summary>
+		/// 입력된 값에 부합하는 노트를 찾습니다.
+		/// </summary>
+		/// <param name="noteType">검색을 원하는 값을 입력합니다.</param>
+		/// <param name="timecode">검색을 원하는 값을 입력합니다.</param>
+		/// <param name="allowUpToSec">초단위로 일치하는 값까지 반환할 지 여부를 결정합니다. false일 경우, ms단위까지 정확히 일치해야 반환합니다.</param>
+		/// <returns>검색 기준에 모두 부합하는(AND) 결과값을 반환합니다. 결과값이 없을 경우, 빈 List가 반환됩니다.</returns>
 		public List<Note> Find(NoteType noteType, float timecode, bool allowUpToSec = false)
 		{
 			List<Note> result = new List<Note>();
@@ -183,26 +142,19 @@ namespace MineBeat.GameEditor.Notes
 			return result;
 		}
 
-		/*
-		 * [Mehtod] SortList(): void
-		 * 노트 목록을 시간순으로 내림차순 정렬합니다.
-		 */
+		/// <summary>
+		/// 노트 목록을 시간순으로 내림차순 정렬합니다.
+		/// </summary>
 		public void SortList()
 		{
 			notes = notes.OrderBy(n => n.timeCode).ThenBy(n => n.type)/*.ThenBy(n => n.position.x).ThenBy(n => n.position.y)*/.ToList();
 			noteListManager.UpdateList(notes);
 		}
 
-		/*
-		 * [Method] GetList(): List<Note>
-		 * 노트 목록을 반환합니다.
-		 * 
-		 * <RETURN: List<Note>>
-		 * 노트 목록이 담겨있는 List 입니다.
-		 */
-		public List<Note> GetList()
-		{
-			return notes;
-		}
+		/// <summary>
+		/// 노트 목록을 반환합니다.
+		/// </summary>
+		/// <returns>노트 목록이 담겨있는 List 입니다.</returns>
+		public List<Note> GetList() => notes;
 	}
 }

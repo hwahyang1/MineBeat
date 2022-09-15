@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] MineBeat.InGameSingle.HP
- * Description
- */
 namespace MineBeat.InGameSingle.HP
 {
-	/*
-	 * [Class] HPManager
-	 * 플레이어의 체력을 관리합니다.
-	 */
+	/// <summary>
+	/// 플레이어의 체력을 관리합니다.
+	/// </summary>
 	public class HPManager : MonoBehaviour
 	{
 		[Range(0, 100)]

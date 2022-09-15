@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-/*
- * [Namespace] MineBeat.InGameSingle.Box
- * Description
- */
 namespace MineBeat.InGameSingle.Box
 {
-	/*
-	 * [Class] BoxManager
-	 * 박스의 크기와 색상을 제어합니다.
-	 */
+	/// <summary>
+	/// 박스의 크기와 색상을 제어합니다.
+	/// </summary>
 	public class BoxManager : MonoBehaviour
 	{
 		[SerializeField]
@@ -45,16 +40,11 @@ namespace MineBeat.InGameSingle.Box
 			Draw(size);
 		}
 
-		/*
-		 * [Method] Draw(int boxSize, NoteColor noteColor = NoteColor.White): void
-		 * 박스를 그리고 플레이어와 카메라를 중앙으로 위치시킵니다.
-		 * 
-		 * <int boxSize>
-		 * 박스의 크기를 입력합니다.
-		 * 
-		 * <NoteColor noteColor = NoteColor.White>
-		 * 박스의 색상을 입력합니다.
-		 */
+		/// <summary>
+		/// 박스를 그리고 플레이어와 카메라를 중앙으로 위치시킵니다.
+		/// </summary>
+		/// <param name="boxSize">박스의 크기를 입력합니다.</param>
+		/// <param name="noteColor">박스의 색상을 입력합니다.</param>
 		public void Draw(int boxSize, NoteColor noteColor = NoteColor.White)
 		{
 			boxTilemap.ClearAllTiles();
@@ -85,13 +75,10 @@ namespace MineBeat.InGameSingle.Box
 			color = noteColor;
 		}
 
-		/*
-		 * [Method] ChangeVisibility(bool isVisible): void
-		 * 박스의 활성 여부를 결정합니다.
-		 * 
-		 * <bool isVisible>
-		 * 활성 여부를 입력합니다.
-		 */
+		/// <summary>
+		/// 박스의 활성 여부를 결정합니다.
+		/// </summary>
+		/// <param name="isVisible">활성 여부를 입력합니다.</param>
 		public void ChangeVisibility(bool isVisible)
 		{
 			boxTilemap.transform.parent.gameObject.SetActive(isVisible);

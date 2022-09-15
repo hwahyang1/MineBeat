@@ -6,16 +6,11 @@ using UnityEngine;
 using MineBeat.Preload.UI;
 using MineBeat.Preload.Scene;
 
-/*
- * [Method] MineBeat.ModeSelect
- * Description
- */
 namespace MineBeat.ModeSelect
 {
-	/*
-	 * [Class] ChangeScene
-	 * Desciption
-	 */
+	/// <summary>
+	/// Description
+	/// </summary>
 	public class ChangeScene : MonoBehaviour
 	{
 		public void Change(string sceneName)

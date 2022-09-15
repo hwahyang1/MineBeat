@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] Minebeat
- * Desciption
- */
 namespace MineBeat
 {
-	/*
-	 * [Enum] PlayRank
-	 * 지정 가능한 랭크를 정의합니다.
-	 */
+	/// <summary>
+	/// 지정 가능한 랭크를 정의합니다.
+	/// </summary>
 	[System.Serializable]
 	public enum PlayRank
 	{
@@ -24,10 +19,9 @@ namespace MineBeat
 		X
 	}
 
-	/*
-	 * [Class] PlayHistory
-	 * 플레이어의 곡 플레이 기록을 담습니다.
-	 */
+	/// <summary>
+	/// 플레이어의 곡 플레이 기록을 담습니다.
+	/// </summary>
 	[System.Serializable]
 	public class PlayHistory
 	{

@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] MineBeat.InGameSingle.Notes
- * Description
- */
 namespace MineBeat.InGameSingle.Notes
 {
-	/*
-	 * [Class] PlayNoteChild
-	 * PlayNote 하위에 붙어 판정을 처리합니다.
-	 */
+	/// <summary>
+	/// PlayNote 하위에 붙어 판정을 처리합니다.
+	/// </summary>
 	public class PlayNoteChild : MonoBehaviour
 	{
 		private PlayNote parent;

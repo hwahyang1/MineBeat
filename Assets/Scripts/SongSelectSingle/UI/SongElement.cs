@@ -6,16 +6,11 @@ using UnityEngine.UI;
 
 using MineBeat.SongSelectSingle.Song;
 
-/*
- * [Namespace] MineBeat.SongSelectSingle.UI
- * Description
- */
 namespace MineBeat.SongSelectSingle.UI
 {
-	/*
-	 * [Class] SongElement
-	 * UI 우측 곡 목록의 각 항목을 관리합니다.
-	 */
+	/// <summary>
+	/// UI 우측 곡 목록의 각 항목을 관리합니다.
+	/// </summary>
 	public class SongElement : MonoBehaviour
 	{
 		private SongManager songManager;
@@ -42,38 +37,23 @@ namespace MineBeat.SongSelectSingle.UI
 			songManager = managers.Find(target => target.name == "SongManager").GetComponent<SongManager>();
 		}
 
-		/*
-		 * [Method] Set(string name, string author, PlayRank rank): void
-		 * 곡 정보를 설정합니다.
-		 * 
-		 * <string name>
-		 * 곡 이름을 입력합니다.
-		 * 
-		 * <string author>
-		 * 작곡가를 입력합니다.
-		 * 
-		 * <PlayRank rank>
-		 * 랭크를 입력합니다.
-		 */
+		/// <summary>
+		/// 곡 정보를 설정합니다.
+		/// </summary>
+		/// <param name="name">곡 이름을 입력합니다.</param>
+		/// <param name="author">작곡가를 입력합니다.</param>
+		/// <param name="rank">랭크를 입력합니다.</param>
 		public void Set(string name, string author, PlayRank rank)
 		{
 			gameObject.transform.GetChild(0).GetComponent<Text>().text = string.Format("{0} <size=28>{1}</size>", name, author);
 			gameObject.transform.GetChild(1).GetComponent<Text>().text = rank == PlayRank.X ? "-" : rank.ToString();
 		}
 
-		/*
-		 * [Method] Clicked(): void
-		 * 이 클래스가 붙은 GameObject(Button)이 클릭되었을 때 이벤트를 처리합니다.
-		 */
+		/* Events */
 		public void Clicked()
 		{
 			songManager.SelectedChage(order);
 		}
-
-		/*
-		 * [Method] Enter(): void
-		 * 이 클래스가 붙은 GameObject(Button)이 클릭되었을 때 이벤트를 처리합니다.
-		 */
 		public void Enter()
 		{
 			songManager.Enter();

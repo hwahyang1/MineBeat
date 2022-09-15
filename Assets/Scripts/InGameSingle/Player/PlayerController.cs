@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] MineBeat.InGameSingle.Player
- * Description
- */
 namespace MineBeat.InGameSingle.Player
 {
-	/*
-	 * [Class] PlayerController
-	 * 플레이어의 이동과 쿨타임을 관리합니다.
-	 */
+	/// <summary>
+	/// 플레이어의 이동과 쿨타임을 관리합니다.
+	/// </summary>
 	public class PlayerController : MonoBehaviour
 	{
 		[SerializeField]
@@ -80,10 +75,9 @@ namespace MineBeat.InGameSingle.Player
 			}
 		}
 
-		/*
-		 * [Method] StartCoolTime(): void
-		 * 플레이어의 체력이 깎였을 때 쿨타임을 실행합니다.
-		 */
+		/// <summary>
+		/// 플레이어의 체력이 깎였을 때 쿨타임을 실행합니다.
+		/// </summary>
 		public void StartCoolTime()
 		{
 			spriteRenderer.color = coolTimeColor;

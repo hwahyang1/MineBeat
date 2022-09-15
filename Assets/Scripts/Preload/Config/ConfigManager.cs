@@ -4,16 +4,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] MineBeat.Preload.Config
- * Description
- */
 namespace MineBeat.Preload.Config
 {
-	/*
-	 * [Class] ConfigManager
-	 * 설정 파일의 입출력과 설정 적용을 관리합니다.
-	 */
+	/// <summary>
+	/// 설정 파일의 입출력과 설정 적용을 관리합니다.
+	/// </summary>
 	public class ConfigManager : Singleton<ConfigManager>
 	{
 		private string _configFilePath;
@@ -48,22 +43,16 @@ namespace MineBeat.Preload.Config
 			ApplyConfig();
 		}
 
-		/*
-		 * [Method] GetConfig(): RootConfig
-		 * 현재 설정값을 반환합니다.
-		 */
-		public RootConfig GetConfig()
-		{
-			return rootConfig;
-		}
+		/// <summary>
+		/// 현재 설정값을 반환합니다.
+		/// </summary>
+		/// <returns></returns>
+		public RootConfig GetConfig() => rootConfig;
 
-		/*
-		 * [Method] SetConfig(RootConfig data): void
-		 * 현재 설정값을 갱신하고 저장합니다.
-		 * 
-		 * <RootConfig data>
-		 * 갱신할 설정값을 입력합니다.
-		 */
+		/// <summary>
+		/// 현재 설정값을 갱신하고 저장합니다.
+		/// </summary>
+		/// <param name="data">갱신할 설정값을 입력합니다.</param>
 		public void SetConfig(RootConfig data)
 		{
 			rootConfig = data;
@@ -71,10 +60,9 @@ namespace MineBeat.Preload.Config
 			SaveConfig();
 		}
 
-		/*
-		 * [Method] ApplyConfig(): void
-		 * rootConfig 변수에 맞춰 설정을 적용합니다.
-		 */
+		/// <summary>
+		/// rootConfig 변수에 맞춰 설정을 적용합니다.
+		/// </summary>
 		private void ApplyConfig()
 		{
 			/* Graphic Settings */
@@ -163,15 +151,14 @@ namespace MineBeat.Preload.Config
 			/* Input Settings */
 		}
 
-		/*
-		 * [Method] LoadConfig(): void
-		 * 데이터를 rootConfig로 불러옵니다.
-		 */
+		/// <summary>
+		/// 데이터를 rootConfig로 불러옵니다.
+		/// </summary>
 		private void LoadConfig()
 		{
 			if (!File.Exists(configFilePath))
 			{
-				FileStream fs = File.Create(configFilePath); // ??????????????????????
+				FileStream fs = File.Create(configFilePath);
 				fs.Close();
 				rootConfig = new RootConfig();
 				SaveConfig();
@@ -182,10 +169,9 @@ namespace MineBeat.Preload.Config
 			rootConfig = JsonUtility.FromJson<RootConfig>(data);
 		}
 
-		/*
-		 * [Method] SaveConfig(): void
-		 * rootConfig 데이터를 저장합니다.
-		 */
+		/// <summary>
+		/// rootConfig 데이터를 저장합니다.
+		/// </summary>
 		private void SaveConfig()
 		{
 			string data = JsonUtility.ToJson(rootConfig);

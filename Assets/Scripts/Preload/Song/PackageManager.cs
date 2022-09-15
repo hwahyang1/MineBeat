@@ -15,22 +15,16 @@ using UnityEngine.SceneManagement;
 
 using MineBeat.Preload.UI;
 
-/*
- * [Namespace] MineBeat.Preload.Song
- * Description
- */
 namespace MineBeat.Preload.Song
 {
-	/*
-	 * [Class] PackageManager
-	 * 패키지 파일의 로드를 관리합니다.
-	 */
+	/// <summary>
+	/// 패키지 파일의 로드를 관리합니다.
+	/// </summary>
 	public class PackageManager : Singleton<PackageManager>
 	{
-		/*
-		 * [Enum] SortType
-		 * List의 정렬 방식을 정의합니다.
-		 */
+		/// <summary>
+		/// List의 정렬 방식을 정의합니다.
+		/// </summary>
 		public enum SortType
 		{
 			IdAsc,
@@ -173,13 +167,10 @@ namespace MineBeat.Preload.Song
 			if (SceneManager.GetActiveScene().name == "GameEditorScene") Destroy(gameObject);
 		}
 
-		/*
-		 * [Method] Sort(SortType sortType): void
-		 * 곡 목록을 정렬합니다.
-		 * 
-		 * <SortType sortType>
-		 * 정렬 기준을 입력합니다.
-		 */
+		/// <summary>
+		/// 곡 목록을 정렬합니다.
+		/// </summary>
+		/// <param name="sortType">정렬 기준을 입력합니다.</param>
 		public void Sort(SortType sortType)
 		{
 			switch (sortType)
@@ -211,13 +202,10 @@ namespace MineBeat.Preload.Song
 			}
 		}
 
-		/*
-		 * [Method] GetAllPackageId(): List<ulong>
-		 * 현재 로드된 패키지에 대한 ID를 반환합니다.
-		 * 
-		 * <RETURN: List<ulong>>
-		 * 패키지에 대한 ID를 담습니다.
-		 */
+		/// <summary>
+		/// 현재 로드된 패키지에 대한 ID를 반환합니다.
+		/// </summary>
+		/// <returns>패키지에 대한 ID를 담습니다.</returns>
 		public List<ulong> GetAllPackageId()
 		{
 			List<ulong> returnValue = new List<ulong>();
@@ -230,16 +218,11 @@ namespace MineBeat.Preload.Song
 			return returnValue;
 		}
 
-		/*
-		 * [Method] GetSongInfo(ulong id): SongInfo
-		 * 특정한 곡의 SongInfo를 반환합니다.
-		 * 
-		 * <ulong id>
-		 * 찾을 곡의 ID를 입력합니다.
-		 * 
-		 * <RETURN: SongInfo>
-		 * 해당되는 ID를 가진 곡의 SongInfo를 반환합니다.
-		 */
+		/// <summary>
+		/// 특정한 곡의 SongInfo를 반환합니다.
+		/// </summary>
+		/// <param name="id">찾을 곡의 ID를 입력합니다.</param>
+		/// <returns>해당되는 ID를 가진 곡의 SongInfo를 반환합니다.</returns>
 		public SongInfo GetSongInfo(ulong id)
 		{
 			var target = packages.Find(target => target.Item1 == id);
@@ -248,42 +231,31 @@ namespace MineBeat.Preload.Song
 			return data;
 		}
 
-		/*
-		 * [Method] GetFileStream(ulong id): System.Tuple<Sprite, AudioClip>
-		 * 특정한 곡의 커버이미지와 AudioClip을 반환합니다.
-		 * 
-		 * <ulong id>
-		 * 찾을 곡의 ID를 입력합니다.
-		 * 
-		 * <RETURN: System.Tuple<Sprite, AudioClip>>
-		 * 해당되는 ID를 가진 곡의 커버이미지와 AudioClip을 반환합니다.
-		 */
+		/// <summary>
+		/// 특정한 곡의 커버이미지와 AudioClip을 반환합니다.
+		/// </summary>
+		/// <param name="id">찾을 곡의 ID를 입력합니다.</param>
+		/// <returns>해당되는 ID를 가진 곡의 커버이미지와 AudioClip을 반환합니다.</returns>
 		public System.Tuple<Sprite, AudioClip> GetMedias(ulong id)
 		{
 			var target = preloadMedias.Find(target => target.Item1 == id);
 			return new System.Tuple<Sprite, AudioClip>(target.Item2, target.Item3);
 		}
 
-		/*
-		 * [Method] GetFileStream(ulong id): List<FileStream>
-		 * 특정한 곡의 열려있는 모든 핸들을 반환합니다.
-		 * 
-		 * <ulong id>
-		 * 찾을 곡의 ID를 입력합니다.
-		 * 
-		 * <RETURN: List<FileStream>>
-		 * 해당되는 ID를 가진 곡의 모든 핸들을 반환합니다.
-		 */
+		/// <summary>
+		/// 특정한 곡의 열려있는 모든 핸들을 반환합니다.
+		/// </summary>
+		/// <param name="id">찾을 곡의 ID를 입력합니다.</param>
+		/// <returns>해당되는 ID를 가진 곡의 모든 핸들을 반환합니다.</returns>
 		public List<FileStream> GetFileStream(ulong id)
 		{
 			var target = packages.Find(target => target.Item1 == id);
 			return new List<FileStream>() { target.Item2, target.Item3, target.Item4, target.Item5 };
 		}
 
-		/*
-		 * [Method] CloseProcess(): void
-		 * 게임을 종료합니다.
-		 */
+		/// <summary>
+		/// 게임을 종료합니다.
+		/// </summary>
 		public void CloseProcess()
 		{
 			#if UNITY_EDITOR

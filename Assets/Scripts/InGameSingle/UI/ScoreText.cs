@@ -6,16 +6,11 @@ using UnityEngine.UI;
 
 using MineBeat.InGameSingle.Score;
 
-/*
- * [Namespace] MineBeat.InGameSingle.UI
- * Description
- */
 namespace MineBeat.InGameSingle.UI
 {
-	/*
-	 * [Class] ScoreText
-	 * 현재 점수 표기를 관리합니다.
-	 */
+	/// <summary>
+	/// 현재 점수 표기를 관리합니다.
+	/// </summary>
 	public class ScoreText : MonoBehaviour
 	{
 		[SerializeField]

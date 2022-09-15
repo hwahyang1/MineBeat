@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/*
- * [Namespace] MineBeat.SongSelectSingle.Extern
- * Description
- */
 namespace MineBeat.SongSelectSingle.Extern
 {
-	/*
-	 * [Class] SelectedSongInfo
-	 * 선택된 곡의 정보를 담습니다.
-	 */
+	/// <summary>
+	/// 선택된 곡의 정보를 담습니다.
+	/// </summary>
 	public class SelectedSongInfo : Singleton<SelectedSongInfo>
 	{
 		private ulong _id;

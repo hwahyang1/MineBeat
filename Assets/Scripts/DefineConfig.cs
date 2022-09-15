@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] Minebeat
- * Desciption
- */
 namespace MineBeat
 {
-	/*
-	 * [Enum] DisplayMode
-	 * 디스플레이 모드를 지정합니다.
-	 */
+	/// <summary>
+	/// 디스플레이 모드를 지정합니다.
+	/// </summary>
 	[System.Serializable]
 	public enum DisplayMode
 	{
@@ -20,12 +15,10 @@ namespace MineBeat
 		Windowed
 	}
 
-	/*
-	 * [Enum] ResolutionHeight
-	 * 해상도의 높이를 지정합니다.
-	 * 
-	 * Reference: https://ko.wikipedia.org/wiki/16:9
-	 */
+	/// <summary>
+	/// 해상도의 높이를 지정합니다.
+	/// Reference: https://ko.wikipedia.org/wiki/16:9
+	/// </summary>
 	[System.Serializable]
 	public enum ResolutionHeight
 	{
@@ -40,10 +33,9 @@ namespace MineBeat
 		_4320 // 8K UHD
 	}
 
-	/*
-	 * [Enum] AntiAliasing
-	 * 안티앨리어싱을 지정합니다.
-	 */
+	/// <summary>
+	/// 안티앨리어싱을 지정합니다.
+	/// </summary>
 	[System.Serializable]
 	public enum AntiAliasing
 	{
@@ -53,10 +45,9 @@ namespace MineBeat
 		MSAA8x
 	}
 
-	/*
-	 * [Enum] FrameRate
-	 * 초당 프레임을 지정합니다.
-	 */
+	/// <summary>
+	/// 초당 프레임을 지정합니다.
+	/// </summary>
 	[System.Serializable]
 	public enum FrameRate
 	{
@@ -67,10 +58,9 @@ namespace MineBeat
 		Infinity
 	}
 
-	/*
-	 * [Class] RootConfig
-	 * 모든 설정값을 담습니다.
-	 */
+	/// <summary>
+	/// 모든 설정값을 담습니다.
+	/// </summary>
 	[System.Serializable]
 	public class RootConfig
 	{

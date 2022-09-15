@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
- * [Namespace] Minebeat.GameEditor.Notes
- * Desciption
- */
 namespace MineBeat.GameEditor.Notes
 {
-	/*
-	 * [Class] NotesVerifier
-	 * 배치된 노트의 논리적 오류를 찾아냅니다.
-	 */
+	/// <summary>
+	/// 배치된 노트의 논리적 오류를 찾아냅니다.
+	/// </summary>
 	public class NotesVerifier : MonoBehaviour
 	{
 		[SerializeField]
@@ -39,10 +34,9 @@ namespace MineBeat.GameEditor.Notes
 			notesManager = GetComponent<NotesManager>();
 		}
 
-		/*
-		 * [Method] Verify()
-		 * 노트의 배치에 대한 논리적 오류를 찾고, 결과를 UI에 띄웁니다.
-		 */
+		/// <summary>
+		/// 노트의 배치에 대한 논리적 오류를 찾고, 결과를 UI에 띄웁니다.
+		/// </summary>
 		public void Verify()
 		{
 			if (notesManager.Find(NoteType.ImpactLine).Count > 1)
@@ -74,11 +68,9 @@ namespace MineBeat.GameEditor.Notes
 			ChangeMessage();
 		}
 
-
-		/*
-		 * [Method] Verify()
-		 * UI의 텍스트와 색상을 바꿉니다.
-		 */
+		/// <summary>
+		/// UI의 텍스트와 색상을 바꿉니다.
+		/// </summary>
 		private void ChangeMessage()
 		{
 			textArea.color = isError ? colorError : colorSuccess;

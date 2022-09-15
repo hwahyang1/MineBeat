@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
- * [Namespace] MineBeat.Preload.UI
- * Description
- */
 namespace MineBeat.Preload.UI
 {
-	/*
-	 * [Class] FPSCounter
-	 * 현재 FPS를 표시합니다.
-	 */
+	/// <summary>
+	/// 현재 FPS를 표시합니다.
+	/// </summary>
 	public class FPSCounter : MonoBehaviour
 	{
 		private Text fpsText;

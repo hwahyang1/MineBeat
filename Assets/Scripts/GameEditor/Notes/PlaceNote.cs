@@ -7,16 +7,11 @@ using UnityEngine.Tilemaps;
 using MineBeat.GameEditor.UI;
 using MineBeat.GameEditor.Song;
 
-/*
- * [Namespace] Minebeat.GameEditor.Notes
- * Desciption
- */
 namespace MineBeat.GameEditor.Notes
 {
-	/*
-	 * [Class] PlaceNote
-	 * 노트 배치에 대한 미리보기를 제공하고 노트 배치를 관리합니다.
-	 */
+	/// <summary>
+	/// 노트 배치에 대한 미리보기를 제공하고 노트 배치를 관리합니다.
+	/// </summary>
 	public class PlaceNote : MonoBehaviour
 	{
 		[Header("Tilemap")]

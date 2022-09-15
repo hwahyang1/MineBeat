@@ -5,16 +5,11 @@ using UnityEngine;
 
 using MineBeat.Preload.Scene;
 
-/*
- * [Namespace] MineBeat.Preload
- * Description
- */
 namespace MineBeat.Preload
 {
-	/*
-	 * [Class] GameManager
-	 * Scene의 전반적인 실행을 관리합니다.
-	 */
+	/// <summary>
+	/// Scene의 전반적인 실행을 관리합니다.
+	/// </summary>
 	public class GameManager : MonoBehaviour
 	{
 		[SerializeField]

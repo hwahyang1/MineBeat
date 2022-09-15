@@ -3,16 +3,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-/*
- * [Namespace] MineBeat.InGameSingle.Score
- * Description
- */
 namespace MineBeat.InGameSingle.Score
 {
-	/*
-	 * [Class] ScoreManager
-	 * 플레이어의 점수를 관리합니다.
-	 */
+	/// <summary>
+	/// 플레이어의 점수를 관리합니다.
+	/// </summary>
 	public class ScoreManager : MonoBehaviour
 	{
 		private uint _score = 0;
@@ -36,26 +31,20 @@ namespace MineBeat.InGameSingle.Score
 			private set { _maxCombo = value; }
 		}
 
-		/*
-		 * [Method] ChangeCombo(uint num): void
-		 * 콤보 수를 변경합니다.
-		 * 
-		 * <uint num>
-		 * 변경할 콤보를 입력합니다.
-		 */
+		/// <summary>
+		/// 콤보 수를 변경합니다.
+		/// </summary>
+		/// <param name="num">변경할 콤보를 입력합니다.</param>
 		public void ChangeCombo(uint num)
 		{
 			combo = num;
 			if (combo >= maxCombo) maxCombo = combo;
 		}
 
-		/*
-		 * [Method] AddScore(uint num): void
-		 * 점수를 추가합니다.
-		 * 
-		 * <uint num>
-		 * 추가할 점수를 입력합니다.
-		 */
+		/// <summary>
+		/// 점수를 추가합니다.
+		/// </summary>
+		/// <param name="num">추가할 점수를 입력합니다.</param>
 		public void AddScore(uint num)
 		{
 			score += num;

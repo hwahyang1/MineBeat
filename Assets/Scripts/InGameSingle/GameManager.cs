@@ -12,16 +12,11 @@ using MineBeat.SongSelectSingle.Extern;
 
 using MineBeat.Preload.Scene;
 
-/*
- * [Namespace] MineBeat.InGameSingle
- * Description
- */
 namespace MineBeat.InGameSingle
 {
-	/*
-	 * [Class] GameManager
-	 * 게임의 전반적인 실행을 관리합니다.
-	 */
+	/// <summary>
+	/// 게임의 전반적인 실행을 관리합니다.
+	/// </summary>
 	public class GameManager : MonoBehaviour
 	{
 		[SerializeField, Tooltip("DefineNote.NoteColor 순서대로 점수의 변동치를 입력합니다.")]
@@ -63,16 +58,11 @@ namespace MineBeat.InGameSingle
 			}
 		}
 
-		/*
-		 * [Method] ChangeHP(NoteColor noteColor): void
-		 * 체력 변경 이벤트를 처리합니다.
-		 * 
-		 * <NoteType noteType>
-		 * 플레이어가 맞은 노트의 종류를 입력합니다.
-		 * 
-		 * <NoteColor noteColor>
-		 * 플레이어가 맞은 노트의 색상을 입력합니다.
-		 */
+		/// <summary>
+		/// 체력 변경 이벤트를 처리합니다.
+		/// </summary>
+		/// <param name="noteType">플레이어가 맞은 노트의 종류를 입력합니다.</param>
+		/// <param name="noteColor">플레이어가 맞은 노트의 색상을 입력합니다.</param>
 		public void ChangeHP(NoteType noteType, NoteColor noteColor)
 		{
 			if (noteColor == NoteColor.Purple)
@@ -94,13 +84,10 @@ namespace MineBeat.InGameSingle
 			}
 		}
 
-		/*
-		 * [Method] ChangeScore(NoteColor noteColor): void
-		 * 점수 변경 이벤트를 처리합니다.
-		 * 
-		 * <NoteColor noteColor>
-		 * 플레이어가 피한 노트의 색상을 입력합니다.
-		 */
+		/// <summary>
+		/// 점수 변경 이벤트를 처리합니다.
+		/// </summary>
+		/// <param name="noteColor">플레이어가 피한 노트의 색상을 입력합니다.</param>
 		public void ChangeScore(NoteColor noteColor)
 		{
 			scoreManager.AddScore(scoreAdjust[(int)noteColor]);

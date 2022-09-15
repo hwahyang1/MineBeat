@@ -6,16 +6,11 @@ using UnityEngine.UI;
 
 using MineBeat.GameEditor.Notes;
 
-/*
- * [Namespace] Minebeat.GameEditor.UI
- * Desciption
- */
 namespace MineBeat.GameEditor.UI
 {
-	/*
-	 * [Class] NoteListManager
-	 * UI 우측의 노트 목록 창 항목을 관리합니다.
-	 */
+	/// <summary>
+	/// UI 우측의 노트 목록 창 항목을 관리합니다.
+	/// </summary>
 	public class NoteListManager : MonoBehaviour
 	{
 		[SerializeField]
@@ -44,10 +39,10 @@ namespace MineBeat.GameEditor.UI
 			}
 		}
 
-		/*
-		 * [Method] UpdateList(): void
-		 * 노트 목록을 갱신합니다.
-		 */
+		/// <summary>
+		/// 노트 목록을 갱신합니다.
+		/// </summary>
+		/// <param name="notes">갱신할 정보를 입력합니다.</param>
 		public void UpdateList(List<Note> notes)
 		{
 			for (int i = 0; i < gameObject.transform.childCount; i++)
@@ -62,10 +57,9 @@ namespace MineBeat.GameEditor.UI
 			}
 		}
 
-		/*
-		 * [Method] DeleteSeletedNote(): void
-		 * 선택된 노트를 제거합니다.
-		 */
+		/// <summary>
+		/// 선택된 노트를 제거합니다.
+		/// </summary>
 		public void DeleteSelectedNote()
 		{
 			GameObject selected = gameObject;

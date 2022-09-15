@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
- * [Namespace] MineBeat.Config.UI.Elements
- * Description
- */
 namespace MineBeat.Config.UI.Elements
 {
-	/*
-	 * [Class] SliderCategoryElement
-	 * 슬라이더 항목 - 카테고리 각 항목을 관리합니다.
-	 */
+	/// <summary>
+	/// 슬라이더 항목 - 카테고리 각 항목을 관리합니다.
+	/// </summary>
 	public abstract class SliderCategoryElement : CategoryElement
 	{
 		[SerializeField]
@@ -48,10 +43,10 @@ namespace MineBeat.Config.UI.Elements
 			elementSlider.GetComponent<Slider>().value = currentValue;
 		}
 
-		/*
-		 * [Method] OnValueChanged(): void
-		 * 선택 값이 바뀌었을 때 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// 선택 값이 바뀌었을 때 이벤트를 처리합니다.
+		/// </summary>
+		/// <param name="currentValue"></param>
 		public virtual void OnValueChanged(float currentValue)
 		{
 			this.currentValue = currentValue;

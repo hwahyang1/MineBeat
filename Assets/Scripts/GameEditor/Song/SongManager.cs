@@ -7,16 +7,11 @@ using MineBeat.GameEditor.Notes;
 
 using MineBeat.Preload.UI;
 
-/*
- * [Namespace] Minebeat.GameEditor.Song
- * Desciption
- */
 namespace MineBeat.GameEditor.Song
 {
-	/*
-	 * [Enum] PlayStatus
-	 * 곡의 재생 여부를 관리합니다.
-	 */
+	/// <summary>
+	/// 곡의 재생 여부를 관리합니다.
+	/// </summary>
 	public enum PlayStatus
 	{
 		Playing,
@@ -24,10 +19,9 @@ namespace MineBeat.GameEditor.Song
 		Stopped
 	}
 
-	/*
-	 * [Class] SongManager
-	 * 곡의 재생을 관리합니다.
-	 */
+	/// <summary>
+	/// 곡의 재생을 관리합니다.
+	/// </summary>
 	[RequireComponent(typeof(AudioSource))]
 	public class SongManager : MonoBehaviour
 	{
@@ -77,34 +71,27 @@ namespace MineBeat.GameEditor.Song
 			}
 		}
 
-		/*
-		 * [Method] GetCurrentTime(): float
-		 * AudioSource의 playback time을 반환합니다.
-		 * 
-		 * <RETURN: float>
-		 * 현재 재생중인 위치를 초로 반환합니다.
-		 */
+		/// <summary>
+		/// AudioSource의 playback time을 반환합니다.
+		/// </summary>
+		/// <returns>현재 재생중인 위치를 초로 반환합니다.</returns>
 		public float GetCurrentTime()
 		{
 			return audioSource.time;
 		}
 
-		/*
-		 * [Method] ChangeCurrentTime(float time): void
-		 * AudioSource의 playback time을 수정합니다.
-		 * 
-		 * <float time>
-		 * 수정을 원하는 위치를 초로 입력합니다.
-		 */
+		/// <summary>
+		/// AudioSource의 playback time을 수정합니다.
+		/// </summary>
+		/// <param name="time">수정을 원하는 위치를 초로 입력합니다.</param>
 		public void ChangeCurrentTime(float time)
 		{
 			audioSource.time = time;
 		}
 
-		/*
-		 * [Method] OnPlayButtonClicked(): void
-		 * 재생 버튼이 클릭되었을 때 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// 재생 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		/// </summary>
 		public void OnPlayButtonClicked()
 		{
 			if (notesVerifier.isError && doNotPlayWhenError)
@@ -118,10 +105,9 @@ namespace MineBeat.GameEditor.Song
 			playStatus = PlayStatus.Playing;
 		}
 
-		/*
-		 * [Method] OnPauseButtonClicked(): void
-		 * 일시정지 버튼이 클릭되었을 때 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// 일시정지 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		/// </summary>
 		public void OnPauseButtonClicked()
 		{
 			if (notesVerifier.isError && doNotPlayWhenError)
@@ -135,10 +121,9 @@ namespace MineBeat.GameEditor.Song
 			playStatus = PlayStatus.Paused;
 		}
 
-		/*
-		 * [Method] OnStopButtonClicked(): void
-		 * 정지 버튼이 클릭되었을 때 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// 정지 버튼이 클릭되었을 때 이벤트를 처리합니다.
+		/// </summary>
 		public void OnStopButtonClicked()
 		{
 			audioSource.Pause();
@@ -146,10 +131,9 @@ namespace MineBeat.GameEditor.Song
 			playStatus = PlayStatus.Stopped;
 		}
 
-		/*
-		 * [Method] DoNotPlayWhenErrorToggleChanged(): void
-		 * Do not play when there is an error 토글이 변경되었을 때 이벤트를 처리합니다.
-		 */
+		/// <summary>
+		/// 'Do not play when there is an error' 토글이 변경되었을 때 이벤트를 처리합니다.
+		/// </summary>
 		public void DoNotPlayWhenErrorToggleChanged()
 		{
 			doNotPlayWhenError = !doNotPlayWhenError;
