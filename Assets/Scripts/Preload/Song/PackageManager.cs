@@ -43,16 +43,23 @@ namespace MineBeat.Preload.Song
 
 		private BinaryFormatter formatter = new BinaryFormatter();
 
-		// 실제 정보 담아두는 위치
-		/* ID, PackageStream, PatternStream, AudioStream, ImageStream */
+		/// <summary>
+		/// 곡 ID별 핸들을 담아둡니다.
+		/// 순서: ID, PackageStream, PatternStream, AudioStream, ImageStream
+		/// </summary>
 		private List<System.Tuple<ulong, FileStream, FileStream, FileStream, FileStream>> packages = new List<System.Tuple<ulong, FileStream, FileStream, FileStream, FileStream>>();
 
-		// 파일 미리 로드해서 빼놓음 (그때그때 로드하면 스크롤 애니메이션이 안굴러감)
-		/* ID, Cover, Song */
+		/// <summary>
+		/// 사전에 로드된 이미지와 오디오를 저장합니다.
+		/// 순서: ID, Cover, Song
+		/// </summary>
 		private List<System.Tuple<ulong, Sprite, AudioClip>> preloadMedias = new List<System.Tuple<ulong, Sprite, AudioClip>>();
 
-		// 약간 packages의 포인터 같은 느낌, 정렬은 여기서 함
-		/* ID, SongName, SongAuthor, SongLevel */
+		/// <summary>
+		/// 곡 정보를 담습니다.
+		/// 정렬과 같은 작업을 해당 변수로 처리해야 합니다.
+		/// 순서: ID, SongName, SongAuthor, SongLevel
+		/// </summary>
 		private List<System.Tuple<ulong, string, string, ushort>> sortPackages = new List<System.Tuple<ulong, string, string, ushort>>();
 
 		private async Task<Sprite> LoadSprite(string path)
@@ -107,6 +114,8 @@ namespace MineBeat.Preload.Song
 		{
 			base.Awake();
 
+			return; //TODO: 작업 완료 후 지우기
+
 			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
 			Directory.CreateDirectory(tempFileRootFolderPath);
 			Directory.CreateDirectory(packageRootFolderPath);
@@ -128,9 +137,11 @@ namespace MineBeat.Preload.Song
 				Directory.CreateDirectory(tempPackageFolderPath);
 				ZipFile.ExtractToDirectory(filePath, tempPackageFolderPath, true);
 
-				FileStream tempPatternFileStream = new FileStream(tempPackageFolderPath + "MineBeat.ptrn", FileMode.Open, FileAccess.Read);
-				SongInfo data = formatter.Deserialize(tempPatternFileStream) as SongInfo;
-				tempPatternFileStream.Close();
+				//FileStream tempPatternFileStream = new FileStream(tempPackageFolderPath + "MineBeat.ptrn", FileMode.Open, FileAccess.Read);
+				//SongInfo data = formatter.Deserialize(tempPatternFileStream) as SongInfo;
+				//tempPatternFileStream.Close();
+
+				SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(tempPackageFolderPath + "MineBeat.ptrn"));
 
 				Directory.Move(tempPackageFolderPath, packageRootFolderPath + data.id);
 
