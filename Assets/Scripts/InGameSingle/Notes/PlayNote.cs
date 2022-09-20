@@ -23,7 +23,7 @@ namespace MineBeat.InGameSingle.Notes
 
 		private SpriteRenderer spriteRenderer;
 		private Tilemap warningTilemap;
-		Vector3Int warningTilemapPosition;
+		private Vector3Int warningTilemapPosition;
 		
 		private Note noteInfo;
 
@@ -44,6 +44,7 @@ namespace MineBeat.InGameSingle.Notes
 
 		private GameManager gameManager;
 		private BoxManager boxManager;
+		private PlaceNote placeNote;
 
 		private bool _isActive = true; // 해당 노트에 대한 판정이 살아있는지 (플레이어와 충돌 이후부터는 해당 노트는 판정에서 제함)
 		public bool isActive
@@ -58,12 +59,13 @@ namespace MineBeat.InGameSingle.Notes
 
 		private void Awake()
 		{
-			if (transform.parent.gameObject.TryGetComponent(typeof(PlayNote), out Component component)) Destroy(this);
+			if (transform.parent.gameObject.TryGetComponent(typeof(PlayNote), out Component component)) Destroy(this); // Vertical Note일 경우
 
 			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
 
-			spriteRenderer = GetComponent<SpriteRenderer>();
 			gameManager = managers.Find(target => target.name == "GameManager").GetComponent<GameManager>();
+			placeNote = managers.Find(target => target.name == "NoteManager").GetComponent<PlaceNote>();
+			spriteRenderer = GetComponent<SpriteRenderer>();
 			boxManager = GameObject.Find("Tilemaps").GetComponent<BoxManager>();
 		}
 
@@ -72,6 +74,10 @@ namespace MineBeat.InGameSingle.Notes
 			#if UNITY_EDITOR
 				gameObject.name = string.Format("{0} - {1}({2}) - ({3},{4})", noteInfo.timeCode, noteInfo.type.ToString(), noteInfo.color.ToString(), noteInfo.position.x, noteInfo.position.y);
 			#endif
+
+			previousBoxSize = 0;
+			positionAddX = 0;
+			positionAddY = 0;
 
 			gameObject.transform.position = new Vector3(noteInfo.position.x + 0.5f, noteInfo.position.y + 0.5f, 0f);
 			timecode = -startAfter;
@@ -98,6 +104,9 @@ namespace MineBeat.InGameSingle.Notes
 			this.prefab = prefab;
 			spriteRenderer.sprite = boxes[(int)noteInfo.color];
 			spriteRenderer.color = activeColor;
+
+			triggered = false;
+			isActive = true;
 		}
 
 		private void Update()
@@ -163,20 +172,19 @@ namespace MineBeat.InGameSingle.Notes
 		/// </summary>
 		private void OnBoxEnter()
 		{
-			if (isActive)
+			if (isActive && noteInfo.type == NoteType.Normal)
 			{
-				if (noteInfo.type == NoteType.Normal)
-				{
-					gameManager.ChangeScore(noteInfo.color);
-				}
-
-				for (int i = 0; i < transform.childCount; i++)
-				{
-					Destroy(transform.GetChild(i).gameObject);
-				}
+				gameManager.ChangeScore(noteInfo.color);
 			}
 
-			Destroy(gameObject);
+			for (int i = 0; i < transform.childCount; i++)
+			{
+				Destroy(transform.GetChild(i).gameObject);
+			}
+
+			//Destroy(gameObject);
+			transform.parent = placeNote.DisabledParent;
+			gameObject.SetActive(false);
 		}
 
 		/// <summary>

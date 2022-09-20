@@ -108,7 +108,7 @@ namespace MineBeat.GameEditor.Files
 			yield return new WaitForSeconds(0.1f);
 			while (true)
 			{
-				int res = AlertManager.Instance.Show("Choose one", "Do you want to create the new pattern file?\nOr do you want to load the existing pattern file?", AlertManager.AlertButtonType.Double, new string[] { "Create new", "Load exist" }, OnNewButtonClicked, OpenPackageFileWorker);
+				int res = AlertManager.Instance.Show("알림", "파일 유형을 선택하세요.", AlertManager.AlertButtonType.Double, new string[] { "새로 만들기", "불러오기" }, OnNewButtonClicked, OpenPackageFileWorker);
 				if (res == 0) break;
 				yield return new WaitForSeconds(0.1f);
 			}
@@ -145,7 +145,7 @@ namespace MineBeat.GameEditor.Files
 		{
 			if (!isFirst)
 			{
-				AlertManager.Instance.Show("Warning!", "This action initializes all progress.\nDo you really want to continue?", AlertManager.AlertButtonType.Double, new string[] { "Yes (New)", "No (Close)" }, OpenSongFileWorker, () => { });
+				AlertManager.Instance.Show("경고", "이 작업은 저장되지 않은 모든 진행상황을 초기화합니다.\n계속 진행할까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요 (닫기)" }, OpenSongFileWorker, () => { });
 				return;
 			}
 			OpenSongFileWorker();
@@ -179,7 +179,7 @@ namespace MineBeat.GameEditor.Files
 		{
 			if (!isFirst)
 			{
-				int res = AlertManager.Instance.Show("Warning!", "This action initializes all progress.\nDid you save the file you were working on?", AlertManager.AlertButtonType.Double, new string[] { "Yes (Load)", "No (Close)" }, OpenPackageFileWorker, () => { });
+				int res = AlertManager.Instance.Show("경고", "이 작업은 저장되지 않은 모든 진행상황을 초기화합니다.\n계속 진행할까요?", AlertManager.AlertButtonType.Double, new string[] { "네", "아니요 (닫기)" }, OpenPackageFileWorker, () => { });
 				return;
 			}
 			OpenPackageFileWorker();
@@ -197,7 +197,7 @@ namespace MineBeat.GameEditor.Files
 		{
 			if (notesVerifier.isError)
 			{
-				AlertManager.Instance.Show("Alert", "Unable to save due to an error in the note placement.\nPlease try again after fixing the error.", AlertManager.AlertButtonType.Single, new string[] { "Close" }, () => { });
+				AlertManager.Instance.Show("알림", "노트 배치에 문제가 있어 저장을 할 수 없습니다.\n문제를 수정하고 다시 시도 해 주세요.", AlertManager.AlertButtonType.Single, new string[] { "닫기" }, () => { });
 				return;
 			}
 			songManager.OnStopButtonClicked();
@@ -370,7 +370,7 @@ namespace MineBeat.GameEditor.Files
 			maintainCanvas = false;
 			canvas.SetActive(false);
 
-			AlertManager.Instance.Show("Success", "The file was successfully saved.", AlertManager.AlertButtonType.Single, new string[] { "Close" }, () => { });
+			AlertManager.Instance.Show("알림", "패키지를 성공적으로 저장했습니다.", AlertManager.AlertButtonType.Single, new string[] { "닫기" }, () => { });
 		}
 
 		public IEnumerator OpenImageFileCoroutine()

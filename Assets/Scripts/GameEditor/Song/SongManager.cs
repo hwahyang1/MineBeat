@@ -96,7 +96,7 @@ namespace MineBeat.GameEditor.Song
 		{
 			if (notesVerifier.isError && doNotPlayWhenError)
 			{
-				alertManager.Show("Alert", "Unable to play due to an error in the note placement.\nPlease try again after fixing the error or turn off the 'Do not play when there is an error' toggle.", AlertManager.AlertButtonType.Single, new string[] { "Close" }, () => { });
+				alertManager.Show("알림", "\"노트 배치에 문제가 있어 재생을 할 수 없습니다.\n문제를 수정하거나 '에러가 있으면 재생하지 않기'를 끄고 다시 시도 해주세요.", AlertManager.AlertButtonType.Single, new string[] { "확인" }, () => { });
 				return;
 			}
 

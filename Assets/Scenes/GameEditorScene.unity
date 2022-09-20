@@ -194,7 +194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Box Size
+  m_Text: "\uBC15\uC2A4 \uD06C\uAE30"
 --- !u!222 &2136066
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1313,7 +1313,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u203B [SUCCESS] No error detected."
+  m_Text: "\u203B [\uC54C\uB9BC] \uBB38\uC81C\uAC00 \uBC1C\uACAC\uB418\uC9C0 \uC54A\uC558\uC2B5\uB2C8\uB2E4."
 --- !u!222 &222068943
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3622,7 +3622,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hide UI while playing
+  m_Text: "\uC7AC\uC0DD \uC911 UI \uC228\uAE30\uAE30"
 --- !u!222 &628503026
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4725,7 +4725,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Loading... Please Wait
+  m_Text: "\uC7A0\uC2DC\uB9CC \uAE30\uB2E4\uB824 \uC8FC\uC138\uC694..."
 --- !u!222 &903087330
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5163,7 +5163,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play Control
+  m_Text: "\uC5D0\uB514\uD130 \uC124\uC815"
 --- !u!222 &998029993
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6841,7 +6841,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Timeline
+  m_Text: "\uD0C0\uC784\uB77C\uC778"
 --- !u!222 &1259867707
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8600,7 +8600,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Object
+  m_Text: "\uB3C4\uAD6C"
 --- !u!222 &1478598600
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9677,7 +9677,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Song Cover
+  m_Text: "\uCEE4\uBC84\uC774\uBBF8\uC9C0"
 --- !u!222 &1674629602
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11587,7 +11587,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Do not play when there is an error
+  m_Text: "\uC5D0\uB7EC\uAC00 \uC788\uC73C\uBA74 \uC7AC\uC0DD\uD558\uC9C0 \uC54A\uAE30"
 --- !u!222 &2024855522
 CanvasRenderer:
   m_ObjectHideFlags: 0

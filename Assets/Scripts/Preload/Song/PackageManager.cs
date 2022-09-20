@@ -51,9 +51,9 @@ namespace MineBeat.Preload.Song
 
 		/// <summary>
 		/// 사전에 로드된 이미지와 오디오를 저장합니다.
-		/// 순서: ID, Cover, Song
+		/// 순서: ID, Cover, Song, SongInfo
 		/// </summary>
-		private List<System.Tuple<ulong, Sprite, AudioClip>> preloadMedias = new List<System.Tuple<ulong, Sprite, AudioClip>>();
+		private List<System.Tuple<ulong, Sprite, AudioClip, SongInfo>> preloadMedias = new List<System.Tuple<ulong, Sprite, AudioClip, SongInfo>>();
 
 		/// <summary>
 		/// 곡 정보를 담습니다.
@@ -114,7 +114,7 @@ namespace MineBeat.Preload.Song
 		{
 			base.Awake();
 
-			return; //TODO: 작업 완료 후 지우기
+			//return; //TODO: 작업 완료 후 지우기
 
 			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
 			Directory.CreateDirectory(tempFileRootFolderPath);
@@ -141,7 +141,7 @@ namespace MineBeat.Preload.Song
 				//SongInfo data = formatter.Deserialize(tempPatternFileStream) as SongInfo;
 				//tempPatternFileStream.Close();
 
-				SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(tempPackageFolderPath + "MineBeat.ptrn"));
+				SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(tempPackageFolderPath + @"MineBeat.ptrn"));
 
 				Directory.Move(tempPackageFolderPath, packageRootFolderPath + data.id);
 
@@ -157,7 +157,7 @@ namespace MineBeat.Preload.Song
 
 				// Add List
 				packages.Add(new System.Tuple<ulong, FileStream, FileStream, FileStream, FileStream>(data.id, packageFileStream, patternFileStream, audioFileStream, imageFileStream));
-				preloadMedias.Add(new System.Tuple<ulong, Sprite, AudioClip>(data.id, sprite, audioClip));
+				preloadMedias.Add(new System.Tuple<ulong, Sprite, AudioClip, SongInfo>(data.id, sprite, audioClip, data));
 				sortPackages.Add(new System.Tuple<ulong, string, string, ushort>(data.id, data.songName, data.songAuthor, data.songLevel));
 			}
 
@@ -236,10 +236,12 @@ namespace MineBeat.Preload.Song
 		/// <returns>해당되는 ID를 가진 곡의 SongInfo를 반환합니다.</returns>
 		public SongInfo GetSongInfo(ulong id)
 		{
-			var target = packages.Find(target => target.Item1 == id);
-			target.Item3.Position = 0;
-			SongInfo data = formatter.Deserialize(target.Item3) as SongInfo;
-			return data;
+			//var target = packages.Find(target => target.Item1 == id);
+			//target.Item3.Position = 0;
+			//SongInfo data = formatter.Deserialize(target.Item3) as SongInfo;
+			//return data;
+			var target = preloadMedias.Find(target => target.Item1 == id);
+			return target.Item4;
 		}
 
 		/// <summary>

@@ -22,7 +22,11 @@ namespace MineBeat.InGameSingle.Notes
 		private Tilemap warningTilemap;
 
 		[SerializeField]
-		private Transform parent;
+		private Transform notesParent;
+		[SerializeField]
+		private Transform _disabledParent;
+		public Transform DisabledParent { get { return _disabledParent; } }
+
 		[SerializeField]
 		private GameObject prefab;
 
@@ -62,7 +66,17 @@ namespace MineBeat.InGameSingle.Notes
 				{
 					case NoteType.Normal:
 					case NoteType.Vertical:
-						Instantiate(prefab, Vector3.zero, Quaternion.identity, parent).GetComponent<PlayNote>().Init(note.timeCode - songPlayManager.timecode, note, warningTilemap, prefab);
+						if (DisabledParent.childCount > 0)
+						{
+							GameObject obj = DisabledParent.GetChild(0).gameObject;
+							obj.transform.parent = notesParent;
+							obj.GetComponent<PlayNote>().Init(note.timeCode - songPlayManager.timecode, note, warningTilemap, prefab);
+							obj.SetActive(true);
+						}
+						else
+						{
+							Instantiate(prefab, Vector3.zero, Quaternion.identity, notesParent).GetComponent<PlayNote>().Init(note.timeCode - songPlayManager.timecode, note, warningTilemap, prefab);
+						}
 						break;
 					case NoteType.SizeChange:
 						runAction = () => { boxManager.Draw(note.position.y, boxManager.color); };

@@ -42,7 +42,7 @@ namespace MineBeat.GameEditor.Notes
 			if (notesManager.Find(NoteType.ImpactLine).Count > 1)
 			{
 				isError = true;
-				returnMessage = "There cannot be more than one 'Impact Line'.";
+				returnMessage = "'Impact Line'은 최대 한개만 존재해야 합니다.";
 				ChangeMessage();
 				return;
 			}
@@ -50,7 +50,7 @@ namespace MineBeat.GameEditor.Notes
 			if (notesManager.Find(NoteType.BlankS).Count != notesManager.Find(NoteType.BlankE).Count)
 			{
 				isError = true;
-				returnMessage = "There is not enough 'Blank Area E' corresponding to 'Blank Area S'. (or maybe vice versa)";
+				returnMessage = "'Blank Area S'에 대응하는 'Blank Area E'가 존재하지 않습니다. (또는 그 반대)";
 				ChangeMessage();
 				return;
 			}
@@ -58,13 +58,13 @@ namespace MineBeat.GameEditor.Notes
 			if (notesManager.Find(NoteType.PreviewS).Count != 1 || notesManager.Find(NoteType.PreviewE).Count != 1)
 			{
 				isError = true;
-				returnMessage = "There must be one 'Preview Area S' and one 'Preview Area E'.";
+				returnMessage = "'Preview Area S'와 'Preview Area E'는 무조건 존재해야 하며, 한개만 존재해야 합니다.";
 				ChangeMessage();
 				return;
 			}
 
 			isError = false;
-			returnMessage = "No error detected.";
+			returnMessage = "문제가 발견되지 않았습니다.";
 			ChangeMessage();
 		}
 
@@ -74,7 +74,7 @@ namespace MineBeat.GameEditor.Notes
 		private void ChangeMessage()
 		{
 			textArea.color = isError ? colorError : colorSuccess;
-			textArea.text = "※ " + (isError ? "[ERROR] " : "[SUCCESS] " ) + returnMessage;
+			textArea.text = "※ " + (isError ? "[경고] " : "[알림] " ) + returnMessage;
 		}
 	}
 }
