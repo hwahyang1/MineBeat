@@ -183,7 +183,7 @@ namespace MineBeat.InGameSingle.Notes
 			}
 
 			//Destroy(gameObject);
-			transform.parent = placeNote.DisabledParent;
+			transform.SetParent(placeNote.DisabledParent);
 			gameObject.SetActive(false);
 		}
 

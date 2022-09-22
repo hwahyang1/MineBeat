@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 using MineBeat.GameEditor.Song;
 using MineBeat.GameEditor.TileBox;
+using System;
 
 namespace MineBeat.GameEditor.Notes
 {
@@ -24,12 +25,16 @@ namespace MineBeat.GameEditor.Notes
 		private TileBase[] verticalWarning = new TileBase[4];
 
 		[Header("Prefab")]
-		[SerializeField, Tooltip("DefineNote.NoteColor을 기준으로 해당되는 색상의 노트 Prefab을 입력하세요.")]
-		private GameObject[] boxNotes = new GameObject[6];
+		[SerializeField]
+		private GameObject boxNote;
+		[SerializeField, Tooltip("DefineNote.NoteColor을 기준으로 해당되는 색상의 노트 Sprite를 입력하세요.")]
+		private Sprite[] boxSprites = new Sprite[6];
 
 		[Header("Parent")]
 		[SerializeField]
 		private Transform noteParent;
+		[SerializeField]
+		private Transform disabledNoteParent;
 
 		[Header("Timing")]
 		[SerializeField]
@@ -77,7 +82,10 @@ namespace MineBeat.GameEditor.Notes
 		{
 			for (int i = 0; i < noteParent.childCount; i++)
 			{
-				Destroy(noteParent.GetChild(i).gameObject);
+				//Destroy(noteParent.GetChild(i).gameObject);
+				GameObject obj = noteParent.GetChild(0).gameObject;
+				obj.transform.SetParent(disabledNoteParent);
+				obj.SetActive(false);
 			}
 			noteWarningTilemap.ClearAllTiles();
 
@@ -131,7 +139,19 @@ namespace MineBeat.GameEditor.Notes
 
 						if (posX >= boxSize.currentSize + 1.5 || posX <= 0.5 || posY >= boxSize.currentSize + 1.5 || posY <= 0.5) continue;
 
-						Instantiate(boxNotes[(int)current.color], new Vector3(posX, posY, 0f), Quaternion.identity, noteParent);
+						if (disabledNoteParent.childCount > 0)
+						{
+							GameObject obj = disabledNoteParent.GetChild(0).gameObject;
+							obj.GetComponent<Transform>().position = new Vector3(posX, posY, 0f);
+							obj.GetComponent<SpriteRenderer>().sprite = boxSprites[(int)current.color];
+							obj.transform.SetParent(noteParent);
+							obj.SetActive(true);
+						}
+						else
+						{
+							Instantiate(boxNote, new Vector3(posX, posY, 0f), Quaternion.identity, noteParent)
+								.GetComponent<SpriteRenderer>().sprite = boxSprites[(int)current.color];
+						}
 
 						break;
 					case NoteType.Vertical:
@@ -141,14 +161,38 @@ namespace MineBeat.GameEditor.Notes
 						{
 							for (int i = 0; i < boxSize.currentSize; i++)
 							{
-								Instantiate(boxNotes[(int)current.color], new Vector3(current.position.x + 0.5f, i + 1.5f, 0), Quaternion.identity, noteParent);
+								if (disabledNoteParent.childCount > 0)
+								{
+									GameObject obj = disabledNoteParent.GetChild(0).gameObject;
+									obj.GetComponent<Transform>().position = new Vector3(current.position.x + 0.5f, i + 1.5f, 0);
+									obj.GetComponent<SpriteRenderer>().sprite = boxSprites[(int)current.color];
+									obj.transform.SetParent(noteParent);
+									obj.SetActive(true);
+								}
+								else
+								{
+									Instantiate(boxNote, new Vector3(current.position.x + 0.5f, i + 1.5f, 0), Quaternion.identity, noteParent)
+										.GetComponent<SpriteRenderer>().sprite = boxSprites[(int)current.color];
+								}
 							}
 						}
 						else
 						{
 							for (int i = 0; i < boxSize.currentSize; i++)
 							{
-								Instantiate(boxNotes[(int)current.color], new Vector3(i + 1.5f, current.position.y + 0.5f, 0), Quaternion.identity, noteParent);
+								if (disabledNoteParent.childCount > 0)
+								{
+									GameObject obj = disabledNoteParent.GetChild(0).gameObject;
+									obj.GetComponent<Transform>().position = new Vector3(i + 1.5f, current.position.y + 0.5f, 0);
+									obj.GetComponent<SpriteRenderer>().sprite = boxSprites[(int)current.color];
+									obj.transform.SetParent(noteParent);
+									obj.SetActive(true);
+								}
+								else
+								{
+									Instantiate(boxNote, new Vector3(i + 1.5f, current.position.y + 0.5f, 0), Quaternion.identity, noteParent)
+										.GetComponent<SpriteRenderer>().sprite = boxSprites[(int)current.color];
+								}
 							}
 						}
 

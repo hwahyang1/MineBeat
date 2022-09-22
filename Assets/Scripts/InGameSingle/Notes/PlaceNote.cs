@@ -69,7 +69,7 @@ namespace MineBeat.InGameSingle.Notes
 						if (DisabledParent.childCount > 0)
 						{
 							GameObject obj = DisabledParent.GetChild(0).gameObject;
-							obj.transform.parent = notesParent;
+							obj.transform.SetParent(notesParent);
 							obj.GetComponent<PlayNote>().Init(note.timeCode - songPlayManager.timecode, note, warningTilemap, prefab);
 							obj.SetActive(true);
 						}
