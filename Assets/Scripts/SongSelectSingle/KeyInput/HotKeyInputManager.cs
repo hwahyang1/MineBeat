@@ -96,11 +96,19 @@ namespace MineBeat.SongSelectSingle.KeyInput
 		}
 		public void OnEscapeKeyClicked()
 		{
-			AlertManager.Instance.Show("확인", "모드 선택 화면으로 돌아갈까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요" }, () => { ChangeScene("ModeSelectScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); });
+			AlertManager.Instance.Show("확인", "모드 선택 화면으로 돌아갈까요?",
+				AlertManager.AlertButtonType.Double,
+				new string[] { "예", "아니요" },
+				() => { ChangeScene("ModeSelectScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); }
+			);
 		}
 		public void OnF10KeyClicked()
 		{
-			AlertManager.Instance.Show("확인", "게임 설정 화면으로 이동할까요?", AlertManager.AlertButtonType.Double, new string[] { "예", "아니요" }, () => { ChangeScene("ConfigScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); });
+			AlertManager.Instance.Show("확인", "게임 설정 화면으로 이동할까요?",
+				AlertManager.AlertButtonType.Double,
+				new string[] { "예", "아니요" },
+				() => { ChangeScene("ConfigScene"); }, () => { StartCoroutine(ToggleTwiceActiveDelay()); }
+			);
 		}
 		public void OnEnterKeyClicked()
 		{

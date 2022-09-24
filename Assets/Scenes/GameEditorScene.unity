@@ -320,6 +320,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SongInfoArea: {fileID: 1088565242}
+  blockInputs:
+  - {fileID: 1944658867}
+  - {fileID: 1996150017}
+  - {fileID: 992666524}
   blockInput: 0
 --- !u!1 &50846109
 GameObject:

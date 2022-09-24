@@ -97,8 +97,8 @@ namespace MineBeat.Preload.UI
 		/// <param name="buttonTexts">버튼에 대한 텍스트를 입력합니다. 무조건 ButtonType과 수가 일치해야 하며, ButtonType.None일 경우, 1개의 빈 string을 입력합니다.</param>
 		/// <param name="buttonActions">
 		/// 버튼에 대한 이벤트를 입력합니다.
-		/// 이벤트 입력 순서는 해당 ButtonGroup의 왼쪽부터입니다. (ex- Double을 선택 한 경우, Y, N 순서로 이벤트 입력) 무조건 ButtonType과 수가 일치해야 하며, ButtonType.None일 경우, 1개의 빈 Action을 입력합니다.
-		/// 아무 이벤트 없이 창을 닫게만 하고 싶을 경우, 해당되는 위치에 빈 Action을 입력합니다.
+		/// 이벤트 입력 순서는 해당 ButtonGroup의 왼쪽부터입니다. (ex- Double을 선택 한 경우, Y, N 순서로 이벤트 입력) 무조건 ButtonType과 수가 일치해야 하며, ButtonType.None일 경우, null을 입력합니다.
+		/// 아무 이벤트 없이 창을 닫게만 하고 싶을 경우, 해당되는 위치에 null을 입력합니다.
 		/// </param>
 		/// <returns>
 		/// 오류 여부를 반환합니다.
@@ -150,19 +150,19 @@ namespace MineBeat.Preload.UI
 		public void OnButtonClickedLeft()
 		{
 			if ((int)alertButtonType < 1) return;
-			buttonActions[0]();
+			buttonActions[0].Invoke();
 			Close();
 		}
 		public void OnButtonClickedCenter()
 		{
 			if ((int)alertButtonType < 2) return;
-			buttonActions[1]();
+			buttonActions[1].Invoke();
 			Close();
 		}
 		public void OnButtonClickedRight()
 		{
 			if ((int)alertButtonType < 3) return;
-			buttonActions[2]();
+			buttonActions[2].Invoke();
 			Close();
 		}
 	}

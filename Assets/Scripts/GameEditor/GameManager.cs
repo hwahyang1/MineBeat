@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using TMPro;
 
 using MineBeat.GameEditor.Files;
@@ -21,8 +20,12 @@ namespace MineBeat.GameEditor
 		private NotesManager notesManager;
 		private FileManager fileManager;
 
+		[SerializeField]
+		private TMP_InputField[] blockInputs = new TMP_InputField[3];
+
 		private ulong songId;
 
+		[SerializeField]
 		public bool blockInput = false;
 
 		private void Start()
@@ -35,14 +38,23 @@ namespace MineBeat.GameEditor
 
 		private void Update()
 		{
-			if (!fileManager.maintainCanvas && EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject.transform.parent != SongInfoArea)
+			foreach (TMP_InputField inputField in blockInputs)
 			{
-				blockInput = false;
+				if (inputField.isFocused)
+				{
+					blockInput = true;
+					return;
+				}
+			}
+
+			if (fileManager.maintainCanvas)
+			{
+				blockInput = true;
 				EventSystem.current.SetSelectedGameObject(null);
 			}
 			else
 			{
-				blockInput = true;
+				blockInput = false;
 			}
 		}
 
