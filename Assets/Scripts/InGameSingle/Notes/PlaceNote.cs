@@ -10,6 +10,8 @@ using MineBeat.Preload.Song;
 
 using MineBeat.InGameSingle.Box;
 using MineBeat.InGameSingle.Song;
+using MineBeat.InGameSingle.HP;
+using MineBeat.InGameSingle.UI;
 
 namespace MineBeat.InGameSingle.Notes
 {
@@ -30,6 +32,8 @@ namespace MineBeat.InGameSingle.Notes
 		[SerializeField]
 		private GameObject prefab;
 
+		private ImpactLine impactLine;
+		private HPManager hpManager;
 		private BoxManager boxManager;
 		private SongPlayManager songPlayManager;
 
@@ -45,6 +49,8 @@ namespace MineBeat.InGameSingle.Notes
 		{
 			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
 
+			hpManager = managers.Find(target => target.name == "HPManager").GetComponent<HPManager>();
+			impactLine = managers.Find(target => target.name == "UIManagers").GetComponent<ImpactLine>();
 			boxManager = managers.Find(target => target.name == "Tilemaps").GetComponent<BoxManager>();
 			songPlayManager = managers.Find(target => target.name == "SongManager").GetComponent<SongPlayManager>();
 			id = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
@@ -91,6 +97,11 @@ namespace MineBeat.InGameSingle.Notes
 						runAction = () => { boxManager.ChangeVisibility(true); };
 						break;
 					case NoteType.ImpactLine:
+						runAction = () =>
+						{
+							hpManager.FixHp();
+							impactLine.Run();
+						};
 						break;
 				}
 

@@ -10,6 +10,9 @@ namespace MineBeat.InGameSingle.HP
 	/// </summary>
 	public class HPManager : MonoBehaviour
 	{
+		[SerializeField]
+		private bool fixHp = false;
+
 		[Range(0, 100)]
 		private short _maxHp = 100;
 		public short maxHp
@@ -23,7 +26,10 @@ namespace MineBeat.InGameSingle.HP
 			get { return _hp; }
 			set
 			{
+				if (fixHp) return;
+
 				if (value <= 0) _hp = 0;
+				//if (value <= 1) _hp = 1; // 임시
 				else if (value >= maxHp) _hp = maxHp;
 				else _hp = value;
 			}
@@ -32,6 +38,12 @@ namespace MineBeat.InGameSingle.HP
 		private void Start()
 		{
 			hp = maxHp;
+		}
+
+		public void FixHp()
+		{
+			hp = maxHp;
+			fixHp = true;
 		}
 	}
 }
