@@ -684,7 +684,7 @@ MonoBehaviour:
   noteParent: {fileID: 1809635241}
   disabledNoteParent: {fileID: 1474668779}
   aroundTime: 0.35
-  verticalTime: 0.2
+  verticalTime: 0.15
   normalNoteSpeed: 20
 --- !u!1 &125094857
 GameObject:

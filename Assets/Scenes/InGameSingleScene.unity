@@ -1121,6 +1121,7 @@ CompositeCollider2D:
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
+  m_CompositeGameObject: {fileID: 500638219}
 --- !u!50 &500638225
 Rigidbody2D:
   serializedVersion: 4
@@ -3550,7 +3551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aec0e32a7d221d4cb8d675e536d7113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4500
+  moveSpeed: 5.5
   coolTime: 0.5
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   coolTimeColor: {r: 0.50980395, g: 0.50980395, b: 0.50980395, a: 1}
@@ -3567,13 +3568,13 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 20
-  m_AngularDrag: 0
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!1 &2104099544
 GameObject:

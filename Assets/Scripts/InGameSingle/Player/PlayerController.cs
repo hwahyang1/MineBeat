@@ -10,11 +10,13 @@ namespace MineBeat.InGameSingle.Player
 	/// </summary>
 	public class PlayerController : MonoBehaviour
 	{
+		[Header("Control")]
 		[SerializeField]
 		private float moveSpeed = 5f;
 
 		private Rigidbody2D rb;
 
+		[Header("CoolTime")]
 		[SerializeField]
 		private float coolTime = 0.5f;
 		private float nowCoolTime = 0f;
@@ -25,10 +27,13 @@ namespace MineBeat.InGameSingle.Player
 			get { return _isCoolTime; }
 			private set { _isCoolTime = value; }
 		}
+
+		[Header("Color")]
 		[SerializeField]
 		private Color normalColor = new Color(1f, 1f, 1f, 1f);
 		[SerializeField]
 		private Color coolTimeColor = new Color(1f, 1f, 1f, 1f);
+
 		private SpriteRenderer spriteRenderer;
 
 		private void Start()
@@ -53,26 +58,10 @@ namespace MineBeat.InGameSingle.Player
 				}
 			}
 
-			if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-			{
-				rb.AddForce(new Vector2(0f, moveSpeed * Time.deltaTime));
-				//transform.Translate(new Vector3(0f, moveSpeed * Time.deltaTime, 0f));
-			}
-			if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-			{
-				rb.AddForce(new Vector2(0f, -moveSpeed * Time.deltaTime));
-				//transform.Translate(new Vector3(0f, -moveSpeed * Time.deltaTime, 0f));
-			}
-			if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-			{
-				rb.AddForce(new Vector2(-moveSpeed * Time.deltaTime, 0f));
-				//transform.Translate(new Vector3(-moveSpeed * Time.deltaTime, 0f, 0f));
-			}
-			if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-			{
-				rb.AddForce(new Vector2(moveSpeed * Time.deltaTime, 0f));
-				//transform.Translate(new Vector3(moveSpeed * Time.deltaTime, 0f, 0f));
-			}
+			Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+			direction.Normalize();
+
+			rb.velocity = moveSpeed * direction;
 		}
 
 		/// <summary>

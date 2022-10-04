@@ -32,6 +32,8 @@ namespace MineBeat.InGameSingle.Notes
 		[SerializeField]
 		private GameObject prefab;
 
+		private GameObject player;
+
 		private ImpactLine impactLine;
 		private HPManager hpManager;
 		private BoxManager boxManager;
@@ -56,6 +58,8 @@ namespace MineBeat.InGameSingle.Notes
 			id = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
 
 			notes = PackageManager.Instance.GetSongInfo(id).notes;
+
+			player = GameObject.FindGameObjectWithTag("Player");
 		}
 
 		private void Update()
@@ -72,7 +76,7 @@ namespace MineBeat.InGameSingle.Notes
 				{
 					case NoteType.Normal:
 					case NoteType.Vertical:
-						if (DisabledParent.childCount > 0)
+						if (DisabledParent.childCount > 0) // 반환된 GameObject가 있으면
 						{
 							GameObject obj = DisabledParent.GetChild(0).gameObject;
 							obj.transform.SetParent(notesParent);
@@ -91,10 +95,18 @@ namespace MineBeat.InGameSingle.Notes
 						runAction = () => { boxManager.Draw(boxManager.size, note.color); };
 						break;
 					case NoteType.BlankS:
-						runAction = () => { boxManager.ChangeVisibility(false); };
+						runAction = () =>
+						{
+							boxManager.ChangeVisibility(false, false);
+							player.SetActive(false);
+						};
 						break;
 					case NoteType.BlankE:
-						runAction = () => { boxManager.ChangeVisibility(true); };
+						runAction = () =>
+						{
+							player.SetActive(true);
+							boxManager.ChangeVisibility(true, true);
+						};
 						break;
 					case NoteType.ImpactLine:
 						runAction = () =>

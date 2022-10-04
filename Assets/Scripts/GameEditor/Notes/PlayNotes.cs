@@ -6,7 +6,6 @@ using UnityEngine.Tilemaps;
 
 using MineBeat.GameEditor.Song;
 using MineBeat.GameEditor.TileBox;
-using System;
 
 namespace MineBeat.GameEditor.Notes
 {

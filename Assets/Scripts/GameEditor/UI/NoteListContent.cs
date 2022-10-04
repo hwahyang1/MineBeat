@@ -21,12 +21,14 @@ namespace MineBeat.GameEditor.UI
 		}
 
 		private SongManager songManager;
+		private TimelineManager timelineManager;
 
 		private void Start()
 		{
 			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
 
 			songManager = managers.Find(target => target.name == "SongManager").GetComponent<SongManager>();
+			timelineManager = managers.Find(target => target.name == "UIManagers").GetComponent<TimelineManager>();
 		}
 
 		private void Update()
@@ -55,7 +57,7 @@ namespace MineBeat.GameEditor.UI
 		/// </summary>
 		public void TimeCodeSelected()
 		{
-			GameObject.Find("UIManagers").GetComponent<TimelineManager>().ChangeTimeCode(note.timeCode); //TODO
+			timelineManager.ChangeTimeCode(note.timeCode);
 		}
 
 		/// <summary>

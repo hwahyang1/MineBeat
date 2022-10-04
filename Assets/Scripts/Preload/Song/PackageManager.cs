@@ -114,8 +114,6 @@ namespace MineBeat.Preload.Song
 		{
 			base.Awake();
 
-			//return; //TODO: 작업 완료 후 지우기
-
 			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
 			Directory.CreateDirectory(tempFileRootFolderPath);
 			Directory.CreateDirectory(packageRootFolderPath);

@@ -53,9 +53,11 @@ namespace MineBeat.InGameSingle.Notes
 			private set { _isActive = value; }
 		}
 
-		/* 아래 변수들은 모두 GameEditorScene과 동일하게 입력합니다. */
-		private float normalNoteSpeed = 20f;
-		private float verticalTime = 0.2f;
+		[Header("아래 변수들은 모두 GameEditorScene과 동일하게 입력합니다.")]
+		[SerializeField]
+		private float normalNoteSpeed;
+		[SerializeField]
+		private float verticalTime;
 
 		private void Awake()
 		{

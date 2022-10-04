@@ -156,10 +156,8 @@ namespace MineBeat.Preload.Config
 		/// </summary>
 		private void LoadConfig()
 		{
-			if (!File.Exists(configFilePath))
+			if (!File.Exists(configFilePath)) // 없으면 기본 설정으로 저장
 			{
-				FileStream fs = File.Create(configFilePath);
-				fs.Close();
 				rootConfig = new RootConfig();
 				SaveConfig();
 				return;
