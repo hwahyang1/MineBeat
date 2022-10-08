@@ -17,6 +17,10 @@ namespace MineBeat.ResultSingle
 	/// </summary>
 	public class ScoreManager : MonoBehaviour
 	{
+		[SerializeField]
+		[Tooltip("DefineNote.NoteColor와 동일한 순서로 Normal Note의 점수를 입력합니다.")]
+		private List<int> scores = new List<int>();
+
 		private ScoreHistoryManager scoreHistoryManager;
 		private SelectedSongInfo selectedSongInfo;
 
@@ -53,39 +57,30 @@ namespace MineBeat.ResultSingle
 		/// </summary>
 		private void CalculateRank()
 		{
-			float impactLineTimecode;
-			try
-			{
-				impactLineTimecode = songInfo.notes.Find(target => target.type == NoteType.ImpactLine).timeCode;
-			}
-			catch (System.NullReferenceException)
-			{
-				impactLineTimecode = songInfo.notes[songInfo.notes.Count - 1].timeCode + 1f;
-			}
-			List<Note> targets = songInfo.notes.FindAll(target => target.timeCode < impactLineTimecode && target.type == NoteType.Normal && target.color != NoteColor.Purple);
+			// 패턴 데이터
+			List<Note> original = songInfo.notes;
+			// 점수 계산 대상
+			List<Note> targets = new List<Note>();
 
-			uint maxScore = 0;
+			// ImpactLine 유무
+			Note impactLine = original.Find(target => target.type == NoteType.ImpactLine);
+			if (impactLine == null)
+			{
+				// 없으면 전구간에서 조건 충족하는 노트만 가져옴
+				targets = original.FindAll(target => target.type == NoteType.Normal && target.color != NoteColor.Purple);
+			}
+			else
+			{
+				// 있으면 ImpactLine 제외하고 조건 충족하는 노트만 가져옴
+				targets = original.FindAll(target => target.timeCode < impactLine.timeCode &&
+											target.type == NoteType.Normal && target.color != NoteColor.Purple);
+			}
+
+			int maxScore = 0;
 
 			foreach (Note note in targets)
 			{
-				switch (note.color)
-				{
-					case NoteColor.White:
-						maxScore += 20;
-						break;
-					case NoteColor.Skyblue:
-						maxScore += 40;
-						break;
-					case NoteColor.Blue:
-						maxScore += 50;
-						break;
-					case NoteColor.Green:
-						maxScore += 70;
-						break;
-					case NoteColor.Orange:
-						maxScore += 100;
-						break;
-				}
+				maxScore += scores[(int)note.color];
 			}
 
 			float rate = scoreComboHistory[0].Item2 / (maxScore * 1.0f);
