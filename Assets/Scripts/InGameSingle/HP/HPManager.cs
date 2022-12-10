@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using MineBeat.Preload.Config;
+
 namespace MineBeat.InGameSingle.HP
 {
 	/// <summary>
@@ -10,6 +12,9 @@ namespace MineBeat.InGameSingle.HP
 	/// </summary>
 	public class HPManager : MonoBehaviour
 	{
+		[SerializeField]
+		private bool undead = false;
+
 		[SerializeField]
 		private bool fixHp = false;
 
@@ -28,8 +33,8 @@ namespace MineBeat.InGameSingle.HP
 			{
 				if (fixHp) return;
 
-				if (value <= 0) _hp = 0;
-				//if (value <= 1) _hp = 1; // 임시
+				if (undead && value <= 1) _hp = 1;
+				else if (!undead && value <= 0) _hp = 0;
 				else if (value >= maxHp) _hp = maxHp;
 				else _hp = value;
 			}
@@ -37,6 +42,7 @@ namespace MineBeat.InGameSingle.HP
 
 		private void Start()
 		{
+			undead = ConfigManager.Instance.GetConfig().undeadMode;
 			hp = maxHp;
 		}
 

@@ -6,6 +6,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using NaughtyAttributes;
+
 namespace MineBeat.SongSelectSingle.Score
 {
 	/// <summary>
@@ -14,6 +16,7 @@ namespace MineBeat.SongSelectSingle.Score
 	public class ScoreHistoryManager : Singleton<ScoreHistoryManager>
 	{
 		// 플레이 기록은 rootPath에 ID.dat 파일로 저장합니다.
+		[SerializeField, ReadOnly]
 		private string _rootPath;
 		private string rootPath
 		{

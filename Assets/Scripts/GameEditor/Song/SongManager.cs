@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+using NaughtyAttributes;
+
 using MineBeat.GameEditor.Notes;
 
 using MineBeat.Preload.UI;
@@ -27,7 +29,7 @@ namespace MineBeat.GameEditor.Song
 	{
 		[HideInInspector]
 		public AudioClip audioClip;
-		[HideInInspector]
+		[ReadOnly]
 		public PlayStatus playStatus = PlayStatus.Stopped;
 
 		private bool doNotPlayWhenError = true;

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using NaughtyAttributes;
+
 namespace MineBeat.SongSelectSingle.Extern
 {
 	/// <summary>
@@ -11,6 +13,7 @@ namespace MineBeat.SongSelectSingle.Extern
 	/// </summary>
 	public class SelectedSongInfo : Singleton<SelectedSongInfo>
 	{
+		[SerializeField, ReadOnly]
 		private ulong _id;
 		public ulong id
 		{
@@ -18,6 +21,7 @@ namespace MineBeat.SongSelectSingle.Extern
 			set { if (SceneManager.GetActiveScene().name == "SongSelectSingleScene") _id = value; }
 		}
 
+		[SerializeField, ReadOnly]
 		private uint _score;
 		public uint score
 		{
@@ -25,6 +29,7 @@ namespace MineBeat.SongSelectSingle.Extern
 			set { if (SceneManager.GetActiveScene().name == "InGameSingleScene") _score = value; }
 		}
 
+		[SerializeField, ReadOnly]
 		private uint _combo;
 		public uint combo
 		{

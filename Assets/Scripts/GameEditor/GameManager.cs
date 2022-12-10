@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
+using NaughtyAttributes;
+
 using MineBeat.GameEditor.Files;
 using MineBeat.GameEditor.Notes;
 
@@ -23,10 +25,11 @@ namespace MineBeat.GameEditor
 		[SerializeField]
 		private TMP_InputField[] blockInputs = new TMP_InputField[3];
 
-		private ulong songId;
-
 		[SerializeField]
 		public bool blockInput = false;
+
+		[SerializeField, ReadOnly]
+		private ulong songId;
 
 		private void Start()
 		{

@@ -110,6 +110,7 @@ namespace MineBeat
 		/* Game Settings */
 		public bool skipInGameOpening;
 		public bool skipResult;
+		public bool undeadMode;
 
 		/* Input Settings */
 
@@ -127,8 +128,9 @@ namespace MineBeat
 			effect = 1f;
 			skipInGameOpening = false;
 			skipResult = false;
+			undeadMode = false;
 		}
-		public RootConfig(DisplayMode displayMode, ResolutionHeight resolutionHeight, AntiAliasing antiAliasing, FrameRate frameRate, bool vSync, bool fpsCounter, float master, float background, float effect, bool skipInGameOpening, bool skipResult)
+		public RootConfig(DisplayMode displayMode, ResolutionHeight resolutionHeight, AntiAliasing antiAliasing, FrameRate frameRate, bool vSync, bool fpsCounter, float master, float background, float effect, bool skipInGameOpening, bool skipResult, bool undeadMode)
 		{
 			this.displayMode = displayMode;
 			this.resolutionHeight = resolutionHeight;
@@ -141,6 +143,7 @@ namespace MineBeat
 			this.effect = effect;
 			this.skipInGameOpening = skipInGameOpening;
 			this.skipResult = skipResult;
+			this.undeadMode = undeadMode;
 		}
 	}
 }

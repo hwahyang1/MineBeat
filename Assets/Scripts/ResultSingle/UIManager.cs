@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using MineBeat.Preload.Config;
+
 namespace MineBeat.ResultSingle
 {
 	/// <summary>
@@ -19,6 +21,8 @@ namespace MineBeat.ResultSingle
 		private Transform middleCenter;
 		[SerializeField]
 		private Transform middleRight;
+		[SerializeField]
+		private GameObject undeadWarnText;
 
 		private ScoreManager scoreManager;
 		
@@ -42,6 +46,8 @@ namespace MineBeat.ResultSingle
 
 			middleRight.GetChild(1).GetComponent<Text>().text = scoreManager.GetPlayRank().ToString();
 			middleRight.GetChild(2).gameObject.SetActive(scoreComboHistory[0].Item3);
+
+			undeadWarnText.SetActive(ConfigManager.Instance.GetConfig().undeadMode);
 		}
 	}
 }

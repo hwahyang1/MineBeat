@@ -94,9 +94,12 @@ namespace MineBeat.ResultSingle
 
 		/// <summary>
 		/// 점수를 갱신합니다.
+		/// 무적 모드가 켜져있을 경우, 무시됩니다.
 		/// </summary>
 		private void SubmitData()
 		{
+			if (ConfigManager.Instance.GetConfig().undeadMode) return;
+
 			if (!(scoreComboHistory[0].Item3 || scoreComboHistory[1].Item3)) return;
 
 			PlayHistory history = new PlayHistory(

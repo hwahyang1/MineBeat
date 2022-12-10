@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using MineBeat.Preload.Config;
 using MineBeat.Preload.Song;
 using MineBeat.SongSelectSingle.Extern;
 
@@ -18,6 +19,8 @@ namespace MineBeat.InGameSingle.UI
 		private Transform top_SongInfo;
 		[SerializeField]
 		private Transform bottom_CopyRight;
+		[SerializeField]
+		private GameObject bottom_UndeadWarn;
 
 		private SelectedSongInfo selectedSongInfo;
 
@@ -30,6 +33,8 @@ namespace MineBeat.InGameSingle.UI
 			top_SongInfo.GetChild(1).GetComponent<Text>().text = songInfo.songAuthor;
 
 			bottom_CopyRight.GetChild(0).GetComponent<Text>().text = string.Format("© {0}.", songInfo.songAuthor);
+
+			bottom_UndeadWarn.SetActive(ConfigManager.Instance.GetConfig().undeadMode);
 		}
 	}
 }
