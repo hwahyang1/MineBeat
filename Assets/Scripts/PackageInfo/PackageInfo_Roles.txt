@@ -1,0 +1,13 @@
+[PackageInfoScene]
+
+: Files
+ - FileManager: 패키지 Load 담당
+
+: Patterns
+ - CalculatePattern: 패턴 관련 연산 담당
+
+: UI
+ - DisplayInfo: 정보 노출 관리
+
+: GameManager
+ - 전반적인 실행 관리
