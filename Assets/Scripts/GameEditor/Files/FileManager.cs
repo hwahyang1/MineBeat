@@ -2,7 +2,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Collections;
 using System.Collections.Generic;
-//using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
 using UnityEngine.Networking;
@@ -35,8 +34,6 @@ namespace MineBeat.GameEditor.Files
 		}
 
 		private bool isFirst = true;
-
-		//BinaryFormatter formatter = new BinaryFormatter();
 
 		private string packageFilePath = @"C:\";
 		private string packageFileName = "MineBeat.mbt";
@@ -276,8 +273,6 @@ namespace MineBeat.GameEditor.Files
 
 					OpenAllFileStream(FileMode.Open, FileAccess.ReadWrite, filePath);
 
-					//SongInfo data = formatter.Deserialize(tempPatternFileStream) as SongInfo;
-
 					tempPatternFileStream.Close();
 					SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(tempPatternFilePath));
 					tempPatternFileStream = new FileStream(tempPatternFilePath, FileMode.Open, FileAccess.ReadWrite);
@@ -352,9 +347,6 @@ namespace MineBeat.GameEditor.Files
 				}
 
 				tempPatternFileStream.Close();
-				/*tempPatternFileStream = new FileStream(tempPatternFilePath, FileMode.Create, FileAccess.Write);
-
-				formatter.Serialize(tempPatternFileStream, gameManager.GetSongInfo());*/
 
 				File.WriteAllText(tempPatternFilePath, JsonUtility.ToJson(gameManager.GetSongInfo()));
 

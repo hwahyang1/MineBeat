@@ -325,6 +325,7 @@ MonoBehaviour:
   - {fileID: 1996150017}
   - {fileID: 992666524}
   blockInput: 0
+  songId: 0
 --- !u!1 &50846109
 GameObject:
   m_ObjectHideFlags: 0

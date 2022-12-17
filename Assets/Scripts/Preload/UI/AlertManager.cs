@@ -108,9 +108,21 @@ namespace MineBeat.Preload.UI
 		/// </returns>
 		public int Show(string title, string description, AlertButtonType buttonType, string[] buttonTexts, params System.Action[] buttonActions)
 		{
-			if (parent.activeInHierarchy) return 1;
-			if ((buttonType == AlertButtonType.None && buttonActions.Length != 1) || (int)buttonType != buttonActions.Length) return 2;
-			if ((buttonType == AlertButtonType.None && buttonTexts.Length != 1) || (int)buttonType != buttonTexts.Length) return 2;
+			if (parent.activeInHierarchy)
+			{
+				Debug.LogError("Another alert is already running!");
+				return 1;
+			}
+			if ((buttonType == AlertButtonType.None && buttonActions.Length != 1) || (int)buttonType != buttonActions.Length)
+			{
+				Debug.LogError("The number of buttonType(AlertButtonType) and buttonActions does not match.");
+				return 2;
+			}
+			if ((buttonType == AlertButtonType.None && buttonTexts.Length != 1) || (int)buttonType != buttonTexts.Length)
+			{
+				Debug.LogError("The number of buttonType(AlertButtonType) and buttonTexts does not match.");
+				return 2;
+			}
 
 			titleArea.text = title;
 			descriptionArea.text = description;
