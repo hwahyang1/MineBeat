@@ -25,7 +25,10 @@
  V SongInfoManager: 곡 정보 표기 관리
  V HPBar: 체력바 표기 관리
  V ScoreText: 스코어 텍스트 관리
- - ImpactLine: Impact Line 연출 관리
+ V ImpactLine: Impact Line 연출 관리
+
+: PlayerCamera
+ V PixelPerfectCameraUnit: Pixel Perfect Camera assetsPPU 값 관리
 
 : GameManager
  V GameManager: 스코어/체력 변동 이벤트 처리

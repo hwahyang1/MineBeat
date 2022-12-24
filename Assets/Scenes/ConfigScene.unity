@@ -1978,6 +1978,7 @@ MonoBehaviour:
   description: "\uC804\uCCB4\uD654\uBA74 \uC5EC\uBD80\uB97C \uACB0\uC815\uD569\uB2C8\uB2E4."
   selections:
   - "\uC804\uCCB4\uD654\uBA74"
+  - "\uC804\uCCB4\uD654\uBA74 \uCC3D\uBAA8\uB4DC"
   - "\uCC3D\uBAA8\uB4DC"
 --- !u!114 &312757238
 MonoBehaviour:
@@ -6513,15 +6514,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: "\uD654\uBA74 \uD574\uC0C1\uB3C4\uB97C \uACB0\uC815\uD569\uB2C8\uB2E4."
   selections:
-  - 960 X 540px
   - 1280 X 720px
   - 1600 X 900px
   - 1920 X 1080px
   - 2048 X 1152px
   - 2560 X 1440px
   - 3840 X 2160px
-  - 4096 X 2304px
-  - 7680 X 4320px
 --- !u!114 &1315032390
 MonoBehaviour:
   m_ObjectHideFlags: 0

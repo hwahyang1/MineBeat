@@ -11,7 +11,8 @@ namespace MineBeat
 	[System.Serializable]
 	public enum DisplayMode
 	{
-		Fullscreen_Window,
+		Fullscreen,
+		BorderLess_Fullscreen,
 		Windowed
 	}
 
@@ -22,15 +23,12 @@ namespace MineBeat
 	[System.Serializable]
 	public enum ResolutionHeight
 	{
-		_540, // qHD
 		_720, // HD
 		_900, // HD+
 		_1080, // FHD
 		_1152, // QWXGA
 		_1440, // QHD
 		_2160, // 4K UHD
-		_2304, // HWXGA
-		_4320 // 8K UHD
 	}
 
 	/// <summary>
@@ -121,7 +119,7 @@ namespace MineBeat
 			resolutionHeight = ResolutionHeight._720;
 			antiAliasing = AntiAliasing.None;
 			frameRate = FrameRate._60;
-			vSync = false;
+			vSync = true;
 			fpsCounter = false;
 			master = 1f;
 			background = 1f;

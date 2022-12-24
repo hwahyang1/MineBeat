@@ -69,10 +69,10 @@ namespace MineBeat.PackageInfo.Patterns
 						returnData.NormalNotesCount++;
 						break;
 					case NoteType.Vertical:
-						//returnData.NotesScore += scores[(int)note.color];
+						returnData.NotesScore += scores[(int)note.color];
 						returnData.NotesCount++;
 
-						//returnData.VerticalNotesScore += scores[(int)note.color];
+						returnData.VerticalNotesScore += scores[(int)note.color];
 						returnData.VerticalNotesCount++;
 						break;
 				}
@@ -102,10 +102,10 @@ namespace MineBeat.PackageInfo.Patterns
 							returnData.NormalNotesCount_ExceptImpactLines++;
 							break;
 						case NoteType.Vertical:
-							//returnData.NotesScore_ExceptImpactLines += scores[(int)note.color];
+							returnData.NotesScore_ExceptImpactLines += scores[(int)note.color];
 							returnData.NotesCount_ExceptImpactLines++;
 
-							//returnData.VerticalNotesScore_ExceptImpactLines += scores[(int)note.color];
+							returnData.VerticalNotesScore_ExceptImpactLines += scores[(int)note.color];
 							returnData.VerticalNotesCount_ExceptImpactLines++;
 							break;
 					}

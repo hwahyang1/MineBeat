@@ -65,6 +65,7 @@ namespace MineBeat.InGameSingle
 		/// <param name="noteColor">플레이어가 맞은 노트의 색상을 입력합니다.</param>
 		public void ChangeHP(NoteType noteType, NoteColor noteColor)
 		{
+			// Purple Note면 체력 또는 점수 변경, 아니면은 체력 변경
 			if (noteColor == NoteColor.Purple)
 			{
 				if (hpManager.hp == hpManager.maxHp)

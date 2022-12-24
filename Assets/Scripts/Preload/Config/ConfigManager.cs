@@ -66,13 +66,23 @@ namespace MineBeat.Preload.Config
 		private void ApplyConfig()
 		{
 			/* Graphic Settings */
-			FullScreenMode fullScreenMode = (rootConfig.displayMode == DisplayMode.Fullscreen_Window) ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+			FullScreenMode fullScreenMode = FullScreenMode.Windowed;
+			switch (rootConfig.displayMode)
+			{
+				case DisplayMode.Fullscreen:
+					fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+					break;
+				case DisplayMode.BorderLess_Fullscreen:
+					fullScreenMode = FullScreenMode.FullScreenWindow;
+					break;
+				case DisplayMode.Windowed:
+					fullScreenMode = FullScreenMode.Windowed;
+					break;
+			}
+
 			int resolutionHeight = 0;
 			switch (rootConfig.resolutionHeight)
 			{
-				case ResolutionHeight._540:
-					resolutionHeight = 540;
-					break;
 				case ResolutionHeight._720:
 					resolutionHeight = 720;
 					break;
@@ -90,12 +100,6 @@ namespace MineBeat.Preload.Config
 					break;
 				case ResolutionHeight._2160:
 					resolutionHeight = 2160;
-					break;
-				case ResolutionHeight._2304:
-					resolutionHeight = 2304;
-					break;
-				case ResolutionHeight._4320:
-					resolutionHeight = 4320;
 					break;
 			}
 			Screen.SetResolution(resolutionHeight / 9 * 16, resolutionHeight, fullScreenMode);

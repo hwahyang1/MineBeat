@@ -174,16 +174,19 @@ namespace MineBeat.InGameSingle.Notes
 		/// </summary>
 		private void OnBoxEnter()
 		{
-			if (isActive && noteInfo.type == NoteType.Normal)
+			// 점수 처리 (Normal Note의 경우)
+			if (isActive)
 			{
 				gameManager.ChangeScore(noteInfo.color);
 			}
 
+			// Vertical의 경우, 자식 GameObject 제거
 			for (int i = 0; i < transform.childCount; i++)
 			{
 				Destroy(transform.GetChild(i).gameObject);
 			}
 
+			// 반환
 			//Destroy(gameObject);
 			transform.SetParent(placeNote.DisabledParent);
 			gameObject.SetActive(false);
@@ -195,7 +198,7 @@ namespace MineBeat.InGameSingle.Notes
 		/// <param name="collision">충돌한 GameObject를 입력합니다.</param>
 		public void OnTriggered(Collider2D collision)
 		{
-
+			// 맞으면 판정 처리를 GameManager에게 넘김
 			if (isActive && collision.gameObject.tag == "Player" && !collision.gameObject.GetComponent<PlayerController>().isCoolTime)
 			{
 				gameManager.ChangeHP(noteInfo.type, noteInfo.color);

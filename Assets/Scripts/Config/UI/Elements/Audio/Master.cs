@@ -22,7 +22,8 @@ namespace MineBeat.Config.UI.Elements.Audio
 		{
 			base.OnValueChanged(currentValue);
 			RootConfig config = ConfigManager.Instance.GetConfig();
-			config.master = currentValue;
+			float adjustedValue = Mathf.Floor(currentValue * 100) / 100f;
+			config.master = adjustedValue;
 			ConfigManager.Instance.SetConfig(config);
 		}
 	}
