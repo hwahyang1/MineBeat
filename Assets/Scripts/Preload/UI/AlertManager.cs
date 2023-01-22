@@ -38,12 +38,7 @@ namespace MineBeat.Preload.UI
 		[SerializeField, Tooltip("AlertButtonType와 동일한 순서로 입력합니다.")]
 		private GameObject[] buttonGroups = new GameObject[4];
 
-		private bool _isActive = false;
-		public bool isActive
-		{
-			get { return _isActive; }
-			private set { _isActive = value; }
-		}
+		public bool IsActive { get; private set; } = false;
 
 		private AlertButtonType alertButtonType;
 		private System.Action[] buttonActions;
@@ -59,7 +54,7 @@ namespace MineBeat.Preload.UI
 
 		private void Update()
 		{
-			if (isActive)
+			if (IsActive)
 			{
 				canvas.SetActive(true);
 				EventSystem.current.SetSelectedGameObject(null);
@@ -136,7 +131,7 @@ namespace MineBeat.Preload.UI
 
 			currentButtonGroup.SetActive(true);
 			parent.SetActive(true);
-			isActive = true;
+			IsActive = true;
 
 			alertButtonType = buttonType;
 			this.buttonActions = buttonActions;
@@ -154,7 +149,7 @@ namespace MineBeat.Preload.UI
 			buttonGroups[(int)alertButtonType].SetActive(false);
 			parent.SetActive(false);
 			canvas.SetActive(false);
-			isActive = false;
+			IsActive = false;
 		}
 
 		/* Button Events */

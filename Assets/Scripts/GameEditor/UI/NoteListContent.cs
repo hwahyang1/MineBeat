@@ -13,12 +13,7 @@ namespace MineBeat.GameEditor.UI
 	/// </summary>
 	public class NoteListContent : MonoBehaviour
 	{
-		private Note _note;
-		public Note note
-		{
-			get { return _note; }
-			private set { _note = value; }
-		}
+		public Note Note { get; private set; }
 
 		private SongManager songManager;
 		private TimelineManager timelineManager;
@@ -36,15 +31,15 @@ namespace MineBeat.GameEditor.UI
 			float currentTime = songManager.GetCurrentTime();
 			Color setColor = new Color(0.9019608f, 0.9019608f, 0.9294118f);
 
-			if (note.type == NoteType.Normal || note.type == NoteType.Vertical)
+			if (Note.type == NoteType.Normal || Note.type == NoteType.Vertical)
 			{
-				if (note.timeCode - 0.35f <= currentTime && currentTime < note.timeCode)
+				if (Note.timeCode - 0.35f <= currentTime && currentTime < Note.timeCode)
 				{
 					setColor = new Color(0.8823529f, 0.9490196f, 0f);
 				}
 			}
 			
-			if (note.timeCode <= currentTime && currentTime <= note.timeCode + 0.2f)
+			if (Note.timeCode <= currentTime && currentTime <= Note.timeCode + 0.2f)
 			{
 				setColor = new Color(0f, 0.9686275f, 0.227451f);
 			}
@@ -57,7 +52,7 @@ namespace MineBeat.GameEditor.UI
 		/// </summary>
 		public void TimeCodeSelected()
 		{
-			timelineManager.ChangeTimeCode(note.timeCode);
+			timelineManager.ChangeTimeCode(Note.timeCode);
 		}
 
 		/// <summary>
@@ -132,7 +127,7 @@ namespace MineBeat.GameEditor.UI
 			gameObject.transform.GetChild(2).GetComponent<Text>().text = noteTypeText;
 			gameObject.transform.GetChild(3).GetComponent<Text>().text = notePositionText;
 
-			this.note = note;
+			this.Note = note;
 
 			//Destroy(gameObject);
 		}

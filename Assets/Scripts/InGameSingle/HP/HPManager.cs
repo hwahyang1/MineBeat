@@ -18,37 +18,33 @@ namespace MineBeat.InGameSingle.HP
 		[SerializeField]
 		private bool fixHp = false;
 
-		[Range(0, 100)]
-		private short _maxHp = 100;
-		public short maxHp
-		{
-			get { return _maxHp; }
-		}
+		[field: Range(0, 100)]
+		public short MaxHp { get; } = 100;
 
-		private short _hp;
-		public short hp
+		private short hp;
+		public short Hp
 		{
-			get { return _hp; }
+			get { return hp; }
 			set
 			{
 				if (fixHp) return;
 
-				if (undead && value <= 1) _hp = 1;
-				else if (!undead && value <= 0) _hp = 0;
-				else if (value >= maxHp) _hp = maxHp;
-				else _hp = value;
+				if (undead && value <= 1) hp = 1;
+				else if (!undead && value <= 0) hp = 0;
+				else if (value >= MaxHp) hp = MaxHp;
+				else hp = value;
 			}
 		}
 
 		private void Start()
 		{
 			undead = ConfigManager.Instance.GetConfig().undeadMode;
-			hp = maxHp;
+			Hp = MaxHp;
 		}
 
 		public void FixHp()
 		{
-			hp = maxHp;
+			Hp = MaxHp;
 			fixHp = true;
 		}
 	}

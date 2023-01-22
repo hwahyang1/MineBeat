@@ -18,12 +18,7 @@ namespace MineBeat.Config.Selection
 	/// </summary>
 	public class CategorySelectionManager : MonoBehaviour
 	{
-		private Category _selectedCategory = Category.Graphic;
-		public Category selectedCategory
-		{
-			get { return _selectedCategory; }
-			private set { _selectedCategory = value; }
-		}
+		public Category SelectedCategory { get; private set; } = Category.Graphic;
 
 		/// <summary>
 		/// 현재 카테고리를 올리거나 내립니다.
@@ -33,13 +28,13 @@ namespace MineBeat.Config.Selection
 		{
 			if (isUp)
 			{
-				if (selectedCategory == 0) return;
-				selectedCategory -= 1;
+				if (SelectedCategory == 0) return;
+				SelectedCategory -= 1;
 			}
 			else
 			{
-				if (selectedCategory == Category.Input) return;
-				selectedCategory += 1;
+				if (SelectedCategory == Category.Input) return;
+				SelectedCategory += 1;
 			}
 		}
 
@@ -49,7 +44,7 @@ namespace MineBeat.Config.Selection
 		/// <param name="category">변경할 카테고리를 지정합니다.</param>
 		public void SetCategory(Category category)
 		{
-			selectedCategory = category;
+			SelectedCategory = category;
 		}
 		/// <summary>
 		/// 현재 카테고리를 변경합니다.
@@ -58,7 +53,7 @@ namespace MineBeat.Config.Selection
 		public void SetCategory(int category)
 		{
 			if (category < 0 || category > (int)Category.Input) return;
-			selectedCategory = (Category)category;
+			SelectedCategory = (Category)category;
 		}
 	}
 }

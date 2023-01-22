@@ -14,7 +14,7 @@ namespace MineBeat.Config.UI.Elements.Audio
 	{
 		protected override void Start()
 		{
-			currentValue = ConfigManager.Instance.GetConfig().effect;
+			currentValue = ConfigManager.Instance.GetConfig().Effect;
 			base.Start();
 		}
 
@@ -23,7 +23,7 @@ namespace MineBeat.Config.UI.Elements.Audio
 			base.OnValueChanged(currentValue);
 			RootConfig config = ConfigManager.Instance.GetConfig();
 			float adjustedValue = Mathf.Floor(currentValue * 100) / 100f;
-			config.effect = adjustedValue;
+			config.Effect = adjustedValue;
 			ConfigManager.Instance.SetConfig(config);
 		}
 	}

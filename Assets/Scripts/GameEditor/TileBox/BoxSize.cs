@@ -19,19 +19,10 @@ namespace MineBeat.GameEditor.TileBox
 		public int maxSize = 9;
 		[SerializeField]
 		public int minSize = 3;
-		private int _currentSize = 7;
-		public int currentSize
-		{
-			get { return _currentSize; }
-			private set { _currentSize = value; }
-		}
 
-		private NoteColor _currentColor = NoteColor.White; // 얘는 나중에 작업 예정
-		public NoteColor currentColor
-		{
-			get { return _currentColor; }
-			private set { _currentColor = value; }
-		}
+		public int CurrentSize { get; private set; } = 7;
+
+		public NoteColor CurrentColor { get; private set; } = NoteColor.White;
 
 		[Header("박스 크기 조정 시 사용되는 TileBase")]
 		[SerializeField, Tooltip("DefineNote.NoteColor의 순서대로 TileBase를 입력합니다.")]
@@ -71,7 +62,7 @@ namespace MineBeat.GameEditor.TileBox
 			boxMap.ClearAllTiles();
 			gridMap.ClearAllTiles();
 
-			int drawSize = currentSize + 2;
+			int drawSize = CurrentSize + 2;
 			for (int i = 0; i < drawSize; i++)
 			{
 				for (int j = 0; j < drawSize; j++)
@@ -79,7 +70,7 @@ namespace MineBeat.GameEditor.TileBox
 					if (i == 0 || i == drawSize - 1 ||
 						j == 0 || j == drawSize - 1)
 					{
-						boxMap.SetTile(new Vector3Int(i, j, 0), boxTiles[(int)currentColor]);
+						boxMap.SetTile(new Vector3Int(i, j, 0), boxTiles[(int)CurrentColor]);
 					}
 					else
 					{
@@ -91,7 +82,7 @@ namespace MineBeat.GameEditor.TileBox
 			float boxCenter = drawSize / 2f;
 			mainCamara.transform.position = new Vector3(boxCenter, boxCenter, -10f);
 
-			textInput.text = currentSize.ToString();
+			textInput.text = CurrentSize.ToString();
 		}
 
 		/// <summary>
@@ -99,8 +90,8 @@ namespace MineBeat.GameEditor.TileBox
 		/// </summary>
 		public void ChangeBoxSizeUp()
 		{
-			if (currentSize == maxSize) return;
-			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize++, currentSize);
+			if (CurrentSize == maxSize) return;
+			AddSizeChangeNote(songManager.GetCurrentTime(), CurrentSize++, CurrentSize);
 		}
 
 		/// <summary>
@@ -108,8 +99,8 @@ namespace MineBeat.GameEditor.TileBox
 		/// </summary>
 		public void ChangeBoxSizeDown()
 		{
-			if (currentSize == minSize) return;
-			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize--, currentSize);
+			if (CurrentSize == minSize) return;
+			AddSizeChangeNote(songManager.GetCurrentTime(), CurrentSize--, CurrentSize);
 		}
 
 		/// <summary>
@@ -118,8 +109,8 @@ namespace MineBeat.GameEditor.TileBox
 		public void ChangeBoxSize()
 		{
 			int afterSize = textInput.text == "" ? 7 : int.Parse(textInput.text);
-			if (currentSize == afterSize) return;
-			AddSizeChangeNote(songManager.GetCurrentTime(), currentSize, afterSize);
+			if (CurrentSize == afterSize) return;
+			AddSizeChangeNote(songManager.GetCurrentTime(), CurrentSize, afterSize);
 		}
 
 		/// <summary>
@@ -130,7 +121,7 @@ namespace MineBeat.GameEditor.TileBox
 		{
 			if (size < minSize) size = minSize;
 			if (maxSize < size) size = maxSize;
-			currentSize = size;
+			CurrentSize = size;
 			DrawBox();
 		}
 

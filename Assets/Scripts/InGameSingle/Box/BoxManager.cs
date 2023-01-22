@@ -21,23 +21,13 @@ namespace MineBeat.InGameSingle.Box
 		[SerializeField, Header("DefineNote.NoteColor를 기준으로 입력합니다.")]
 		private TileBase[] boxes;
 
-		private int _size = 7;
-		public int size
-		{
-			get { return _size; }
-			private set { _size = value; }
-		}
+		public int Size { get; private set; } = 7;
 
-		private NoteColor _color = NoteColor.White;
-		public NoteColor color
-		{
-			get { return _color; }
-			private set { _color = value; }
-		}
+		public NoteColor Color { get; private set; } = NoteColor.White;
 
 		private void Start()
 		{
-			Draw(size);
+			Draw(Size);
 		}
 
 		/// <summary>
@@ -71,8 +61,8 @@ namespace MineBeat.InGameSingle.Box
 			GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position = new Vector3(boxCenter, boxCenter, 0f);
 			Camera.main.transform.position = new Vector3(boxCenter, boxCenter, -10f); // 그냥 냅두면 Lerp때문에 플레이에 방해가 될 수도 있음
 
-			size = boxSize;
-			color = noteColor;
+			Size = boxSize;
+			Color = noteColor;
 		}
 
 		/// <summary>
@@ -88,7 +78,7 @@ namespace MineBeat.InGameSingle.Box
 			{
 				GameObject player = GameObject.FindGameObjectWithTag("Player");
 				player.SetActive(true);
-				float boxCenter = (size + 2) / 2f;
+				float boxCenter = (Size + 2) / 2f;
 				player.GetComponent<Transform>().position = new Vector3(boxCenter, boxCenter, 0f);
 				Camera.main.transform.position = new Vector3(boxCenter, boxCenter, -10f);
 			}

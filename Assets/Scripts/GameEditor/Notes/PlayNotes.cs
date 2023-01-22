@@ -136,7 +136,7 @@ namespace MineBeat.GameEditor.Notes
 						float posX = current.position.x + (directionX * normalNoteSpeed * (currentTime - current.timeCode)) + 0.5f;
 						float posY = current.position.y + (directionY * normalNoteSpeed * (currentTime - current.timeCode)) + 0.5f;
 
-						if (posX >= boxSize.currentSize + 1.5 || posX <= 0.5 || posY >= boxSize.currentSize + 1.5 || posY <= 0.5) continue;
+						if (posX >= boxSize.CurrentSize + 1.5 || posX <= 0.5 || posY >= boxSize.CurrentSize + 1.5 || posY <= 0.5) continue;
 
 						if (disabledNoteParent.childCount > 0)
 						{
@@ -158,7 +158,7 @@ namespace MineBeat.GameEditor.Notes
 
 						if (current.direction == NoteDirection.Up || current.direction == NoteDirection.Down)
 						{
-							for (int i = 0; i < boxSize.currentSize; i++)
+							for (int i = 0; i < boxSize.CurrentSize; i++)
 							{
 								if (disabledNoteParent.childCount > 0)
 								{
@@ -177,7 +177,7 @@ namespace MineBeat.GameEditor.Notes
 						}
 						else
 						{
-							for (int i = 0; i < boxSize.currentSize; i++)
+							for (int i = 0; i < boxSize.CurrentSize; i++)
 							{
 								if (disabledNoteParent.childCount > 0)
 								{

@@ -59,8 +59,8 @@ namespace MineBeat.SongSelectSingle.UI
 				SongElement songElement = generated.GetComponent<SongElement>();
 				SongInfo songInfo = PackageManager.Instance.GetSongInfo(ids[i]);
 
-				songElement.order = i;
-				songElement.id = ids[i];
+				songElement.Order = i;
+				songElement.ID = ids[i];
 				songElement.Set(songInfo.songName, songInfo.songAuthor, scoreHistoryManager.GetHistory(ids[i]).rank);
 			}
 

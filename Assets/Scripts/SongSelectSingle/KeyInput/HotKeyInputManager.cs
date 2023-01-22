@@ -36,7 +36,7 @@ namespace MineBeat.SongSelectSingle.KeyInput
 		{
 			if (currentCool < arrowCool) currentCool += Time.deltaTime;
 
-			if (active && !AlertManager.Instance.isActive)
+			if (active && !AlertManager.Instance.IsActive)
 			{
 				if (Input.GetKey(KeyCode.UpArrow) && currentCool >= arrowCool)
 				{

@@ -9,6 +9,7 @@ using NaughtyAttributes;
 
 using MineBeat.GameEditor.Files;
 using MineBeat.GameEditor.Notes;
+using UnityEngine.Serialization;
 
 namespace MineBeat.GameEditor
 {
@@ -18,7 +19,7 @@ namespace MineBeat.GameEditor
 	public class GameManager : MonoBehaviour
 	{
 		[SerializeField]
-		private Transform SongInfoArea;
+		private Transform songInfoArea;
 		private NotesManager notesManager;
 		private FileManager fileManager;
 
@@ -50,7 +51,7 @@ namespace MineBeat.GameEditor
 				}
 			}
 
-			if (fileManager.maintainCanvas)
+			if (fileManager.MaintainCanvas)
 			{
 				blockInput = true;
 				EventSystem.current.SetSelectedGameObject(null);
@@ -67,9 +68,9 @@ namespace MineBeat.GameEditor
 		/// <returns>곡 정보를 반환합니다.</returns>
 		public SongInfo GetSongInfo()
 		{
-			string songName = SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text;
-			string songAuthor = SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text;
-			string songLevel = SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text;
+			string songName = songInfoArea.GetChild(0).GetComponent<TMP_InputField>().text;
+			string songAuthor = songInfoArea.GetChild(1).GetComponent<TMP_InputField>().text;
+			string songLevel = songInfoArea.GetChild(3).GetComponent<TMP_InputField>().text;
 
 			return new SongInfo(
 				songId,
@@ -87,9 +88,9 @@ namespace MineBeat.GameEditor
 		public void SetSongInfo(SongInfo info)
 		{
 			songId = info.id;
-			SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = info.songName == "SongName" ? "" : info.songName;
-			SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text = info.songAuthor == "Author" ? "" : info.songAuthor;
-			SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = info.songLevel == 0 ? "" : info.songLevel + "";
+			songInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = info.songName == "SongName" ? "" : info.songName;
+			songInfoArea.GetChild(1).GetComponent<TMP_InputField>().text = info.songAuthor == "Author" ? "" : info.songAuthor;
+			songInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = info.songLevel == 0 ? "" : info.songLevel + "";
 			notesManager.Set(info.notes);
 		}
 
@@ -107,9 +108,9 @@ namespace MineBeat.GameEditor
 		/// </summary>
 		public void ClearSongInfoInput()
 		{
-			SongInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = "";
-			SongInfoArea.GetChild(1).GetComponent<TMP_InputField>().text = "";
-			SongInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = "";
+			songInfoArea.GetChild(0).GetComponent<TMP_InputField>().text = "";
+			songInfoArea.GetChild(1).GetComponent<TMP_InputField>().text = "";
+			songInfoArea.GetChild(3).GetComponent<TMP_InputField>().text = "";
 		}
 	}
 }

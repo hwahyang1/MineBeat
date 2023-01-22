@@ -26,14 +26,14 @@ namespace MineBeat.InGameSingle.UI
 
 			hpManager = managers.Find(target => target.name == "HPManager").GetComponent<HPManager>();
 
-			hpText.text = "HP: " + hpManager.hp;
+			hpText.text = "HP: " + hpManager.Hp;
 			hpSlider.value = 1f;
 		}
 
 		private void Update()
 		{
-			hpText.text = "HP: " + hpManager.hp;
-			hpSlider.value = Mathf.Lerp(hpSlider.value, hpManager.hp / (float)hpManager.maxHp, 2.5f * Time.deltaTime);
+			hpText.text = "HP: " + hpManager.Hp;
+			hpSlider.value = Mathf.Lerp(hpSlider.value, hpManager.Hp / (float)hpManager.MaxHp, 2.5f * Time.deltaTime);
 			//hpSlider.value = hpManager.hp / hpManager.maxHp;
 		}
 	}

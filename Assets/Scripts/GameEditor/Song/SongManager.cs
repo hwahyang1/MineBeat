@@ -96,7 +96,7 @@ namespace MineBeat.GameEditor.Song
 		/// </summary>
 		public void OnPlayButtonClicked()
 		{
-			if (notesVerifier.isError && doNotPlayWhenError)
+			if (notesVerifier.IsError && doNotPlayWhenError)
 			{
 				alertManager.Show("알림", "\"노트 배치에 문제가 있어 재생을 할 수 없습니다.\n문제를 수정하거나 '에러가 있으면 재생하지 않기'를 끄고 다시 시도 해주세요.", AlertManager.AlertButtonType.Single, new string[] { "확인" }, () => { });
 				return;
@@ -112,7 +112,7 @@ namespace MineBeat.GameEditor.Song
 		/// </summary>
 		public void OnPauseButtonClicked()
 		{
-			if (notesVerifier.isError && doNotPlayWhenError)
+			if (notesVerifier.IsError && doNotPlayWhenError)
 			{
 				OnStopButtonClicked();
 				return;

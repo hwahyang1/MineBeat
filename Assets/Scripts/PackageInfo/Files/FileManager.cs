@@ -20,10 +20,10 @@ namespace MineBeat.PackageInfo.Files
 		[SerializeField]
 		private GameObject backgroundCover;
 
-		private const string tempPackageRootFolderPath = @"C:\Temp\MineBeat_PackageInfo_DoNotDelete\";
-		private const string tempPatternFilePath = @"C:\Temp\MineBeat_PackageInfo_DoNotDelete\MineBeat.ptrn";
-		private const string tempAudioFilePath = @"C:\Temp\MineBeat_PackageInfo_DoNotDelete\MineBeat.adio";
-		private const string tempCoverImageFilePath = @"C:\Temp\MineBeat_PackageInfo_DoNotDelete\MineBeat.covr";
+		private const string TempPackageRootFolderPath = @"C:\Temp\MineBeat_PackageInfo_DoNotDelete\";
+		private const string TempPatternFilePath = @"C:\Temp\MineBeat_PackageInfo_DoNotDelete\MineBeat.ptrn";
+		private const string TempAudioFilePath = @"C:\Temp\MineBeat_PackageInfo_DoNotDelete\MineBeat.adio";
+		private const string TempCoverImageFilePath = @"C:\Temp\MineBeat_PackageInfo_DoNotDelete\MineBeat.covr";
 
 		private FileStream packageFileStream = null;
 		private FileStream tempPatternFileStream = null;
@@ -42,9 +42,9 @@ namespace MineBeat.PackageInfo.Files
 		private void OpenAllFileStream(FileMode mode = FileMode.Open, FileAccess access = FileAccess.ReadWrite, string packageFilePath = "")
 		{
 			if (packageFilePath != "") packageFileStream = new FileStream(packageFilePath, mode);
-			tempPatternFileStream = new FileStream(tempPatternFilePath, mode, access);
-			tempAudioFileStream = new FileStream(tempAudioFilePath, mode, access);
-			tempCoverImageFileStream = new FileStream(tempCoverImageFilePath, mode, access);
+			tempPatternFileStream = new FileStream(TempPatternFilePath, mode, access);
+			tempAudioFileStream = new FileStream(TempAudioFilePath, mode, access);
+			tempCoverImageFileStream = new FileStream(TempCoverImageFilePath, mode, access);
 		}
 
 		/// <summary>
@@ -81,8 +81,8 @@ namespace MineBeat.PackageInfo.Files
 			displayInfo = GetComponent<DisplayInfo>();
 			currentPackageInfo = GetComponent<CurrentPackageInfo>();
 
-			if (Directory.Exists(tempPackageRootFolderPath)) Directory.Delete(tempPackageRootFolderPath, true);
-			Directory.CreateDirectory(tempPackageRootFolderPath);
+			if (Directory.Exists(TempPackageRootFolderPath)) Directory.Delete(TempPackageRootFolderPath, true);
+			Directory.CreateDirectory(TempPackageRootFolderPath);
 
 			//OpenAllFileStream(FileMode.OpenOrCreate);
 		}
@@ -111,22 +111,22 @@ namespace MineBeat.PackageInfo.Files
 
 				CloseAllFileStream();
 
-				ZipFile.ExtractToDirectory(filePath, tempPackageRootFolderPath, true);
+				ZipFile.ExtractToDirectory(filePath, TempPackageRootFolderPath, true);
 
 				OpenAllFileStream(FileMode.Open, FileAccess.ReadWrite, filePath);
 
 				tempPatternFileStream.Close();
-				SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(tempPatternFilePath));
-				tempPatternFileStream = new FileStream(tempPatternFilePath, FileMode.Open, FileAccess.ReadWrite);
+				SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(TempPatternFilePath));
+				tempPatternFileStream = new FileStream(TempPatternFilePath, FileMode.Open, FileAccess.ReadWrite);
 				currentPackageInfo.currentSongInfo = data;
 
-				if (new FileInfo(tempCoverImageFilePath).Length == 0L) // 커버이미지 등록이 되어 있지 않은경우
+				if (new FileInfo(TempCoverImageFilePath).Length == 0L) // 커버이미지 등록이 되어 있지 않은경우
 				{
 					currentPackageInfo.currentSongCover = null;
 				}
 				else
 				{
-					UnityWebRequest imageWebRequest = UnityWebRequestTexture.GetTexture(tempCoverImageFilePath);
+					UnityWebRequest imageWebRequest = UnityWebRequestTexture.GetTexture(TempCoverImageFilePath);
 					yield return imageWebRequest.SendWebRequest();
 					if (imageWebRequest.result == UnityWebRequest.Result.ConnectionError)
 					{
@@ -140,7 +140,7 @@ namespace MineBeat.PackageInfo.Files
 					}
 				}
 
-				using (UnityWebRequest audioWebRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
+				using (UnityWebRequest audioWebRequest = UnityWebRequestMultimedia.GetAudioClip(TempAudioFilePath, AudioType.MPEG))
 				{
 					yield return audioWebRequest.SendWebRequest();
 					if (audioWebRequest.result == UnityWebRequest.Result.ConnectionError)
@@ -162,7 +162,7 @@ namespace MineBeat.PackageInfo.Files
 		{
 			CloseAllFileStream();
 
-			Directory.Delete(tempPackageRootFolderPath, true);
+			Directory.Delete(TempPackageRootFolderPath, true);
 		}
 	}
 }

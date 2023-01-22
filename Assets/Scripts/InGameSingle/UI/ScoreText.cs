@@ -27,7 +27,7 @@ namespace MineBeat.InGameSingle.UI
 
 		private void Update()
 		{
-			score.text = string.Format("{0:D6}", scoreManager.score);
+			score.text = string.Format("{0:D6}", scoreManager.Score);
 		}
 	}
 }

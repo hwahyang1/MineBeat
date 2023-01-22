@@ -11,11 +11,11 @@ namespace MineBeat.Preload.Config
 	/// </summary>
 	public class ConfigManager : Singleton<ConfigManager>
 	{
-		private string _configFilePath;
-		private string configFilePath
+		private string configFilePath;
+		private string ConfigFilePath
 		{
-			get { return _configFilePath; }
-			set { if (!protectModify) _configFilePath = value; }
+			get { return configFilePath; }
+			set { if (!protectModify) configFilePath = value; }
 		}
 		private bool protectModify = false;
 
@@ -35,7 +35,7 @@ namespace MineBeat.Preload.Config
 			backgroundSound = audioSources.Find(target => target.name == "BackgroundSound").GetComponent<AudioSource>();
 			effectSound = audioSources.Find(target => target.name == "EffectSound").GetComponent<AudioSource>();
 
-			configFilePath = Application.persistentDataPath + @"\Minebeat.cfg";
+			ConfigFilePath = Application.persistentDataPath + @"\Minebeat.cfg";
 			protectModify = true;
 
 			LoadConfig();
@@ -72,7 +72,7 @@ namespace MineBeat.Preload.Config
 				case DisplayMode.Fullscreen:
 					fullScreenMode = FullScreenMode.ExclusiveFullScreen;
 					break;
-				case DisplayMode.BorderLess_Fullscreen:
+				case DisplayMode.BorderLessFullscreen:
 					fullScreenMode = FullScreenMode.FullScreenWindow;
 					break;
 				case DisplayMode.Windowed:
@@ -110,13 +110,13 @@ namespace MineBeat.Preload.Config
 				case AntiAliasing.None:
 					antiAliasing = 0;
 					break;
-				case AntiAliasing.MSAA2x:
+				case AntiAliasing.MSAA2X:
 					antiAliasing = 2;
 					break;
-				case AntiAliasing.MSAA4x:
+				case AntiAliasing.MSAA4X:
 					antiAliasing = 4;
 					break;
-				case AntiAliasing.MSAA8x:
+				case AntiAliasing.MSAA8X:
 					antiAliasing = 8;
 					break;
 			}
@@ -147,8 +147,8 @@ namespace MineBeat.Preload.Config
 			fpsCanvas.SetActive(rootConfig.fpsCounter);
 
 			/* Audio Settings */
-			backgroundSound.volume = rootConfig.master * rootConfig.background;
-			effectSound.volume = rootConfig.master * rootConfig.effect;
+			backgroundSound.volume = rootConfig.Master * rootConfig.Background;
+			effectSound.volume = rootConfig.Master * rootConfig.Effect;
 
 			/* Game Settings */
 
@@ -160,14 +160,14 @@ namespace MineBeat.Preload.Config
 		/// </summary>
 		private void LoadConfig()
 		{
-			if (!File.Exists(configFilePath)) // 없으면 기본 설정으로 저장
+			if (!File.Exists(ConfigFilePath)) // 없으면 기본 설정으로 저장
 			{
 				rootConfig = new RootConfig();
 				SaveConfig();
 				return;
 			}
 
-			string data = File.ReadAllText(configFilePath);
+			string data = File.ReadAllText(ConfigFilePath);
 			rootConfig = JsonUtility.FromJson<RootConfig>(data);
 		}
 
@@ -177,7 +177,7 @@ namespace MineBeat.Preload.Config
 		private void SaveConfig()
 		{
 			string data = JsonUtility.ToJson(rootConfig);
-			File.WriteAllText(configFilePath, data);
+			File.WriteAllText(ConfigFilePath, data);
 		}
 	}
 }

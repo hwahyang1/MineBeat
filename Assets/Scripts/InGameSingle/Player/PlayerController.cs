@@ -21,12 +21,7 @@ namespace MineBeat.InGameSingle.Player
 		private float coolTime = 0.5f;
 		private float nowCoolTime = 0f;
 
-		private bool _isCoolTime = false;
-		public bool isCoolTime
-		{
-			get { return _isCoolTime; }
-			private set { _isCoolTime = value; }
-		}
+		public bool IsCoolTime { get; private set; } = false;
 
 		[Header("Color")]
 		[SerializeField]
@@ -44,12 +39,12 @@ namespace MineBeat.InGameSingle.Player
 
 		private void Update()
 		{
-			if (isCoolTime)
+			if (IsCoolTime)
 			{
 				if (nowCoolTime >= coolTime)
 				{
 					spriteRenderer.color = normalColor;
-					isCoolTime = false;
+					IsCoolTime = false;
 					nowCoolTime = 0f;
 				}
 				else
@@ -70,7 +65,7 @@ namespace MineBeat.InGameSingle.Player
 		public void StartCoolTime()
 		{
 			spriteRenderer.color = coolTimeColor;
-			isCoolTime = true;
+			IsCoolTime = true;
 		}
 	}
 }

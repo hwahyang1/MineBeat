@@ -39,18 +39,18 @@ namespace MineBeat.InGameSingle
 
 		private void Update()
 		{
-			if (hpManager.hp <= 0)
+			if (hpManager.Hp <= 0)
 			{
 				SceneChange.Instance.ChangeScene("SongSelectSingleScene");
 
 				Destroy(gameObject);
 			}
 
-			if (!songPlayManager.isPlaying)
+			if (!songPlayManager.IsPlaying)
 			{
 				SelectedSongInfo selectedSongInfo = GameObject.Find("SelectedSongInfo").GetComponent<SelectedSongInfo>();
-				selectedSongInfo.score = scoreManager.score;
-				selectedSongInfo.combo = scoreManager.maxCombo;
+				selectedSongInfo.Score = scoreManager.Score;
+				selectedSongInfo.Combo = scoreManager.MaxCombo;
 
 				SceneChange.Instance.ChangeScene("ResultSingleScene");
 
@@ -68,19 +68,19 @@ namespace MineBeat.InGameSingle
 			// Purple Note면 체력 또는 점수 변경, 아니면은 체력 변경
 			if (noteColor == NoteColor.Purple)
 			{
-				if (hpManager.hp == hpManager.maxHp)
+				if (hpManager.Hp == hpManager.MaxHp)
 				{
 					ChangeScore(noteColor);
 				}
 				else
 				{
-					hpManager.hp += hpAdjust[2];
+					hpManager.Hp += hpAdjust[2];
 				}
 			}
 			else
 			{
 				GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().StartCoolTime();
-				hpManager.hp += hpAdjust[(int)noteType];
+				hpManager.Hp += hpAdjust[(int)noteType];
 				scoreManager.ChangeCombo(0);
 			}
 		}
@@ -92,7 +92,7 @@ namespace MineBeat.InGameSingle
 		public void ChangeScore(NoteColor noteColor)
 		{
 			scoreManager.AddScore(scoreAdjust[(int)noteColor]);
-			if (noteColor != NoteColor.Purple) scoreManager.ChangeCombo(scoreManager.combo + 1);
+			if (noteColor != NoteColor.Purple) scoreManager.ChangeCombo(scoreManager.Combo + 1);
 		}
 	}
 }

@@ -12,6 +12,7 @@ using MineBeat.InGameSingle.Box;
 using MineBeat.InGameSingle.Song;
 using MineBeat.InGameSingle.HP;
 using MineBeat.InGameSingle.UI;
+using UnityEngine.Serialization;
 
 namespace MineBeat.InGameSingle.Notes
 {
@@ -26,8 +27,8 @@ namespace MineBeat.InGameSingle.Notes
 		[SerializeField]
 		private Transform notesParent;
 		[SerializeField]
-		private Transform _disabledParent;
-		public Transform DisabledParent { get { return _disabledParent; } }
+		private Transform disabledParent;
+		public Transform DisabledParent { get { return disabledParent; } }
 
 		[SerializeField]
 		private GameObject prefab;
@@ -55,7 +56,7 @@ namespace MineBeat.InGameSingle.Notes
 			impactLine = managers.Find(target => target.name == "UIManagers").GetComponent<ImpactLine>();
 			boxManager = managers.Find(target => target.name == "Tilemaps").GetComponent<BoxManager>();
 			songPlayManager = managers.Find(target => target.name == "SongManager").GetComponent<SongPlayManager>();
-			id = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
+			id = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>().ID;
 
 			notes = PackageManager.Instance.GetSongInfo(id).notes;
 
@@ -65,8 +66,8 @@ namespace MineBeat.InGameSingle.Notes
 		private void Update()
 		{
 			// aroundTime 후의 노트까지 미리 긁어오기
-			List<Note> targets = notes.FindAll(target => previousTimecode < target.timeCode && target.timeCode <= songPlayManager.timecode + aroundTime);
-			previousTimecode = songPlayManager.timecode + aroundTime;
+			List<Note> targets = notes.FindAll(target => previousTimecode < target.timeCode && target.timeCode <= songPlayManager.Timecode + aroundTime);
+			previousTimecode = songPlayManager.Timecode + aroundTime;
 
 			foreach (Note note in targets)
 			{
@@ -80,19 +81,19 @@ namespace MineBeat.InGameSingle.Notes
 						{
 							GameObject obj = DisabledParent.GetChild(0).gameObject;
 							obj.transform.SetParent(notesParent);
-							obj.GetComponent<PlayNote>().Init(note.timeCode - songPlayManager.timecode, note, warningTilemap, prefab);
+							obj.GetComponent<PlayNote>().Init(note.timeCode - songPlayManager.Timecode, note, warningTilemap, prefab);
 							obj.SetActive(true);
 						}
 						else
 						{
-							Instantiate(prefab, Vector3.zero, Quaternion.identity, notesParent).GetComponent<PlayNote>().Init(note.timeCode - songPlayManager.timecode, note, warningTilemap, prefab);
+							Instantiate(prefab, Vector3.zero, Quaternion.identity, notesParent).GetComponent<PlayNote>().Init(note.timeCode - songPlayManager.Timecode, note, warningTilemap, prefab);
 						}
 						break;
 					case NoteType.SizeChange:
-						runAction = () => { boxManager.Draw(note.position.y, boxManager.color); };
+						runAction = () => { boxManager.Draw(note.position.y, boxManager.Color); };
 						break;
 					case NoteType.BoxColorChange:
-						runAction = () => { boxManager.Draw(boxManager.size, note.color); };
+						runAction = () => { boxManager.Draw(boxManager.Size, note.color); };
 						break;
 					case NoteType.BlankS:
 						runAction = () =>

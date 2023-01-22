@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MineBeat
 {
@@ -12,7 +13,7 @@ namespace MineBeat
 	public enum DisplayMode
 	{
 		Fullscreen,
-		BorderLess_Fullscreen,
+		BorderLessFullscreen,
 		Windowed
 	}
 
@@ -38,9 +39,9 @@ namespace MineBeat
 	public enum AntiAliasing
 	{
 		None,
-		MSAA2x,
-		MSAA4x,
-		MSAA8x
+		MSAA2X,
+		MSAA4X,
+		MSAA8X
 	}
 
 	/// <summary>
@@ -71,37 +72,37 @@ namespace MineBeat
 		public bool fpsCounter;
 
 		/* Audio Settings */
-		[SerializeField] private float _master;
-		public float master
+		[SerializeField] private float master;
+		public float Master
 		{
-			get { return _master; }
+			get { return master; }
 			set
 			{
-				if (value <= 0f) _master = 0f;
-				else if (value >= 1f) _master = 1f;
-				else _master = value;
+				if (value <= 0f) master = 0f;
+				else if (value >= 1f) master = 1f;
+				else master = value;
 			}
 		}
-		[SerializeField] private float _background;
-		public float background
+		[SerializeField] private float background;
+		public float Background
 		{
-			get { return _background; }
+			get { return background; }
 			set
 			{
-				if (value <= 0f) _background = 0f;
-				else if (value >= 1f) _background = 1f;
-				else _background = value;
+				if (value <= 0f) background = 0f;
+				else if (value >= 1f) background = 1f;
+				else background = value;
 			}
 		}
-		[SerializeField] private float _effect;
-		public float effect
+		[SerializeField] private float effect;
+		public float Effect
 		{
-			get { return _effect; }
+			get { return effect; }
 			set
 			{
-				if (value <= 0f) _effect = 0f;
-				else if (value >= 1f) _effect = 1f;
-				else _effect = value;
+				if (value <= 0f) effect = 0f;
+				else if (value >= 1f) effect = 1f;
+				else effect = value;
 			}
 		}
 
@@ -121,9 +122,9 @@ namespace MineBeat
 			frameRate = FrameRate._60;
 			vSync = true;
 			fpsCounter = false;
-			master = 1f;
-			background = 1f;
-			effect = 1f;
+			Master = 1f;
+			Background = 1f;
+			Effect = 1f;
 			skipInGameOpening = false;
 			skipResult = false;
 			undeadMode = false;
@@ -136,9 +137,9 @@ namespace MineBeat
 			this.frameRate = frameRate;
 			this.vSync = vSync;
 			this.fpsCounter = fpsCounter;
-			this.master = master;
-			this.background = background;
-			this.effect = effect;
+			this.Master = Master;
+			this.Background = background;
+			this.Effect = effect;
 			this.skipInGameOpening = skipInGameOpening;
 			this.skipResult = skipResult;
 			this.undeadMode = undeadMode;

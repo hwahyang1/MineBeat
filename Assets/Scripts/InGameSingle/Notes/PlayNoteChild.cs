@@ -35,7 +35,7 @@ namespace MineBeat.InGameSingle.Notes
 
 		private void Update()
 		{
-			spriteRenderer.color = parent.isActive ? activeColor : inactiveColor;
+			spriteRenderer.color = parent.IsActive ? activeColor : inactiveColor;
 		}
 
 		private void OnTriggerEnter2D(Collider2D collision)

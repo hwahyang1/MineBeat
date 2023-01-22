@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using NaughtyAttributes;
+using UnityEngine.Serialization;
 
 namespace MineBeat.SongSelectSingle.Score
 {
@@ -17,11 +19,11 @@ namespace MineBeat.SongSelectSingle.Score
 	{
 		// 플레이 기록은 rootPath에 ID.dat 파일로 저장합니다.
 		[SerializeField, ReadOnly]
-		private string _rootPath;
-		private string rootPath
+		private string rootPath;
+		private string RootPath
 		{
-			get { return _rootPath; }
-			set { if (!protectModify) _rootPath = value; }
+			get { return rootPath; }
+			set { if (!protectModify) rootPath = value; }
 		}
 		private bool protectModify = false;
 
@@ -32,11 +34,11 @@ namespace MineBeat.SongSelectSingle.Score
 		{
 			base.Awake();
 
-			rootPath = Application.persistentDataPath + @"\History\";
+			RootPath = Application.persistentDataPath + @"\History\";
 			protectModify = true;
 
-			if (!Directory.Exists(rootPath)) Directory.CreateDirectory(rootPath);
-			string[] files = Directory.GetFiles(rootPath, "*.dat");
+			if (!Directory.Exists(RootPath)) Directory.CreateDirectory(RootPath);
+			string[] files = Directory.GetFiles(RootPath, "*.dat");
 			foreach(string file in files)
 			{
 				FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read);
@@ -79,12 +81,12 @@ namespace MineBeat.SongSelectSingle.Score
 		{
 			if (history.Exists(target => target.Item1 == playHistory.songId))
 			{
-				var target = history.Find(target => target.Item1 == playHistory.songId);
+				Tuple<ulong, FileStream, PlayHistory> target = history.Find(target => target.Item1 == playHistory.songId);
 				target.Item2.Close();
 				history.Remove(target);
 			}
 
-			FileStream stream = new FileStream(rootPath + playHistory.songId + ".dat", FileMode.Create, FileAccess.Write);
+			FileStream stream = new FileStream(RootPath + playHistory.songId + ".dat", FileMode.Create, FileAccess.Write);
 			formatter.Serialize(stream, playHistory);
 
 			history.Add(new System.Tuple<ulong, FileStream, PlayHistory>(playHistory.songId, stream, playHistory));
@@ -92,7 +94,7 @@ namespace MineBeat.SongSelectSingle.Score
 
 		private void OnDestroy()
 		{
-			foreach (var data in history)
+			foreach (Tuple<ulong, FileStream, PlayHistory> data in history)
 			{
 				data.Item2.Close();
 			}

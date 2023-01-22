@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using NaughtyAttributes;
+using UnityEngine.Serialization;
 
 namespace MineBeat.SongSelectSingle.Extern
 {
@@ -14,27 +15,27 @@ namespace MineBeat.SongSelectSingle.Extern
 	public class SelectedSongInfo : Singleton<SelectedSongInfo>
 	{
 		[SerializeField, ReadOnly]
-		private ulong _id;
-		public ulong id
+		private ulong id;
+		public ulong ID
 		{
-			get { return _id; }
-			set { if (SceneManager.GetActiveScene().name == "SongSelectSingleScene") _id = value; }
+			get { return id; }
+			set { if (SceneManager.GetActiveScene().name == "SongSelectSingleScene") id = value; }
 		}
 
 		[SerializeField, ReadOnly]
-		private uint _score;
-		public uint score
+		private uint score;
+		public uint Score
 		{
-			get { return _score; }
-			set { if (SceneManager.GetActiveScene().name == "InGameSingleScene") _score = value; }
+			get { return score; }
+			set { if (SceneManager.GetActiveScene().name == "InGameSingleScene") score = value; }
 		}
 
 		[SerializeField, ReadOnly]
-		private uint _combo;
-		public uint combo
+		private uint combo;
+		public uint Combo
 		{
-			get { return _combo; }
-			set { if (SceneManager.GetActiveScene().name == "InGameSingleScene") _combo = value; }
+			get { return combo; }
+			set { if (SceneManager.GetActiveScene().name == "InGameSingleScene") combo = value; }
 		}
 
 		private void Update()

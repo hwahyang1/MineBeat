@@ -17,7 +17,7 @@ namespace MineBeat.ModeSelect
 	{
 		private void Update()
 		{
-			if (Input.GetKeyDown(KeyCode.Escape) && !AlertManager.Instance.isActive)
+			if (Input.GetKeyDown(KeyCode.Escape) && !AlertManager.Instance.IsActive)
 			{
 				AlertManager.Instance.Show("확인", "게임을 종료할까요?", AlertManager.AlertButtonType.Double, new string[] { "종료", "취소" }, ExitGame, () => { });
 			}

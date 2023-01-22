@@ -42,9 +42,9 @@ namespace MineBeat.Config.UI
 
 		private void Update()
 		{
-			if (currentCategory != categorySelectionManager.selectedCategory)
+			if (currentCategory != categorySelectionManager.SelectedCategory)
 			{
-				currentCategory = categorySelectionManager.selectedCategory;
+				currentCategory = categorySelectionManager.SelectedCategory;
 
 				for (int i = 0; i < categoryObjects.Count; i++)
 				{

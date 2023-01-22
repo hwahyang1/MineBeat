@@ -37,9 +37,9 @@ namespace MineBeat.Preload.Song
 			LevelDesc
 		}
 
-		private const string tempFileRootFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\";
-		private const string packageRootFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\Packages\";
-		private const string tempPackageFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\TempPackage\"; // packageRootFolderPath로 옮기기 전에 곡 정보 읽어오는 용도
+		private const string TempFileRootFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\";
+		private const string PackageRootFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\Packages\";
+		private const string TempPackageFolderPath = @"C:\Temp\MineBeat_PackageManager_DoNotDelete\TempPackage\"; // packageRootFolderPath로 옮기기 전에 곡 정보 읽어오는 용도
 
 		private BinaryFormatter formatter = new BinaryFormatter();
 
@@ -114,9 +114,9 @@ namespace MineBeat.Preload.Song
 		{
 			base.Awake();
 
-			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
-			Directory.CreateDirectory(tempFileRootFolderPath);
-			Directory.CreateDirectory(packageRootFolderPath);
+			if (Directory.Exists(TempFileRootFolderPath)) Directory.Delete(TempFileRootFolderPath, true);
+			Directory.CreateDirectory(TempFileRootFolderPath);
+			Directory.CreateDirectory(PackageRootFolderPath);
 
 			if (!Directory.Exists(Application.dataPath + @"\.Patterns"))
 			{
@@ -132,22 +132,22 @@ namespace MineBeat.Preload.Song
 			foreach (string filePath in files)
 			{
 				// UnPack
-				Directory.CreateDirectory(tempPackageFolderPath);
-				ZipFile.ExtractToDirectory(filePath, tempPackageFolderPath, true);
+				Directory.CreateDirectory(TempPackageFolderPath);
+				ZipFile.ExtractToDirectory(filePath, TempPackageFolderPath, true);
 
 				//FileStream tempPatternFileStream = new FileStream(tempPackageFolderPath + "MineBeat.ptrn", FileMode.Open, FileAccess.Read);
 				//SongInfo data = formatter.Deserialize(tempPatternFileStream) as SongInfo;
 				//tempPatternFileStream.Close();
 
-				SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(tempPackageFolderPath + @"MineBeat.ptrn"));
+				SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(TempPackageFolderPath + @"MineBeat.ptrn"));
 
-				Directory.Move(tempPackageFolderPath, packageRootFolderPath + data.id);
+				Directory.Move(TempPackageFolderPath, PackageRootFolderPath + data.id);
 
 				// Open Handle
 				FileStream packageFileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-				FileStream patternFileStream = new FileStream(packageRootFolderPath + data.id + @"\MineBeat.ptrn", FileMode.Open, FileAccess.Read);
-				FileStream audioFileStream = new FileStream(packageRootFolderPath + data.id + @"\MineBeat.adio", FileMode.Open, FileAccess.Read);
-				FileStream imageFileStream = new FileStream(packageRootFolderPath + data.id + @"\MineBeat.covr", FileMode.Open, FileAccess.Read);
+				FileStream patternFileStream = new FileStream(PackageRootFolderPath + data.id + @"\MineBeat.ptrn", FileMode.Open, FileAccess.Read);
+				FileStream audioFileStream = new FileStream(PackageRootFolderPath + data.id + @"\MineBeat.adio", FileMode.Open, FileAccess.Read);
+				FileStream imageFileStream = new FileStream(PackageRootFolderPath + data.id + @"\MineBeat.covr", FileMode.Open, FileAccess.Read);
 
 				// Get Medias
 				Sprite sprite = await LoadSprite(imageFileStream.Name);
@@ -286,7 +286,7 @@ namespace MineBeat.Preload.Song
 				package.Item5.Close();
 			}
 
-			Directory.Delete(tempFileRootFolderPath, true);
+			Directory.Delete(TempFileRootFolderPath, true);
 		}
 	}
 }

@@ -19,12 +19,12 @@ namespace MineBeat.InGameSingle.Song
 
 		private bool isStarted = false;
 
-		public bool isPlaying
+		public bool IsPlaying
 		{
 			get { return !(isStarted && backgroundSound.time == 0f && !backgroundSound.isPlaying); }
 		}
 
-		public float timecode
+		public float Timecode
 		{
 			get { return backgroundSound.time; }
 		}
@@ -35,7 +35,7 @@ namespace MineBeat.InGameSingle.Song
 		{
 			List<GameObject> managers = new List<GameObject>(GameObject.FindGameObjectsWithTag("Managers"));
 
-			id = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>().id;
+			id = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>().ID;
 
 			List<GameObject> audioSources = new List<GameObject>(GameObject.FindGameObjectsWithTag("AudioSource"));
 			backgroundSound = audioSources.Find(target => target.name == "BackgroundSound").GetComponent<AudioSource>();

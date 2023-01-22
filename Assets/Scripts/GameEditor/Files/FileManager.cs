@@ -26,22 +26,18 @@ namespace MineBeat.GameEditor.Files
 	{
 		[SerializeField]
 		private GameObject canvas;
-		private bool _maintainCanvas = false;
-		public bool maintainCanvas
-		{
-			get { return _maintainCanvas; }
-			private set { _maintainCanvas = value; }
-		}
+
+		public bool MaintainCanvas { get; private set; } = false;
 
 		private bool isFirst = true;
 
 		private string packageFilePath = @"C:\";
 		private string packageFileName = "MineBeat.mbt";
 
-		private const string tempFileRootFolderPath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\";
-		private const string tempPatternFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.ptrn";
-		private const string tempAudioFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.adio";
-		private const string tempCoverImageFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.covr";
+		private const string TempFileRootFolderPath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\";
+		private const string TempPatternFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.ptrn";
+		private const string TempAudioFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.adio";
+		private const string TempCoverImageFilePath = @"C:\Temp\MineBeat_GameEditor_DoNotDelete\MineBeat.covr";
 
 		private FileStream packageFileStream = null;
 		private FileStream tempPatternFileStream = null;
@@ -64,9 +60,9 @@ namespace MineBeat.GameEditor.Files
 		private void OpenAllFileStream(FileMode mode=FileMode.Open, FileAccess access=FileAccess.ReadWrite, string packageFilePath = "")
 		{
 			if (packageFilePath != "") packageFileStream = new FileStream(packageFilePath, mode);
-			tempPatternFileStream = new FileStream(tempPatternFilePath, mode, access);
-			tempAudioFileStream = new FileStream(tempAudioFilePath, mode, access);
-			tempCoverImageFileStream = new FileStream(tempCoverImageFilePath, mode, access);
+			tempPatternFileStream = new FileStream(TempPatternFilePath, mode, access);
+			tempAudioFileStream = new FileStream(TempAudioFilePath, mode, access);
+			tempCoverImageFileStream = new FileStream(TempCoverImageFilePath, mode, access);
 		}
 
 		/// <summary>
@@ -122,8 +118,8 @@ namespace MineBeat.GameEditor.Files
 			songCover = managers.Find(target => target.name == "UIManagers").GetComponent<SongCover>();
 			boxSize = GameObject.Find("Tilemaps").GetComponent<BoxSize>();
 
-			if (Directory.Exists(tempFileRootFolderPath)) Directory.Delete(tempFileRootFolderPath, true);
-			Directory.CreateDirectory(tempFileRootFolderPath);
+			if (Directory.Exists(TempFileRootFolderPath)) Directory.Delete(TempFileRootFolderPath, true);
+			Directory.CreateDirectory(TempFileRootFolderPath);
 
 			OpenAllFileStream(FileMode.OpenOrCreate);
 
@@ -132,7 +128,7 @@ namespace MineBeat.GameEditor.Files
 
 		private void Update()
 		{
-			if (maintainCanvas) canvas.SetActive(true);
+			if (MaintainCanvas) canvas.SetActive(true);
 		}
 
 		/// <summary>
@@ -192,7 +188,7 @@ namespace MineBeat.GameEditor.Files
 
 		public void SavePackageFileButtonClicked()
 		{
-			if (notesVerifier.isError)
+			if (notesVerifier.IsError)
 			{
 				AlertManager.Instance.Show("알림", "노트 배치에 문제가 있어 저장을 할 수 없습니다.\n문제를 수정하고 다시 시도 해 주세요.", AlertManager.AlertButtonType.Single, new string[] { "닫기" }, () => { });
 				return;
@@ -209,7 +205,7 @@ namespace MineBeat.GameEditor.Files
 			FileBrowser.SetDefaultFilter(".mp3");
 			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
 
-			maintainCanvas = true;
+			MaintainCanvas = true;
 			while (true)
 			{
 				yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, @"C:\", null, "Select Song File...", "Load");
@@ -219,10 +215,10 @@ namespace MineBeat.GameEditor.Files
 					string filePath = FileBrowser.Result[0];
 
 					tempAudioFileStream.Close();
-					File.Copy(filePath, tempAudioFilePath, true);
-					tempAudioFileStream = new FileStream(tempAudioFilePath, FileMode.Open, FileAccess.ReadWrite);
+					File.Copy(filePath, TempAudioFilePath, true);
+					tempAudioFileStream = new FileStream(TempAudioFilePath, FileMode.Open, FileAccess.ReadWrite);
 
-					UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG);
+					UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(TempAudioFilePath, AudioType.MPEG);
 					yield return webRequest.SendWebRequest();
 					if (webRequest.result == UnityWebRequest.Result.ConnectionError)
 					{
@@ -235,7 +231,7 @@ namespace MineBeat.GameEditor.Files
 
 						songCover.GetComponent<TimelineManager>().UpdateAudioClip();
 
-						maintainCanvas = false;
+						MaintainCanvas = false;
 						canvas.SetActive(false);
 
 						songManager.OnPlayButtonClicked();
@@ -255,7 +251,7 @@ namespace MineBeat.GameEditor.Files
 			FileBrowser.SetDefaultFilter(".mbt");
 			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
 
-			maintainCanvas = true;
+			MaintainCanvas = true;
 			while (true)
 			{
 				yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, packageFilePath, "", "Select Pattern File...", "Load");
@@ -269,23 +265,23 @@ namespace MineBeat.GameEditor.Files
 
 					CloseAllFileStream();
 
-					ZipFile.ExtractToDirectory(filePath, tempFileRootFolderPath, true);
+					ZipFile.ExtractToDirectory(filePath, TempFileRootFolderPath, true);
 
 					OpenAllFileStream(FileMode.Open, FileAccess.ReadWrite, filePath);
 
 					tempPatternFileStream.Close();
-					SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(tempPatternFilePath));
-					tempPatternFileStream = new FileStream(tempPatternFilePath, FileMode.Open, FileAccess.ReadWrite);
+					SongInfo data = JsonUtility.FromJson<SongInfo>(File.ReadAllText(TempPatternFilePath));
+					tempPatternFileStream = new FileStream(TempPatternFilePath, FileMode.Open, FileAccess.ReadWrite);
 
 					gameManager.SetSongInfo(data);
 
-					if (new FileInfo(tempCoverImageFilePath).Length == 0L) // 커버이미지 등록이 되어 있지 않은경우
+					if (new FileInfo(TempCoverImageFilePath).Length == 0L) // 커버이미지 등록이 되어 있지 않은경우
 					{
 						songCover.UpdateImage();
 					}
 					else
 					{
-						UnityWebRequest imageWebRequest = UnityWebRequestTexture.GetTexture(tempCoverImageFilePath);
+						UnityWebRequest imageWebRequest = UnityWebRequestTexture.GetTexture(TempCoverImageFilePath);
 						yield return imageWebRequest.SendWebRequest();
 						if (imageWebRequest.result == UnityWebRequest.Result.ConnectionError)
 						{
@@ -299,7 +295,7 @@ namespace MineBeat.GameEditor.Files
 						}
 					}
 
-					using (UnityWebRequest audioWebRequest = UnityWebRequestMultimedia.GetAudioClip(tempAudioFilePath, AudioType.MPEG))
+					using (UnityWebRequest audioWebRequest = UnityWebRequestMultimedia.GetAudioClip(TempAudioFilePath, AudioType.MPEG))
 					{
 						yield return audioWebRequest.SendWebRequest();
 						if (audioWebRequest.result == UnityWebRequest.Result.ConnectionError)
@@ -313,7 +309,7 @@ namespace MineBeat.GameEditor.Files
 
 							songCover.gameObject.GetComponent<TimelineManager>().UpdateAudioClip();
 
-							maintainCanvas = false;
+							MaintainCanvas = false;
 							canvas.SetActive(false);
 
 							songManager.OnPlayButtonClicked();
@@ -331,7 +327,7 @@ namespace MineBeat.GameEditor.Files
 			FileBrowser.SetDefaultFilter(".mbt");
 			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
 
-			maintainCanvas = true;
+			MaintainCanvas = true;
 			// 1. 기존에 있던 파일을 열었거나 2. 이미 저장을 한 경우 사고 방지를 위해 기존 파일에 덮어씌움
 			if (packageFileStream == null) yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, packageFilePath, packageFileName, "Save Pattern File to...", "Save");
 
@@ -348,18 +344,18 @@ namespace MineBeat.GameEditor.Files
 
 				tempPatternFileStream.Close();
 
-				File.WriteAllText(tempPatternFilePath, JsonUtility.ToJson(gameManager.GetSongInfo()));
+				File.WriteAllText(TempPatternFilePath, JsonUtility.ToJson(gameManager.GetSongInfo()));
 
 				CloseAllFileStream();
 
 				if (File.Exists(filePath)) File.Delete(filePath);
 
-				ZipFile.CreateFromDirectory(tempFileRootFolderPath, filePath);
+				ZipFile.CreateFromDirectory(TempFileRootFolderPath, filePath);
 
 				OpenAllFileStream(FileMode.Open, FileAccess.ReadWrite, filePath);
 			}
 
-			maintainCanvas = false;
+			MaintainCanvas = false;
 			canvas.SetActive(false);
 
 			AlertManager.Instance.Show("알림", "패키지를 성공적으로 저장했습니다.", AlertManager.AlertButtonType.Single, new string[] { "닫기" }, () => { });
@@ -371,7 +367,7 @@ namespace MineBeat.GameEditor.Files
 			FileBrowser.SetDefaultFilter(".jpg");
 			FileBrowser.SetExcludedExtensions(".lnk", ".tmp", ".zip", ".rar", ".exe");
 
-			maintainCanvas = true;
+			MaintainCanvas = true;
 			yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, @"C:\", null, "Select Image File...", "Load");
 
 			if (FileBrowser.Success)
@@ -379,10 +375,10 @@ namespace MineBeat.GameEditor.Files
 				string filePath = FileBrowser.Result[0];
 
 				tempCoverImageFileStream.Close();
-				File.Copy(filePath, tempCoverImageFilePath, true);
-				tempCoverImageFileStream = new FileStream(tempCoverImageFilePath, FileMode.Open, FileAccess.ReadWrite);
+				File.Copy(filePath, TempCoverImageFilePath, true);
+				tempCoverImageFileStream = new FileStream(TempCoverImageFilePath, FileMode.Open, FileAccess.ReadWrite);
 
-				UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(tempCoverImageFilePath);
+				UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(TempCoverImageFilePath);
 				yield return webRequest.SendWebRequest();
 				if (webRequest.result == UnityWebRequest.Result.ConnectionError)
 				{
@@ -396,7 +392,7 @@ namespace MineBeat.GameEditor.Files
 				}
 			}
 
-			maintainCanvas = false;
+			MaintainCanvas = false;
 			canvas.SetActive(false);
 		}
 
@@ -404,7 +400,7 @@ namespace MineBeat.GameEditor.Files
 		{
 			CloseAllFileStream();
 
-			Directory.Delete(tempFileRootFolderPath, true);
+			Directory.Delete(TempFileRootFolderPath, true);
 		}
 	}
 }

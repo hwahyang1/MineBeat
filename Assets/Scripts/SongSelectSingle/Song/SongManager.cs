@@ -45,7 +45,7 @@ namespace MineBeat.SongSelectSingle.Song
 			}
 			else
 			{
-				ulong findId = selectedSongInfo.GetComponent<SelectedSongInfo>().id;
+				ulong findId = selectedSongInfo.GetComponent<SelectedSongInfo>().ID;
 				Destroy(selectedSongInfo);
 				selected = songs.FindIndex(target => target == findId);
 			}
@@ -58,7 +58,7 @@ namespace MineBeat.SongSelectSingle.Song
 		public void Enter()
 		{
 			SelectedSongInfo selectedSongInfo = new GameObject("SelectedSongInfo").AddComponent<SelectedSongInfo>();
-			selectedSongInfo.id = songs[selected];
+			selectedSongInfo.ID = songs[selected];
 			selectedSongInfo.tag = "Managers";
 			hotKeyInputManager.ChangeScene("InGameSingleScene");
 		}

@@ -46,12 +46,7 @@ namespace MineBeat.InGameSingle.Notes
 		private BoxManager boxManager;
 		private PlaceNote placeNote;
 
-		private bool _isActive = true; // 해당 노트에 대한 판정이 살아있는지 (플레이어와 충돌 이후부터는 해당 노트는 판정에서 제함)
-		public bool isActive
-		{
-			get { return _isActive; }
-			private set { _isActive = value; }
-		}
+		public bool IsActive { get; private set; } = true;
 
 		[Header("아래 변수들은 모두 GameEditorScene과 동일하게 입력합니다.")]
 		[SerializeField]
@@ -108,7 +103,7 @@ namespace MineBeat.InGameSingle.Notes
 			spriteRenderer.color = activeColor;
 
 			triggered = false;
-			isActive = true;
+			IsActive = true;
 		}
 
 		private void Update()
@@ -125,7 +120,7 @@ namespace MineBeat.InGameSingle.Notes
 					triggered = true;
 				}
 
-				int boxSize = boxManager.size;
+				int boxSize = boxManager.Size;
 
 				if (noteInfo.type == NoteType.Normal)
 				{
@@ -175,7 +170,7 @@ namespace MineBeat.InGameSingle.Notes
 		private void OnBoxEnter()
 		{
 			// 점수 처리 (Normal Note의 경우)
-			if (isActive)
+			if (IsActive)
 			{
 				gameManager.ChangeScore(noteInfo.color);
 			}
@@ -199,11 +194,11 @@ namespace MineBeat.InGameSingle.Notes
 		public void OnTriggered(Collider2D collision)
 		{
 			// 맞으면 판정 처리를 GameManager에게 넘김
-			if (isActive && collision.gameObject.tag == "Player" && !collision.gameObject.GetComponent<PlayerController>().isCoolTime)
+			if (IsActive && collision.gameObject.CompareTag("Player") && !collision.gameObject.GetComponent<PlayerController>().IsCoolTime)
 			{
 				gameManager.ChangeHP(noteInfo.type, noteInfo.color);
 				spriteRenderer.color = inactiveColor;
-				isActive = false;
+				IsActive = false;
 			}
 		}
 

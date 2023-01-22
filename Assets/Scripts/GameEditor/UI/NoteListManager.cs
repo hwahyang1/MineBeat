@@ -70,7 +70,7 @@ namespace MineBeat.GameEditor.UI
 				break;
 			}
 
-			notesManager.Remove(selected.GetComponent<NoteListContent>().note);
+			notesManager.Remove(selected.GetComponent<NoteListContent>().Note);
 		}
 	}
 }

@@ -16,18 +16,18 @@ namespace MineBeat.SongSelectSingle.UI
 		private SongManager songManager;
 
 		// 목록에서의 순서
-		private int _order = -1;
-		public int order
+		private int order = -1;
+		public int Order
 		{
-			get { return _order; }
-			set { if (_order == -1) _order = value; }
+			get { return order; }
+			set { if (order == -1) order = value; }
 		}
 
-		private ulong _id = 0;
-		public ulong id
+		private ulong id = 0;
+		public ulong ID
 		{
-			get { return _id; }
-			set { if (_id == 0) _id = value; }
+			get { return id; }
+			set { if (id == 0) id = value; }
 		}
 
 		private void Start()
@@ -52,7 +52,7 @@ namespace MineBeat.SongSelectSingle.UI
 		/* Events */
 		public void Clicked()
 		{
-			songManager.SelectedChage(order);
+			songManager.SelectedChage(Order);
 		}
 		public void Enter()
 		{

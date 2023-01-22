@@ -39,11 +39,11 @@ namespace MineBeat.ResultSingle
 			scoreHistoryManager = managers.Find(target => target.name == "ScoreHistoryManager").GetComponent<ScoreHistoryManager>();
 			selectedSongInfo = managers.Find(target => target.name == "SelectedSongInfo").GetComponent<SelectedSongInfo>();
 
-			songInfo = PackageManager.Instance.GetSongInfo(selectedSongInfo.id);
-			previousHistory = scoreHistoryManager.GetHistory(selectedSongInfo.id);
+			songInfo = PackageManager.Instance.GetSongInfo(selectedSongInfo.ID);
+			previousHistory = scoreHistoryManager.GetHistory(selectedSongInfo.ID);
 
-			scoreComboHistory.Add(new System.Tuple<uint, uint, bool>(previousHistory.score, selectedSongInfo.score, selectedSongInfo.score > previousHistory.score));
-			scoreComboHistory.Add(new System.Tuple<uint, uint, bool>(previousHistory.maxCombo, selectedSongInfo.combo, selectedSongInfo.combo > previousHistory.maxCombo));
+			scoreComboHistory.Add(new System.Tuple<uint, uint, bool>(previousHistory.score, selectedSongInfo.Score, selectedSongInfo.Score > previousHistory.score));
+			scoreComboHistory.Add(new System.Tuple<uint, uint, bool>(previousHistory.maxCombo, selectedSongInfo.Combo, selectedSongInfo.Combo > previousHistory.maxCombo));
 
 			CalculateRank();
 

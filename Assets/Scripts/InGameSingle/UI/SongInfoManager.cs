@@ -27,7 +27,7 @@ namespace MineBeat.InGameSingle.UI
 		private void Start()
 		{
 			selectedSongInfo = GameObject.Find("SelectedSongInfo").GetComponent<SelectedSongInfo>();
-			SongInfo songInfo = PackageManager.Instance.GetSongInfo(selectedSongInfo.id);
+			SongInfo songInfo = PackageManager.Instance.GetSongInfo(selectedSongInfo.ID);
 
 			top_SongInfo.GetChild(0).GetComponent<Text>().text = songInfo.songName;
 			top_SongInfo.GetChild(1).GetComponent<Text>().text = songInfo.songAuthor;
