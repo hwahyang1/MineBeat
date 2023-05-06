@@ -21,7 +21,7 @@ Unity 2022.2.1f1
 
 ## Special Thanks
 
-- [향연](https://twitter.com/gaudy_design)([@HYeon-249](https://github.com/HYeon-249)) - 디자인 자문
+- [향연](https://twitter.com/H_Yeon_249)([@HYeon-249](https://github.com/HYeon-249)) - 디자인 자문
 
 ## 실행 파일
 
