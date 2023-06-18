@@ -1,6 +1,6 @@
 # MineBeat
 
-Unity 2022.2.1f1
+Unity 2022.3.1f1
 
 ## 개요
 
@@ -10,7 +10,7 @@ Unity 2022.2.1f1
 
 ## 원본
 
-- MineBeat by MinedApple ([링크](https://www.youtube.com/playlist?list=PL1dMxl3V0rview3PVtsyK5TKp1hc5ipOG))
+- MineBeat by MinedApple ([링크](https://www.youtube.com/watch?v=_f9ODHOYIxU))
 
 ※ 게임 IP의 사용을 허가받았습니다.
 
